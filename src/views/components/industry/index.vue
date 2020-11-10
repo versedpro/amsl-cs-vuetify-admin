@@ -6,54 +6,30 @@
           Industries
           <v-spacer></v-spacer>
 
-          <v-dialog v-model="dialog" max-width="500px">
-            <template #activator="{ on, attrs }">
-              <v-btn color="primary" dark class="mb-2" v-bind="attrs" v-on="on"> Add </v-btn>
-            </template>
-            <v-card>
-              <v-card-title>
-                <span class="headline">Add new</span>
-              </v-card-title>
-
-              <v-card-text>
-                <v-container>
-                  <v-row>
-                    <v-col cols="12" sm="6" md="4">
-                      <v-text-field v-model="editedItem.id" label="Id"></v-text-field>
-                    </v-col>
-                    <v-col cols="12" sm="6" md="4">
-                      <v-text-field v-model="editedItem.name" label="Name"></v-text-field>
-                    </v-col>
-                    <v-col cols="12" sm="6" md="4">
-                      <v-text-field v-model="editedItem.title" label="Title"></v-text-field>
-                    </v-col>
-                  </v-row>
-                </v-container>
-              </v-card-text>
-
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="blue darken-1" text @click="close"> Cancel </v-btn>
-                <v-btn color="blue darken-1" text @click="save"> Save </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
-
-          <!-- <v-dialog v-model="dialogDelete" max-width="500px">
-            <v-card>
-              <v-card-title class="headline"
-                >Are you sure you want to delete this item?</v-card-title
-              >
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="blue darken-1" text @click="closeDelete">Cancel</v-btn>
-                <v-btn color="blue darken-1" text @click="deleteItemConfirm">OK</v-btn>
-                <v-spacer></v-spacer>
-              </v-card-actions>
-            </v-card>
-          </v-dialog> -->
-
-          <industry-delete :value="dialogDelete"> </industry-delete>
+          <v-btn color="primary" @click="addItem" dark class="mb-2"> Add</v-btn>
+          <industry-dialog
+            :show="dialogEdit"
+            @close="dialogEdit = false"
+            :item="editedItem"
+            @item-changed="(editedItem[key] = value)"
+            @confirm="save"
+            title="Edit"
+          ></industry-dialog>
+          <industry-dialog
+            :show="dialogAdd"
+            @close="dialogAdd = false"
+            :item="editedItem"
+            @item-changed="(key, value) => (editedItem[key] = value)"
+            @confirm="save"
+            title="Add new"
+          ></industry-dialog>
+          <industry-delete
+            :show="dialogDelete"
+            @close="dialogDelete = false"
+            @confirm="deleteItemConfirm"
+            title="Are you sure to delete?"
+          >
+          </industry-delete>
         </v-card-title>
 
         <br />
@@ -113,7 +89,8 @@ export default defineComponent({
   name: "Industry",
 
   components: {
-    IndustryDelete: () => import("./industry-delete.vue")
+    IndustryDelete: () => import("./industry-delete.vue"),
+    IndustryDialog: () => import("./dialog.vue")
   },
 
   setup() {
@@ -125,12 +102,15 @@ export default defineComponent({
     const itemsPerPage = ref(5);
 
     const dialog = false;
-    const dialogDelete = ref(true);
+    const dialogDelete = ref(false);
+    const dialogAdd = ref(false);
+    const dialogEdit = ref(false);
     const editedIndex = -1;
+    const deletedIndex = -1;
     const editedItem = {
       name: "",
-      id: 0,
-      title: 0
+      id: "",
+      title: ""
     };
     const defaultItem = {
       name: "",
@@ -141,31 +121,27 @@ export default defineComponent({
     function editItem(item) {
       this.editedIndex = this.industries.indexOf(item);
       this.editedItem = Object.assign({}, item);
-      this.dialog = true;
+      this.dialogEdit = true;
+    }
+
+    function addItem() {
+      this.editedIndex = -1;
+      this.dialogAdd = true;
     }
 
     function deleteItem(item) {
-      this.editedIndex = this.industries.indexOf(item);
-      this.editedItem = Object.assign({}, item);
-      dialogDelete.value = true;
-      console.log("xx");
+      this.deletedIndex = this.industries.indexOf(item);
+      this.dialogDelete = true;
     }
 
     function deleteItemConfirm() {
-      this.industries.splice(this.editedIndex, 1);
-      this.closeDelete();
+      this.industries.splice(this.deletedIndex, 1);
+      this.dialogDelete = false;
     }
 
     function close() {
-      this.dialog = false;
-      this.$nextTick(() => {
-        this.editedItem = Object.assign({}, this.defaultItem);
-        this.editedIndex = -1;
-      });
-    }
-
-    function closeDelete() {
-      this.dialogDelete = false;
+      this.dialogEdit = false;
+      this.dialogAdd = false;
       this.$nextTick(() => {
         this.editedItem = Object.assign({}, this.defaultItem);
         this.editedIndex = -1;
@@ -185,9 +161,9 @@ export default defineComponent({
       headers,
       industries,
       save,
-      closeDelete,
       deleteItemConfirm,
       close,
+      dialogAdd,
       deleteItem,
       editItem,
       defaultItem,
@@ -197,8 +173,11 @@ export default defineComponent({
       search,
       dialog,
       dialogDelete,
+      deletedIndex,
+      dialogEdit,
       editedIndex,
-      editedItem
+      editedItem,
+      addItem
     };
   }
 });
