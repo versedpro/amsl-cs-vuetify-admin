@@ -1,4 +1,3 @@
-/* eslint-disable vue/valid-v-slot */ /* eslint-disable */
 <template>
   <v-container fluid>
     <v-layout column>
@@ -40,7 +39,7 @@
             </v-card>
           </v-dialog>
 
-          <v-dialog v-model="dialogDelete" max-width="500px">
+          <!-- <v-dialog v-model="dialogDelete" max-width="500px">
             <v-card>
               <v-card-title class="headline"
                 >Are you sure you want to delete this item?</v-card-title
@@ -52,7 +51,9 @@
                 <v-spacer></v-spacer>
               </v-card-actions>
             </v-card>
-          </v-dialog>
+          </v-dialog> -->
+
+          <industry-delete :value="dialogDelete"> </industry-delete>
         </v-card-title>
 
         <br />
@@ -81,7 +82,7 @@
           class="elevation-1"
           hide-default-footer
         >
-          <!-- <template #item.actions="{ item }">
+          <template #[`item.actions`]="{ item }">
             <v-btn depressed color="primary mr-2" @click="editItem(item)">
               <v-icon> mdi-pencil </v-icon>
               Edit
@@ -91,7 +92,7 @@
               <v-icon> mdi-delete </v-icon>
               Delete
             </v-btn>
-          </template> -->
+          </template>
           <template #no-data>
             <v-btn color="primary" @click="initialize"> Reset </v-btn>
           </template>
@@ -106,11 +107,14 @@
 
 <script lang="ts">
 import { Headers, Industries } from "@/demo/api/mock_industry_list";
-
 import { defineComponent, ref } from "@vue/composition-api";
 
 export default defineComponent({
   name: "Industry",
+
+  components: {
+    IndustryDelete: () => import("./industry-delete.vue")
+  },
 
   setup() {
     const headers = ref(Headers);
@@ -121,7 +125,7 @@ export default defineComponent({
     const itemsPerPage = ref(5);
 
     const dialog = false;
-    const dialogDelete = false;
+    const dialogDelete = ref(true);
     const editedIndex = -1;
     const editedItem = {
       name: "",
@@ -143,7 +147,8 @@ export default defineComponent({
     function deleteItem(item) {
       this.editedIndex = this.industries.indexOf(item);
       this.editedItem = Object.assign({}, item);
-      this.dialogDelete = true;
+      dialogDelete.value = true;
+      console.log("xx");
     }
 
     function deleteItemConfirm() {

@@ -2,9 +2,9 @@
   <v-container fluid fill-height justify-end class="pa-0 ma-0 home-background">
     <v-card class="mr-12 pt-12 px-8" tile width="650px" height="100vh">
       <v-card flat tile>
-        <v-cart-text class="pt-8 layout column align-center">
+        <v-card-text class="pt-8 layout column align-center">
           <img :src="imageSource" alt="Referlo Logo" width="120" height="120" />
-        </v-cart-text>
+        </v-card-text>
 
         <v-card-title class="justify-center">{{ $t("login.appTitle") }}</v-card-title>
 
