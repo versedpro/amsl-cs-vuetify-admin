@@ -11,65 +11,40 @@ const Industries = [
     title: "Title"
   },
   {
-    name: "Frozen Yogurt",
+    name: "Consumer Yogurt",
     id: 230,
     title: "Title"
   },
   {
-    name: "Frozen Yogurt",
+    name: "Conglomerates Yogurt",
     id: 43,
     title: "Title"
   },
   {
-    name: "Frozen Yogurt",
+    name: "Materials Yogurt",
     id: 23,
     title: "Title"
   },
   {
-    name: "Frozen Yogurt",
+    name: "Industrials Yogurt",
     id: 21,
     title: "Title"
   },
   {
-    name: "Frozen Yogurt",
+    name: "Financials Yogurt",
     id: 12,
     title: "Title"
   },
   {
-    name: "Frozen Yogurt",
+    name: "Conglomerates Yogurt",
     id: 9,
     title: "Title"
   },
   {
-    name: "Frozen Yogurt",
+    name: "Conglomerates Yogurt",
     id: 7,
     title: "Title"
   },
-  {
-    name: "Frozen Yogurt",
-    id: 6,
-    title: "Title"
-  },
-  {
-    name: "Frozen Yogurt",
-    id: 3,
-    title: "Title"
-  },
-  {
-    name: "Frozen Yogurt",
-    id: 44,
-    title: "Title"
-  },
-  {
-    name: "Frozen Yogurt",
-    id: 234,
-    title: "Title"
-  },
-  {
-    name: "Frozen Yogurt",
-    id: 33,
-    title: "Title"
-  }
 ];
 
 export { Headers, Industries };

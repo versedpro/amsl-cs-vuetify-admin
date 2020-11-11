@@ -160,6 +160,23 @@ export const constantRoutes = [
     component: Layout,
     children: [
       {
+        path: "/industry/list",
+        component: () => import("@/views/components/industry/list.vue"),
+        name: "Industry",
+        meta: {
+          title: "route.industry.list",
+          icon: "mdi-text-subject",
+          noCache: true,
+          affix: true
+        }
+      }
+    ]
+  },
+  {
+    path: "/",
+    component: Layout,
+    children: [
+      {
         path: "/supplier",
         component: () => import("@/views/components/supplier/index.vue"),
         name: "Supplier",
