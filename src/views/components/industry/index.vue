@@ -6,22 +6,14 @@
           Industries
           <v-spacer></v-spacer>
 
-          <v-btn color="primary" @click="addItem" dark class="mb-2"> Add</v-btn>
+          <v-btn color="primary" @click="addItem" dark class="mb-2">Add</v-btn>
           <industry-dialog
-            :show="dialogEdit"
-            @close="dialogEdit = false"
-            :item="editedItem"
-            @item-changed="(editedItem[key] = value)"
-            @confirm="save"
-            title="Edit"
-          ></industry-dialog>
-          <industry-dialog
-            :show="dialogAdd"
-            @close="dialogAdd = false"
+            :show="dialog"
+            @close="close"
             :item="editedItem"
             @item-changed="(key, value) => (editedItem[key] = value)"
             @confirm="save"
-            title="Add new"
+            :title="dialogTitle"
           ></industry-dialog>
           <industry-delete
             :show="dialogDelete"
@@ -95,6 +87,7 @@ export default defineComponent({
 
   setup() {
     const headers = ref(Headers);
+    const dialogTitle = ref("")
     const industries = ref(Industries);
     const search = ref("");
     const page = ref(1);
@@ -103,8 +96,6 @@ export default defineComponent({
 
     const dialog = false;
     const dialogDelete = ref(false);
-    const dialogAdd = ref(false);
-    const dialogEdit = ref(false);
     const editedIndex = -1;
     const deletedIndex = -1;
     const editedItem = {
@@ -121,12 +112,14 @@ export default defineComponent({
     function editItem(item) {
       this.editedIndex = this.industries.indexOf(item);
       this.editedItem = Object.assign({}, item);
-      this.dialogEdit = true;
+      this.dialog = true;
+      this.dialogTitle = "Edit Industry"
     }
 
     function addItem() {
       this.editedIndex = -1;
-      this.dialogAdd = true;
+      this.dialog = true;
+      this.dialogTitle = "Add new"
     }
 
     function deleteItem(item) {
@@ -140,8 +133,7 @@ export default defineComponent({
     }
 
     function close() {
-      this.dialogEdit = false;
-      this.dialogAdd = false;
+      this.dialog = false;
       this.$nextTick(() => {
         this.editedItem = Object.assign({}, this.defaultItem);
         this.editedIndex = -1;
@@ -163,9 +155,9 @@ export default defineComponent({
       save,
       deleteItemConfirm,
       close,
-      dialogAdd,
       deleteItem,
       editItem,
+      dialogTitle,
       defaultItem,
       itemsPerPage,
       page,
@@ -174,7 +166,6 @@ export default defineComponent({
       dialog,
       dialogDelete,
       deletedIndex,
-      dialogEdit,
       editedIndex,
       editedItem,
       addItem

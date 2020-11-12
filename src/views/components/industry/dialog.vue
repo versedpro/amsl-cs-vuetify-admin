@@ -1,5 +1,5 @@
 <template>
-  <v-dialog :value="show" max-width="500px">
+  <v-dialog :value="show" max-width="500px" @click:outside="$emit('close')">
     <v-card>
       <v-card-title class="py-1 px-3">
         <span>{{ title }}</span>
