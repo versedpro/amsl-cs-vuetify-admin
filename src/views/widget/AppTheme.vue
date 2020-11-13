@@ -1,3 +1,4 @@
+/* eslint-disable */
 <template>
   <v-row dense>
     <v-col
@@ -19,7 +20,8 @@
   </v-row>
 </template>
 
-<script>
+<script lang="ts">
+/* eslint-disable */
 import { mapGetters } from "vuex";
 import themes from "@/plugins/vuetifyThemes";
 

@@ -60,6 +60,10 @@ export default {
     404: "Not Found",
     500: "Internal Server Error"
   },
+  input: {
+    cancel: "Cancel",
+    save: "Save"
+  },
   guide: {
     description:
       "The guide page is useful for some people who entered the project for " +

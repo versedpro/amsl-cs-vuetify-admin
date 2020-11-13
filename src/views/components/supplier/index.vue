@@ -6,6 +6,14 @@
       <!-- Top Slot -->
       <template v-slot:top>
         <datatable-top-slot></datatable-top-slot>
+
+        <supplier-input
+          :show="showDialog"
+          :item="editedItem"
+          :title="dialogTitle"
+          @on-cancel-input="onCancelInput"
+          @on-save-input="onSaveInput"
+        ></supplier-input>
       </template>
 
       <!-- Action Slot -->
@@ -28,13 +36,28 @@ export default defineComponent({
 
   components: {
     DatatableActionSlot: () => import("@/views/widget/datatable-action-slot.vue"),
-    DatatableTopSlot: () => import("@/views/widget/datatable-top-slot.vue")
+    DatatableTopSlot: () => import("@/views/widget/datatable-top-slot.vue"),
+    SupplierInput: () => import("./supplier-input.vue")
   },
 
   setup() {
     const itemsPerPage = ref(4);
-    const title = "資訊中心";
     const industries = ref(Industries);
+
+    const editedIndex = -1;
+    const deletedIndex = -1;
+    const editedItem = {
+      name: "",
+      id: "",
+      title: ""
+    };
+    const defaultItem = {
+      name: "",
+      id: "",
+      title: ""
+    };
+
+    const showDialog = ref(false);
 
     const headers = ref([
       {
@@ -50,19 +73,59 @@ export default defineComponent({
 
     function onUpdate(item) {
       console.log(item.name);
+      this.editedIndex = this.industries.indexOf(item);
+      this.editedItem = Object.assign({}, item);
+      showDialog.value = true;
+      this.dialogTitle = "Edit Industry";
     }
 
     function onDelete(item) {
       console.log(item.title);
     }
 
+    function onCancelInput() {
+      showDialog.value = false;
+      this.$nextTick(() => {
+        this.editedItem = Object.assign({}, this.defaultItem);
+        this.editedIndex = -1;
+      });
+    }
+
+    function onSaveInput() {
+      showDialog.value = false;
+      this.$nextTick(() => {
+        this.editedItem = Object.assign({}, this.defaultItem);
+        this.editedIndex = -1;
+      });
+      // if (this.editedIndex > -1) {
+      //   Object.assign(this.industries[this.editedIndex], this.editedItem);
+      // } else {
+      //   this.industries.push(this.editedItem);
+      // }
+      // this.close();
+    }
+
+    function addItem() {
+      this.editedIndex = -1;
+      this.dialog = true;
+      this.dialogTitle = "Add new";
+    }
+
     return {
       itemsPerPage,
       industries,
       headers,
-      title,
+
       onUpdate,
-      onDelete
+      onDelete,
+      onCancelInput,
+      onSaveInput,
+      showDialog,
+      editedIndex,
+      editedItem,
+      addItem,
+      deletedIndex,
+      defaultItem
     };
   }
 });

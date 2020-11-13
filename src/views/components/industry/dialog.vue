@@ -14,13 +14,25 @@
         <v-container>
           <v-row>
             <v-col cols="12" sm="6" md="4">
-              <v-text-field :value="item.id" @input="$emit('item-changed', 'id', $event)" label="Id"></v-text-field>
+              <v-text-field
+                :value="item.id"
+                @input="$emit('item-changed', 'id', $event)"
+                label="Id"
+              ></v-text-field>
             </v-col>
             <v-col cols="12" sm="6" md="4">
-              <v-text-field :value="item.name" @input="$emit('item-changed', 'name', $event)" label="Name"></v-text-field>
+              <v-text-field
+                :value="item.name"
+                @input="$emit('item-changed', 'name', $event)"
+                label="Name"
+              ></v-text-field>
             </v-col>
             <v-col cols="12" sm="6" md="4">
-              <v-text-field :value="item.title" @input="$emit('item-changed', 'title', $event)" label="Title"></v-text-field>
+              <v-text-field
+                :value="item.title"
+                @input="$emit('item-changed', 'title', $event)"
+                label="Title"
+              ></v-text-field>
             </v-col>
           </v-row>
         </v-container>
