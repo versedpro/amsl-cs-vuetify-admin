@@ -1,8 +1,8 @@
 const Headers = [
-  { text: "ID", value: "id" },
-  { text: "Name", value: "name" },
-  { text: "Title", value: "title" },
-  { text: "actions", value: "actions" }
+  {text: "Id", align: "start", sortable: false, value: "id"},
+  {text: "Name", value: "name"},
+  {text: "Title", value: "title"},
+  {text: null, value: "actions", sortable: false, align: "right"}
 ];
 const Industries = [
   {

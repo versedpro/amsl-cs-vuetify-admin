@@ -2,12 +2,12 @@
   <v-toolbar text color="red lighten-5" elevation="0">
     <!-- <datatable-search></datatable-search> -->
     <v-text-field
-      v-model="filterText"
       placeholder="search"
       append-icon="mdi-magnify"
-      clear-icon="clear"
+      clear-icon="mdi-close"
       clearable
       hide-details
+      @input="$emit('on-search', $event)"
       @keyup.enter="handleFilter"
       @click:append="handleFilter"
       @click:clear="handleReset"
@@ -23,7 +23,7 @@
         <v-icon>mdi-refresh</v-icon>
       </v-btn>
 
-      <v-btn :value="3" text>
+      <v-btn @click="$emit('on-item-add')" :value="3" text>
         <v-icon>mdi-plus</v-icon>
       </v-btn>
     </v-btn-toggle>
@@ -37,19 +37,16 @@ export default defineComponent({
   name: "DatatableTopSlot",
 
   setup() {
-    const filterText = ref("");
 
     function handleFilter() {
       // $store
     }
 
     function handleReset() {
-      filterText.value = "";
       // $store
     }
 
     return {
-      filterText,
       handleFilter,
       handleReset
     };

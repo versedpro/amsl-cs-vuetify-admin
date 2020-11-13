@@ -1,76 +1,39 @@
 <template>
-  <v-container fluid>
-    <v-layout column>
-      <v-card>
-        <v-card-title>
-          Industries
-          <v-spacer></v-spacer>
+  <v-card class="red">
+    <v-card-title> Industries</v-card-title>
 
-          <v-btn color="primary" @click="addItem" dark class="mb-2">Add</v-btn>
-          <industry-dialog
-            :show="dialog"
-            @close="close"
-            :item="editedItem"
-            @item-changed="(key, value) => (editedItem[key] = value)"
-            @confirm="save"
-            :title="dialogTitle"
-          ></industry-dialog>
-          <industry-delete
-            :show="dialogDelete"
-            @close="dialogDelete = false"
-            @confirm="deleteItemConfirm"
-            title="Are you sure to delete?"
-          >
-          </industry-delete>
-        </v-card-title>
+    <v-data-table
+      :search="search"
+      :headers="headers"
+      :items="industries"
+      :items-per-page="5"
+      class="elevation-1"
+    >
+      <!-- Top Slot -->
+      <template v-slot:top>
+        <datatable-top-slot
+          @on-search="onSearch($event)"
+          @on-item-add="onAdd()"
+        ></datatable-top-slot>
+        <industry-input
+          :show="dialog"
+          :item="editedItem"
+          :title="dialogTitle"
+          @on-item-changed="(key, value) => (editedItem[key] = value)"
+          @on-cancel-input="onCancelInput"
+          @on-save-input="onSaveInput"
+        ></industry-input>
+      </template>
 
-        <br />
-
-        <v-toolbar flat>
-          <div class="text-center pt-2">
-            <v-select
-              class="md-1 sm-6"
-              v-model="itemsPerPage"
-              :items="[5, 10, 15, 20]"
-              outlined
-            ></v-select>
-          </div>
-
-          <v-spacer></v-spacer>
-          <v-text-field v-model="search" label="Search"></v-text-field>
-        </v-toolbar>
-
-        <v-data-table
-          :headers="headers"
-          :items="industries"
-          :page.sync="page"
-          @page-count="pageCount = $event"
-          :search="search"
-          :items-per-page="itemsPerPage"
-          class="elevation-1"
-          hide-default-footer
-        >
-          <template #[`item.actions`]="{ item }">
-            <v-btn depressed color="primary mr-2" @click="editItem(item)">
-              <v-icon> mdi-pencil </v-icon>
-              Edit
-            </v-btn>
-
-            <v-btn depressed color="error" @click="deleteItem(item)">
-              <v-icon> mdi-delete </v-icon>
-              Delete
-            </v-btn>
-          </template>
-          <template #no-data>
-            <v-btn color="primary" @click="initialize"> Reset </v-btn>
-          </template>
-        </v-data-table>
-        <div>
-          <v-pagination v-model="page" :length="pageCount"></v-pagination>
-        </div>
-      </v-card>
-    </v-layout>
-  </v-container>
+      <!-- Action Slot -->
+      <template v-slot:[`item.actions`]="{ item }">
+        <datatable-action-slot
+          @on-update="onUpdate(item)"
+          @on-delete="onDelete(item)"
+        ></datatable-action-slot>
+      </template>
+    </v-data-table>
+  </v-card>
 </template>
 
 <script lang="ts">
@@ -81,23 +44,18 @@ export default defineComponent({
   name: "Industry",
 
   components: {
-    IndustryDelete: () => import("./industry-delete.vue"),
-    IndustryDialog: () => import("./dialog.vue")
+    DatatableActionSlot: () => import("@/views/widget/datatable-action-slot.vue"),
+    DatatableTopSlot: () => import("@/views/widget/datatable-top-slot.vue"),
+    IndustryInput: () => import("./industry-input.vue")
   },
 
   setup() {
     const headers = ref(Headers);
-    const dialogTitle = ref("")
-    const industries = ref(Industries);
+    const dialogTitle = ref("");
     const search = ref("");
-    const page = ref(1);
-    const pageCount = ref(0);
-    const itemsPerPage = ref(5);
-
+    const industries = ref(Industries);
     const dialog = false;
-    const dialogDelete = ref(false);
     const editedIndex = -1;
-    const deletedIndex = -1;
     const editedItem = {
       name: "",
       id: "",
@@ -109,27 +67,29 @@ export default defineComponent({
       title: ""
     };
 
-    function editItem(item) {
+    function onCancelInput() {
+      this.close();
+    }
+
+    function onUpdate(item) {
       this.editedIndex = this.industries.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
-      this.dialogTitle = "Edit Industry"
+      this.dialogTitle = "Edit Industry";
     }
 
-    function addItem() {
+    function onSearch(value) {
+      this.search = value;
+    }
+
+    function onAdd() {
       this.editedIndex = -1;
       this.dialog = true;
-      this.dialogTitle = "Add new"
+      this.dialogTitle = "Add new";
     }
 
-    function deleteItem(item) {
-      this.deletedIndex = this.industries.indexOf(item);
-      this.dialogDelete = true;
-    }
-
-    function deleteItemConfirm() {
-      this.industries.splice(this.deletedIndex, 1);
-      this.dialogDelete = false;
+    function onDelete(item) {
+      this.industries.splice(this.industries.indexOf(item), 1);
     }
 
     function close() {
@@ -140,7 +100,7 @@ export default defineComponent({
       });
     }
 
-    function save() {
+    function onSaveInput() {
       if (this.editedIndex > -1) {
         Object.assign(this.industries[this.editedIndex], this.editedItem);
       } else {
@@ -151,24 +111,20 @@ export default defineComponent({
 
     return {
       headers,
+      search,
       industries,
-      save,
-      deleteItemConfirm,
+      onSaveInput,
+      onDelete,
       close,
-      deleteItem,
-      editItem,
+      onCancelInput,
+      onUpdate,
       dialogTitle,
       defaultItem,
-      itemsPerPage,
-      page,
-      pageCount,
-      search,
       dialog,
-      dialogDelete,
-      deletedIndex,
       editedIndex,
       editedItem,
-      addItem
+      onAdd,
+      onSearch
     };
   }
 });
