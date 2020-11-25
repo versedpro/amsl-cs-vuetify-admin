@@ -3,6 +3,7 @@
     <v-card-title> Industries</v-card-title>
 
     <v-data-table
+      :loading="loading"
       :search="search"
       :headers="headers"
       :items="industries"
@@ -38,7 +39,8 @@
 
 <script lang="ts">
 import { Headers, Industries } from "@/demo/api/mock_industry_list";
-import { defineComponent, ref } from "@vue/composition-api";
+import { defineComponent, ref, onActivated } from "@vue/composition-api";
+import IndustryApi from "./api";
 
 export default defineComponent({
   name: "Industry",
@@ -50,22 +52,42 @@ export default defineComponent({
   },
 
   setup() {
-    const headers = ref(Headers);
+    const headers = ref([
+      { text: "Id", align: "start", sortable: false, value: "industryId" },
+      { text: "Name", value: "industryName" },
+      { text: "Description", value: "description" },
+      { text: null, value: "actions", sortable: false, align: "right" }
+    ]);
     const dialogTitle = ref("");
+    const loading = ref(false);
     const search = ref("");
-    const industries = ref(Industries);
+    const industries = ref([]);
     const dialog = false;
     const editedIndex = -1;
     const editedItem = {
-      name: "",
-      id: "",
-      title: ""
+      industryName: "",
+      industryId: "",
+      description: "",
+      status: 0
     };
     const defaultItem = {
-      name: "",
-      id: "",
-      title: ""
+      industryName: "",
+      industryId: "",
+      description: "",
+      status: 0
     };
+
+    function fetchIndustries() {
+      loading.value = true;
+      IndustryApi.list().then(({ data }) => {
+        industries.value = data;
+        loading.value = false;
+      });
+    }
+
+    onActivated(() => {
+      fetchIndustries();
+    });
 
     function onCancelInput() {
       this.close();
@@ -104,7 +126,7 @@ export default defineComponent({
       if (this.editedIndex > -1) {
         Object.assign(this.industries[this.editedIndex], this.editedItem);
       } else {
-        this.industries.push(this.editedItem);
+        IndustryApi.create(this.editedItem).then(({ data }) => this.industries.push(data));
       }
       this.close();
     }
@@ -124,7 +146,8 @@ export default defineComponent({
       editedIndex,
       editedItem,
       onAdd,
-      onSearch
+      onSearch,
+      loading
     };
   }
 });

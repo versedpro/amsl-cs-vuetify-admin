@@ -1,6 +1,6 @@
 <template>
   <v-dialog :value="show" max-width="500px" @click:outside="handleCancel">
-    <v-form ref="form" v-model="validInput" lazy-validation>
+    <v-form ref="form" lazy-validation>
       <v-card>
         <v-card-title class="py-1 px-3">
           <span>{{ title }}</span>
@@ -17,15 +17,15 @@
             <v-row>
               <v-col cols="12" sm="6" md="4">
                 <v-text-field
-                  :value="item.id"
-                  @input="$emit('item-changed', 'id', $event)"
+                  :value="item.supplierId"
+                  @input="$emit('on-item-changed', 'supplierId', $event)"
                   label="Id"
                 ></v-text-field>
               </v-col>
               <v-col cols="12" sm="6" md="4">
                 <v-text-field
-                  :value="item.name"
-                  @input="$emit('item-changed', 'name', $event)"
+                  :value="item.supplierName"
+                  @input="$emit('on-item-changed', 'supplierName', $event)"
                   label="Name"
                 ></v-text-field>
               </v-col>
@@ -36,9 +36,8 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn rounded color="primary" text @click="handleCancel">{{ $t("input.cancel") }}</v-btn>
-          <v-btn rounded text @click="handleSave" :disabled="validInput == false">{{
-            $t("input.save")
-          }}</v-btn>
+          <v-btn rounded text @click="handleSave">
+            {{ $t("input.save") }}</v-btn>
         </v-card-actions>
       </v-card>
     </v-form>

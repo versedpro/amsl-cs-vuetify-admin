@@ -17,34 +17,24 @@
             <v-container>
               <v-row>
                 <v-col cols="12" sm="6" md="4">
-                  <validation-provider name="industryId" rules="required" v-slot="{ errors }">
+                  <validation-provider name="id" rules="required" v-slot="{ errors }">
                     <v-text-field
-                      :value="item.industryId"
-                      @input="handleChange('industryId', $event)"
+                      :value="item.id"
+                      @input="handleChange('id', $event)"
                       :error-messages="errors"
                       label="Id"
                     ></v-text-field>
                   </validation-provider>
                 </v-col>
                 <v-col cols="12" sm="6" md="4">
-                  <validation-provider name="name" rules="required" v-slot="{ errors }">
+                  <validation-provider name="id" rules="required" v-slot="{ errors }">
                     <v-text-field
-                      :value="item.industryName"
-                      @input="handleChange('industryName', $event)"
+                      :value="item.name"
+                      @input="handleChange('name', $event)"
                       :error-messages="errors"
                       label="Name"
                     ></v-text-field>
                   </validation-provider>
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col cols="12">
-                  <v-textarea
-                    :value="item.description"
-                    @input="handleChange('description', $event)"
-                    :error-messages="errors"
-                    label="Description"
-                  ></v-textarea>
                 </v-col>
               </v-row>
             </v-container>
@@ -52,12 +42,12 @@
 
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn rounded color="primary" text @click="handleCancel">{{
-              $t("input.cancel")
-            }}</v-btn>
-            <v-btn rounded text @click="handleSave" :disabled="invalid">{{
-              $t("input.save")
-            }}</v-btn>
+            <v-btn rounded color="primary" text @click="handleCancel"
+              >{{ $t("input.cancel") }}
+            </v-btn>
+            <v-btn rounded text @click="handleSave" :disabled="invalid"
+              >{{ $t("input.save") }}
+            </v-btn>
           </v-card-actions>
         </v-card>
       </v-form>
@@ -69,8 +59,9 @@
 import { defineComponent } from "@vue/composition-api";
 import { ValidationProvider, ValidationObserver } from "vee-validate";
 import "./validations";
+
 export default defineComponent({
-  name: "industry-input",
+  name: "product-input",
 
   components: {
     ValidationProvider,

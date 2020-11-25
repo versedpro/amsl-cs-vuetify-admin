@@ -1,16 +1,27 @@
 <template>
   <v-card class="red">
-    <v-card-title> Industries</v-card-title>
+    <v-card-title>Suppliers</v-card-title>
 
-    <v-data-table :headers="headers" :items="industries" :items-per-page="5" class="elevation-1">
+    <v-data-table
+      :loading="loading"
+      :headers="headers"
+      :items="industries"
+      :items-per-page="5"
+      class="elevation-1"
+    >
       <!-- Top Slot -->
       <template v-slot:top>
-        <datatable-top-slot></datatable-top-slot>
+        <datatable-top-slot @on-item-add="addItem()"></datatable-top-slot>
 
         <supplier-input
-          :show="showDialog"
+          :show="dialog"
           :item="editedItem"
           :title="dialogTitle"
+          @on-item-changed="
+            (key, value) => {
+              editedItem[key] = value;
+            }
+          "
           @on-cancel-input="onCancelInput"
           @on-save-input="onSaveInput"
         ></supplier-input>
@@ -28,7 +39,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "@vue/composition-api";
+import { defineComponent, onActivated, ref } from "@vue/composition-api";
+import axios from "axios";
+import SupplierApi from "./api";
 import { Industries } from "@/demo/api/mock_industry_list";
 
 export default defineComponent({
@@ -42,49 +55,61 @@ export default defineComponent({
 
   setup() {
     const itemsPerPage = ref(4);
-    const industries = ref(Industries);
-
+    const industries = ref([]);
+    const dialogTitle = ref("");
+    const loading = ref(false);
+    const dialog = ref(false);
     const editedIndex = -1;
     const deletedIndex = -1;
     const editedItem = {
-      name: "",
-      id: "",
+      supplierName: "",
+      supplierId: "",
       title: ""
     };
     const defaultItem = {
-      name: "",
-      id: "",
+      supplierName: "",
+      supplierId: "",
       title: ""
     };
-
-    const showDialog = ref(false);
 
     const headers = ref([
       {
         text: "Id",
         align: "start",
         sortable: false,
-        value: "id"
+        value: "supplierId"
       },
-      { text: "Name", value: "name" },
-      { text: "Title", value: "title" },
+      { text: "Name", value: "supplierName" },
       { text: null, value: "actions", sortable: false, align: "right" }
     ]);
 
+    function fetchIndustries() {
+      loading.value = true;
+      SupplierApi.list().then(({ data }) => {
+        industries.value = data;
+        loading.value = false;
+      });
+    }
+
+    onActivated(() => {
+      fetchIndustries();
+    });
+
     function onUpdate(item) {
-      console.log(item.name);
       this.editedIndex = this.industries.indexOf(item);
       this.editedItem = Object.assign({}, item);
-      showDialog.value = true;
-      this.dialogTitle = "Edit Industry";
+      dialog.value = true;
+      this.dialogTitle = "Edit Supplier";
     }
 
     function onDelete(item) {
-      console.log(item.title);
+      const index = this.industries.indexOf(item);
+      this.industries.splice(index, 1);
+      SupplierApi.delete(index);
     }
 
     function onCancelInput() {
-      showDialog.value = false;
+      dialog.value = false;
       this.$nextTick(() => {
         this.editedItem = Object.assign({}, this.defaultItem);
         this.editedIndex = -1;
@@ -92,17 +117,17 @@ export default defineComponent({
     }
 
     function onSaveInput() {
-      showDialog.value = false;
+      dialog.value = false;
       this.$nextTick(() => {
         this.editedItem = Object.assign({}, this.defaultItem);
         this.editedIndex = -1;
       });
-      // if (this.editedIndex > -1) {
-      //   Object.assign(this.industries[this.editedIndex], this.editedItem);
-      // } else {
-      //   this.industries.push(this.editedItem);
-      // }
-      // this.close();
+      if (this.editedIndex > -1) {
+        Object.assign(this.industries[this.editedIndex], this.editedItem);
+        SupplierApi.update(this.editedIndex, this.editedItem);
+      } else {
+        SupplierApi.create(this.editedItem).then(({ data }) => this.industries.push(data));
+      }
     }
 
     function addItem() {
@@ -120,12 +145,14 @@ export default defineComponent({
       onDelete,
       onCancelInput,
       onSaveInput,
-      showDialog,
+      dialog,
       editedIndex,
       editedItem,
       addItem,
       deletedIndex,
-      defaultItem
+      defaultItem,
+      dialogTitle,
+      loading
     };
   }
 });

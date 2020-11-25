@@ -13,6 +13,9 @@ import store from "./store";
 import "./router/permission";
 import "./registerServiceWorker";
 
+import axios from 'axios'
+axios.defaults.baseURL = 'http://referlo.azurewebsites.net';
+
 import CompositionAPI from "@vue/composition-api";
 
 Vue.use(CompositionAPI);
