@@ -1,11 +1,11 @@
 <template>
   <v-btn-toggle color="primary" borderless dense group>
     <v-btn :value="1" text @click="handleUpdate">
-      <v-icon>mdi-pencil</v-icon>
+      <v-icon class="primary--text text--darken-4">mdi-lead-pencil</v-icon>
     </v-btn>
 
     <v-btn :value="2" text @click="handleDelete">
-      <v-icon>mdi-delete</v-icon>
+      <v-icon class="primary--text text--darken-4">mdi-delete-forever</v-icon>
     </v-btn>
   </v-btn-toggle>
 </template>

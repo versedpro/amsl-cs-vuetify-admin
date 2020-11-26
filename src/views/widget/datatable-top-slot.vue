@@ -1,5 +1,5 @@
 <template>
-  <v-toolbar text color="red lighten-5" elevation="0">
+  <v-toolbar text color="grey" elevation="0">
     <!-- <datatable-search></datatable-search> -->
     <v-text-field
       placeholder="search"
@@ -14,16 +14,16 @@
     ></v-text-field>
     <v-spacer class="hidden-xs-only"></v-spacer>
 
-    <v-btn-toggle color="primary" borderless dense group>
-      <v-btn :value="1" text>
+    <v-btn-toggle borderless dense group>
+      <v-btn :value="1" text class="primary--text" >
         <v-icon>mdi-printer</v-icon>
       </v-btn>
 
-      <v-btn :value="2" text>
+      <v-btn :value="2" text class="primary--text">
         <v-icon>mdi-refresh</v-icon>
       </v-btn>
 
-      <v-btn @click="$emit('on-item-add')" :value="3" text>
+      <v-btn @click="$emit('on-item-add')" :value="3" text class="primary--text">
         <v-icon>mdi-plus</v-icon>
       </v-btn>
     </v-btn-toggle>
