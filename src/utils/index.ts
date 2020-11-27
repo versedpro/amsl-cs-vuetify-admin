@@ -44,4 +44,46 @@ function debounce(func, wait, immediate) {
   };
 }
 
-export default debounce;
+function toggleFullScreen() {
+  const doc = document as Document & {
+    mozCancelFullScreen(): Promise<void>;
+    webkitExitFullscreen(): Promise<void>;
+    msExitFullscreen(): Promise<void>;
+    mozFullScreenElement(): Promise<void>;
+    webkitFullscreenElement(): Promise<void>;
+    msFullscreenElement(): Promise<void>;
+  };
+
+  const docEl = doc.documentElement as HTMLElement & {
+    mozRequestFullScreen(): Promise<void>;
+    webkitRequestFullscreen(): Promise<void>;
+    msRequestFullscreen(): Promise<void>;
+    webkitRequestFullScreen(): Promise<void>;
+  };
+
+  const requestFullScreen =
+    docEl.requestFullscreen ||
+    docEl.mozRequestFullScreen ||
+    docEl.webkitRequestFullScreen ||
+    docEl.msRequestFullscreen;
+  const cancelFullScreen =
+    doc.exitFullscreen ||
+    doc.mozCancelFullScreen ||
+    doc.webkitExitFullscreen ||
+    doc.msExitFullscreen;
+
+  if (
+    !doc.fullscreenElement &&
+    !doc.mozFullScreenElement &&
+    !doc.webkitFullscreenElement &&
+    !doc.msFullscreenElement
+  ) {
+    requestFullScreen.call(docEl);
+    return true;
+  }
+
+  cancelFullScreen.call(doc);
+  return false;
+}
+
+export { toggleFullScreen, debounce }

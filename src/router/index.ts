@@ -1,11 +1,9 @@
-/* eslint-disable */
 import Vue from "vue";
 import Router from "vue-router";
 
-import Layout from "@/views/layout/TheLayout.vue";
-
 /* Router Modules */
 import authRouter from "./modules/auth";
+import drawerRouter from "./modules/drawer";
 
 Vue.use(Router);
 
@@ -37,193 +35,22 @@ export const constantRoutes = [
     path: "/landing",
     alias: "/land",
     component: () => import("@/views/auth/landing.vue"),
-    hidden: true
+    meta: {
+      hidden: true
+    }
   },
-  {
-    path: "/follow-up/chat",
-    alias: "/chat",
-    component: () => import("@/views/components/chat.vue"),
-    hidden: true
-  },
-  {
-    path: "/",
-    component: Layout,
-    children: [
-      {
-        path: "/home",
-        alias: "/",
-        component: () => import("@/views/components/home/index.vue"),
-        name: "Home",
-        meta: {
-          title: "route.home",
-          icon: "mdi-home",
-          noCache: true,
-          affix: true
-        }
-      }
-    ]
-  },
-  {
-    path: "/",
-    component: Layout,
-    children: [
-      {
-        path: "/history",
-        component: () => import("@/views/components/history/index.vue"),
-        name: "History",
-        meta: {
-          title: "route.history",
-          icon: "mdi-near-me",
-          noCache: true,
-          affix: true
-        }
-      }
-    ]
-  },
-  {
-    path: "/",
-    component: Layout,
-    children: [
-      {
-        path: "/products",
-        component: () => import("@/views/components/products/index.vue"),
-        name: "Products",
-        meta: {
-          title: "route.products",
-          icon: "mdi-timeline-text",
-          noCache: true,
-          affix: true
-        }
-      }
-    ]
-  },
-  {
-    path: "/",
-    component: Layout,
-    children: [
-      {
-        path: "/follow-up",
-        component: () => import("@/views/components/follow-up.vue"),
-        name: "FollowUp",
-        meta: { title: "route.followUp", icon: "mdi-palette" }
-      }
-    ]
-  },
-  // {
-  //   path: "/",
-  //   component: Layout,
-  //   children: [
-  //     {
-  //       path: "/chat",
-  //       component: () => import("@/views/components/chat.vue"),
-  //       name: "Chat",
-  //       meta: { title: "route.followUp", icon: "mdi-palette" }
-  //     }
-  //   ]
-  // },
-  {
-    path: "/",
-    component: Layout,
-    children: [
-      {
-        path: "/referal",
-        component: () => import("@/views/components/Referal.vue"),
-        name: "Referal",
-        meta: {
-          title: "route.referal",
-          icon: "mdi-text-subject",
-          noCache: true,
-          affix: true
-        }
-      }
-    ]
-  },
-  {
-    path: "/",
-    component: Layout,
-    children: [
-      {
-        path: "/industry",
-        component: () => import("@/views/components/industry/index.vue"),
-        name: "Industry",
-        meta: {
-          title: "route.industry",
-          icon: "mdi-text-subject",
-          noCache: true,
-          affix: true
-        }
-      }
-    ]
-  },
-  {
-    path: "/",
-    component: Layout,
-    children: [
-      {
-        path: "/industry/list",
-        component: () => import("@/views/components/industry/list.vue"),
-        name: "Industry",
-        meta: {
-          title: "route.industry.list",
-          icon: "mdi-text-subject",
-          noCache: true,
-          affix: true
-        }
-      }
-    ]
-  },
-  {
-    path: "/",
-    component: Layout,
-    children: [
-      {
-        path: "/supplier",
-        component: () => import("@/views/components/supplier/index.vue"),
-        name: "Supplier",
-        meta: {
-          title: "route.supplier",
-          icon: "mdi-text-subject",
-          noCache: true,
-          affix: true
-        }
-      }
-    ]
-  },
-  {
-    path: "/",
-    component: Layout,
-    children: [
-      {
-        path: "/profile",
-        component: () => import("@/views/components/profile.vue"),
-        name: "Profile",
-        meta: { title: "route.profile", icon: "mdi-translate" }
-      }
-    ]
-  },
-  // {
-  //   path: "/",
-  //   component: Layout,
-  //   children: [
-  //     {
-  //       path: "/products",
-  //       component: () => import("@/views/components/products/index.vue"),
-  //       name: "Products",
-  //       meta: { title: "route.products", icon: "mdi-translate" }
-  //     }
-  //   ]
-  // },
 
+  ...drawerRouter,
   ...authRouter
 ];
 
 export default new Router({
-  // mode: 'history', // gh-pages
+  mode: "history", // gh-pages
   //scrollBehavior: () => ({ y: 0 }),
   routes: constantRoutes
 });
 
 export const asyncRoutes = [
   /** When your routing table is too long, you can split it into small modules */
-  { path: "*", redirect: "/error/404", hidden: true }
+  { path: "*", redirect: "/error/404", meta: { hidden: true } }
 ];

@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts">
-import { locales } from "@/locale";
+import { locales } from "@/locale/available";
 import { defineComponent, ref } from "@vue/composition-api";
 
 export default defineComponent({
@@ -38,3 +38,9 @@ export default defineComponent({
   }
 });
 </script>
+
+<style scoped>
+.v-chip.v-chip--outlined.v-chip.v-chip {
+  background-color: #fcda8b !important;
+}
+</style>
