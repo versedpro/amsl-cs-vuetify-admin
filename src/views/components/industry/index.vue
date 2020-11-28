@@ -8,6 +8,9 @@
       :loading="loading"
       :search="search"
       :headers="headers"
+      :server-items-length="industries.length"
+      :options.sync="options"
+      @update:options="fetchIndustries"
       :items="industries"
       :items-per-page="5"
       class="elevation-1"
@@ -41,9 +44,9 @@
 </template>
 
 <script lang="ts">
-import { Headers, Industries } from "@/demo/api/mock_industry_list";
 import { defineComponent, ref, onActivated } from "@vue/composition-api";
 import IndustryApi from "./api";
+import { mapOptions } from "@/utils/datatable";
 
 export default defineComponent({
   name: "Industry",
@@ -61,6 +64,7 @@ export default defineComponent({
       { text: "Description", value: "description" },
       { text: null, value: "actions", sortable: false, align: "right" }
     ]);
+    const options = ref({});
     const dialogTitle = ref("");
     const loading = ref(false);
     const search = ref("");
@@ -82,8 +86,10 @@ export default defineComponent({
 
     function fetchIndustries() {
       loading.value = true;
-      IndustryApi.list().then(({ data }) => {
-        industries.value = data;
+      const dtOptions = mapOptions(options.value);
+      dtOptions["filter"] = search.value;
+      IndustryApi.datatable(dtOptions).then(({ data }) => {
+        industries.value = data.data || [];
         loading.value = false;
       });
     }
@@ -105,6 +111,7 @@ export default defineComponent({
 
     function onSearch(value) {
       this.search = value;
+      fetchIndustries();
     }
 
     function onAdd() {
@@ -113,7 +120,8 @@ export default defineComponent({
       this.dialogTitle = "Add new";
     }
 
-    function onDelete(item) {
+    async function onDelete(item) {
+      await IndustryApi.delete(item.industryId);
       this.industries.splice(this.industries.indexOf(item), 1);
     }
 
@@ -126,10 +134,17 @@ export default defineComponent({
     }
 
     function onSaveInput() {
+      loading.value = true;
       if (this.editedIndex > -1) {
-        Object.assign(this.industries[this.editedIndex], this.editedItem);
+        IndustryApi.update(this.editedItem.industryId, this.editedItem).then(({ data }) => {
+          Object.assign(this.industries[this.editedIndex], data);
+          loading.value = false;
+        });
       } else {
-        IndustryApi.create(this.editedItem).then(({ data }) => this.industries.push(data));
+        IndustryApi.create(this.editedItem).then(({ data }) => {
+          this.industries.push(data);
+          loading.value = false;
+        });
       }
       this.close();
     }
@@ -150,7 +165,9 @@ export default defineComponent({
       editedItem,
       onAdd,
       onSearch,
-      loading
+      loading,
+      options,
+      fetchIndustries
     };
   }
 });

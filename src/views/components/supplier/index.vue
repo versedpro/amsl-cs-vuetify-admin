@@ -105,7 +105,7 @@ export default defineComponent({
     function onDelete(item) {
       const index = this.industries.indexOf(item);
       this.industries.splice(index, 1);
-      SupplierApi.delete(index);
+      SupplierApi.delete(item.supplierId);
     }
 
     function onCancelInput() {
@@ -118,15 +118,22 @@ export default defineComponent({
 
     function onSaveInput() {
       dialog.value = false;
+      loading.value = true;
       this.$nextTick(() => {
         this.editedItem = Object.assign({}, this.defaultItem);
         this.editedIndex = -1;
       });
       if (this.editedIndex > -1) {
         Object.assign(this.industries[this.editedIndex], this.editedItem);
-        SupplierApi.update(this.editedIndex, this.editedItem);
+        SupplierApi.update(this.editedItem.supplierId, this.editedItem).then(({ data }) => {
+          Object.assign(this.industries[this.editedIndex], data);
+          loading.value = false;
+        });
       } else {
-        SupplierApi.create(this.editedItem).then(({ data }) => this.industries.push(data));
+        SupplierApi.create(this.editedItem).then(({ data }) => {
+          this.industries.push(data);
+          loading.value = false;
+        });
       }
     }
 

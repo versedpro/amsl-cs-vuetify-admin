@@ -19,8 +19,8 @@
                 <v-col cols="12" sm="6" md="4">
                   <validation-provider name="id" rules="required" v-slot="{ errors }">
                     <v-text-field
-                      :value="item.id"
-                      @input="handleChange('id', $event)"
+                      :value="item.productId"
+                      @input="handleChange('productId', $event)"
                       :error-messages="errors"
                       label="Id"
                     ></v-text-field>
@@ -29,8 +29,8 @@
                 <v-col cols="12" sm="6" md="4">
                   <validation-provider name="id" rules="required" v-slot="{ errors }">
                     <v-text-field
-                      :value="item.name"
-                      @input="handleChange('name', $event)"
+                      :value="item.productName"
+                      @input="handleChange('productName', $event)"
                       :error-messages="errors"
                       label="Name"
                     ></v-text-field>
