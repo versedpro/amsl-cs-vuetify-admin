@@ -36,8 +36,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn rounded color="primary" text @click="handleCancel">{{ $t("input.cancel") }}</v-btn>
-          <v-btn rounded text @click="handleSave">
-            {{ $t("input.save") }}</v-btn>
+          <v-btn rounded text @click="handleSave"> {{ $t("input.save") }}</v-btn>
         </v-card-actions>
       </v-card>
     </v-form>

@@ -2,48 +2,55 @@
   <v-card class="red">
     <v-card-title>Suppliers</v-card-title>
 
-    <v-data-table
-      :headers="headers"
-      :items="industries"
-      :loading="loading"
-      :server-items-length="serverItemsLength"
-      @update:options="handleUpdateOptions"
-      class="elevation-1"
-    >
-      <!-- Top Slot -->
-      <template v-slot:top>
-        <datatable-top-slot @on-item-add="addItem()"></datatable-top-slot>
+    <v-window v-model="window">
+      <v-window-item>
+        <v-data-table
+          class="elevation-1"
+          :headers="headers"
+          :items="industries"
+          :loading="loading"
+          :server-items-length="serverItemsLength"
+          @update:options="handleUpdateOptions"
+        >
+          <!-- Top Slot -->
+          <template v-slot:top>
+            <datatable-top-slot @on-item-add="addItem()"></datatable-top-slot>
 
-        <supplier-input
-          :show="dialog"
-          :item="editedItem"
-          :title="dialogTitle"
-          @on-item-changed="
-            (key, value) => {
-              editedItem[key] = value;
-            }
-          "
-          @on-cancel-input="onCancelInput"
-          @on-save-input="onSaveInput"
-        ></supplier-input>
-      </template>
+            <supplier-input
+              :show="dialog"
+              :item="editedItem"
+              :title="dialogTitle"
+              @on-item-changed="
+                (key, value) => {
+                  editedItem[key] = value;
+                }
+              "
+              @on-cancel-input="onCancelInput"
+              @on-save-input="onSaveInput"
+            ></supplier-input>
+          </template>
 
-      <!-- Action Slot -->
-      <template v-slot:[`item.actions`]="{ item }">
-        <datatable-action-slot
-          @on-update="onUpdate(item)"
-          @on-delete="onDelete(item)"
-        ></datatable-action-slot>
-      </template>
-    </v-data-table>
+          <!-- Action Slot -->
+          <template v-slot:[`item.actions`]="{ item }">
+            <datatable-action-slot
+              @on-update="onUpdate(item)"
+              @on-delete="onDelete(item)"
+            ></datatable-action-slot>
+          </template>
+        </v-data-table>
+      </v-window-item>
+
+      <v-window-item>
+        <v-card-text> hello </v-card-text>
+      </v-window-item>
+    </v-window>
   </v-card>
 </template>
 
 <script lang="ts">
-import { defineComponent, onActivated, ref } from "@vue/composition-api";
-import axios from "axios";
 import SupplierApi from "./api";
-import { Industries } from "@/demo/api/mock_industry_list";
+import { defineComponent, ref } from "@vue/composition-api";
+
 export default defineComponent({
   name: "Supplier",
 
@@ -59,8 +66,9 @@ export default defineComponent({
     const dialogTitle = ref("");
     const loading = ref(false);
     const dialog = ref(false);
-    const editedIndex = -1;
-    const deletedIndex = -1;
+    const editedIndex = ref(-1);
+    const deletedIndex = ref(-1);
+    const window = ref(0);
     const editedItem = {
       supplierName: "",
       supplierId: "",
@@ -85,19 +93,15 @@ export default defineComponent({
 
     function fetchIndustries(page, itemsPerPage) {
       loading.value = true;
-      SupplierApi.datatable('', page, itemsPerPage,'').then((response) =>{
-        industries.value = response['data']['data'];
-        serverItemsLength.value = response['data']['total'];
-      })
+      SupplierApi.datatable("", page, itemsPerPage, "").then((response) => {
+        industries.value = response["data"]["data"];
+        serverItemsLength.value = response["data"]["total"];
+      });
       loading.value = false;
     }
 
-    // onActivated(() => {
-    //   fetchIndustries();
-    // });
-
     function onUpdate(item) {
-      this.editedIndex = this.industries.indexOf(item);
+      editedIndex.value = industries.value.indexOf(item);
       this.editedItem = Object.assign({}, item);
       dialog.value = true;
       this.dialogTitle = "Edit Supplier";
@@ -139,15 +143,16 @@ export default defineComponent({
     }
 
     function addItem() {
-      this.editedIndex = -1;
-      this.dialog = true;
-      this.dialogTitle = "Add new";
+      window.value = 1;
+      // this.editedIndex = -1;
+      // this.dialog = true;
+      // this.dialogTitle = "Add new";
     }
 
-    function handleUpdateOptions(opt){
-      const { page, itemsPerPage} = opt;
+    function handleUpdateOptions(opt) {
+      const { page, itemsPerPage } = opt;
       fetchIndustries(page, itemsPerPage);
-    };
+    }
 
     return {
       industries,
@@ -166,7 +171,8 @@ export default defineComponent({
       dialogTitle,
       loading,
       handleUpdateOptions,
-      fetchIndustries
+      fetchIndustries,
+      window
     };
   }
 });

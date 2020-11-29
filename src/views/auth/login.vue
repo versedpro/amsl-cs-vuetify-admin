@@ -36,9 +36,9 @@
           <localization />
 
           <v-spacer />
-          <v-btn class="px-4" color="primary" rounded outlined to="/register">
+          <!-- <v-btn class="px-4" color="primary" rounded outlined to="/register">
             {{ $t("login.register") }}
-          </v-btn>
+          </v-btn> -->
           <v-btn class="px-4" color="primary" rounded :loading="loading" @click="login">
             {{ $t("login.login") }}
           </v-btn>
