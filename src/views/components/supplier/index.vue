@@ -3,10 +3,11 @@
     <v-card-title>Suppliers</v-card-title>
 
     <v-data-table
-      :loading="loading"
       :headers="headers"
       :items="industries"
-      :items-per-page="5"
+      :loading="loading"
+      :server-items-length="serverItemsLength"
+      @update:options="handleUpdateOptions"
       class="elevation-1"
     >
       <!-- Top Slot -->
@@ -43,7 +44,6 @@ import { defineComponent, onActivated, ref } from "@vue/composition-api";
 import axios from "axios";
 import SupplierApi from "./api";
 import { Industries } from "@/demo/api/mock_industry_list";
-
 export default defineComponent({
   name: "Supplier",
 
@@ -54,8 +54,8 @@ export default defineComponent({
   },
 
   setup() {
-    const itemsPerPage = ref(4);
     const industries = ref([]);
+    const serverItemsLength = ref(0);
     const dialogTitle = ref("");
     const loading = ref(false);
     const dialog = ref(false);
@@ -77,23 +77,24 @@ export default defineComponent({
         text: "Id",
         align: "start",
         sortable: false,
-        value: "supplierId"
+        value: "industryId"
       },
-      { text: "Name", value: "supplierName" },
+      { text: "Name", value: "industryName" },
       { text: null, value: "actions", sortable: false, align: "right" }
     ]);
 
-    function fetchIndustries() {
+    function fetchIndustries(page, itemsPerPage) {
       loading.value = true;
-      SupplierApi.list().then(({ data }) => {
-        industries.value = data;
-        loading.value = false;
-      });
+      SupplierApi.datatable('', page, itemsPerPage,'').then((response) =>{
+        industries.value = response['data']['data'];
+        serverItemsLength.value = response['data']['total'];
+      })
+      loading.value = false;
     }
 
-    onActivated(() => {
-      fetchIndustries();
-    });
+    // onActivated(() => {
+    //   fetchIndustries();
+    // });
 
     function onUpdate(item) {
       this.editedIndex = this.industries.indexOf(item);
@@ -143,11 +144,15 @@ export default defineComponent({
       this.dialogTitle = "Add new";
     }
 
-    return {
-      itemsPerPage,
-      industries,
-      headers,
+    function handleUpdateOptions(opt){
+      const { page, itemsPerPage} = opt;
+      fetchIndustries(page, itemsPerPage);
+    };
 
+    return {
+      industries,
+      serverItemsLength,
+      headers,
       onUpdate,
       onDelete,
       onCancelInput,
@@ -159,7 +164,9 @@ export default defineComponent({
       deletedIndex,
       defaultItem,
       dialogTitle,
-      loading
+      loading,
+      handleUpdateOptions,
+      fetchIndustries
     };
   }
 });
