@@ -56,6 +56,12 @@ const authRouter = [
   {
     path: "/",
     component: Layout,
+    meta: {
+      title: "route.table",
+      icon: "mdi-text-subject",
+      noCache: true,
+      affix: true
+    },
     children: [
       {
         path: "/industry",
@@ -67,13 +73,7 @@ const authRouter = [
           noCache: true,
           affix: true
         }
-      }
-    ]
-  },
-  {
-    path: "/",
-    component: Layout,
-    children: [
+      },
       {
         path: "/products",
         component: () => import("@/views/components/products/index.vue"),
@@ -84,13 +84,7 @@ const authRouter = [
           noCache: true,
           affix: true
         }
-      }
-    ]
-  },
-  {
-    path: "/",
-    component: Layout,
-    children: [
+      },
       {
         path: "/supplier",
         component: () => import("@/views/components/supplier/index.vue"),
@@ -103,7 +97,7 @@ const authRouter = [
         }
       }
     ]
-  }
+  },
   // {
   //   path: "/",
   //   component: Layout,

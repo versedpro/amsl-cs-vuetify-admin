@@ -6,6 +6,7 @@ export default {
   products: "Products",
   profile: "Profile",
   followUp: "Orders",
+  table: "Table",
   // pagePermission: 'Page Permission',
   // rolePermission: 'Role Permission',
   permissions: "Permission",
