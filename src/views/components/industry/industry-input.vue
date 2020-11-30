@@ -39,12 +39,14 @@
               </v-row>
               <v-row>
                 <v-col cols="12">
-                  <v-textarea
-                    :value="item.description"
-                    @input="handleChange('description', $event)"
-                    :error-messages="errors"
-                    label="Description"
-                  ></v-textarea>
+                  <validation-provider name="name" rules="required" v-slot="{ errors }">
+                    <v-textarea
+                      :value="item.description"
+                      @input="handleChange('description', $event)"
+                      :error-messages="errors"
+                      label="Description"
+                    ></v-textarea>
+                  </validation-provider>
                 </v-col>
               </v-row>
             </v-container>
