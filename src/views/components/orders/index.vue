@@ -12,7 +12,6 @@
       :loading="loading"
       :options.sync="options"
       :server-items-length="serverItemsLength"
-      :footer-props="defaultFooterProps"
       @update:options="handleUpdateOptions"
       item-key="id"
       show-expand
@@ -41,21 +40,23 @@
         </td>
       </template>
 
-      <!-- <template v-slot:item.DateTimeCreated="{ item }">
-        <format-date :dateStr="item.DateTimeCreated"></format-date>
-      </template> -->
+      <template v-slot:item.DateTimeCreated="{ item }">
+        <span>{{ getIsoDate(item.DateTimeCreated) }}</span>
+      </template>
     </v-data-table>
   </v-card>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onActivated } from "@vue/composition-api";
+import { defineComponent, ref } from "@vue/composition-api";
 import IndustryApi from "./api";
 import { mapOptions } from "@/utils/datatable";
+import _ from "lodash";
+import moment from "moment";
+// import func from "vue-temp/vue-editor-bridge";
 
 export default defineComponent({
   name: "Orders",
-
   components: {
     // DatatableActionSlot: () => import("@/views/widget/datatable-action-slot.vue"),
     DatatableTopSlot: () => import("@/views/widget/datatable-top-slot.vue"),
@@ -65,90 +66,147 @@ export default defineComponent({
 
   setup() {
     const headers = ref([
-      { text: "Id", align: "start", sortable: false, value: "industryId" },
-      { text: "Name", value: "industryName" },
-      { text: "Description", value: "description" },
-      { text: null, value: "actions", sortable: false, align: "right" }
+      { text: "MDR#", sortable: false, align: "start", value: "MdrId" },
+      { text: "主廠", sortable: false, value: "DepotCode" },
+      { text: "主廠", sortable: false, value: "DepotName" },
+      { text: "StaffCodeBusCaptain", sortable: false, value: "StaffCodeBusCaptain" },
+      { text: "LicensePlate", sortable: false, value: "LicensePlate" },
+      { text: "RouteCode", sortable: false, value: "RouteCode" },
+      { text: "DateTimeCreated", sortable: false, value: "DateTimeCreated" }
     ]);
-    const options = ref({});
-    const dialogTitle = ref("");
-    const loading = ref(false);
-    const search = ref("");
-    const industries = ref([]);
-    const dialog = false;
-    const editedIndex = -1;
-    const editedItem = {
-      industryName: "",
-      industryId: "",
-      description: "",
-      status: 0
-    };
-    const defaultItem = {
-      industryName: "",
-      industryId: "",
-      description: "",
-      status: 0
-    };
 
-    function fetchIndustries() {
-      loading.value = true;
-      const dtOptions = mapOptions(options.value);
-      dtOptions["filter"] = search.value;
-      IndustryApi.datatable(dtOptions).then(({ data }) => {
-        industries.value = data.data || [];
-        loading.value = false;
-      });
+    const loading = ref(false);
+    const items = ref([]);
+    const item = ref({});
+    const filter = ref("");
+    const serverItemsLength = ref(0);
+    const dialogTitle = ref("");
+    const editedIndex = ref(-1);
+    const dialog = ref(false);
+    const editedItem = ref({
+      industryName: "",
+      industryId: "",
+      description: "",
+      status: 0
+    });
+    const defaultItem = ref({
+      industryName: "",
+      industryId: "",
+      description: "",
+      status: 0
+    });
+
+    const options = ref({
+      itemsPerPage: 10,
+      page: 1,
+      sortBy: "",
+      sortDesc: true
+    });
+    const expanded = ref([]);
+
+    const chips = ref(["Programming", "Playing video games", "Watching movies", "Sleeping"]);
+    const chipItems = ref(["Streaming", "Eating"]);
+
+    function handleRefresh() {
+      refreshData();
     }
 
-    onActivated(() => {
-      fetchIndustries();
-    });
+    function handleUpdateOptions(opt) {
+      const { page, itemsPerPage, sortBy, sortDesc } = opt;
+      setSortOptions(sortBy, sortDesc);
+      options.value.itemsPerPage = itemsPerPage;
+      options.value.page = page;
+      refreshData();
+    }
+
+    function sortParams() {
+      return _.zipWith(options.value.sortBy, options.value.sortDesc, function (by, isDesc) {
+        return isDesc ? by + "|desc" : by;
+      }).join(",");
+    }
+
+    function setSortOptions(sortBy, sortDesc) {
+      if (sortBy.length > 0 && options.value.sortBy != sortBy) {
+        options.value.sortBy = sortBy;
+      }
+      if (sortDesc.length > 0 && options.value.sortDesc != sortDesc) {
+        options.value.sortDesc = sortDesc;
+      } else if (sortBy.length <= 0) {
+        options.value.sortDesc = options.value.sortDesc ? false : true;
+        options.value.sortBy = sortBy;
+        options.value.sortDesc = sortDesc;
+      }
+    }
+
+    function getIsoDate(dateStr) {
+      return moment(dateStr).format("YYYY-MM-DD hh:mm");
+    }
+
+    function refreshData() {
+      sortParams();
+      fetchData();
+    }
+
+    async function fetchData() {
+      loading.value = true;
+      try {
+        const dtOptions = mapOptions(options.value);
+        dtOptions["filter"] = filter.value;
+        const response = await IndustryApi.fetchOngoing(dtOptions);
+        items.value = response.data["data"];
+        serverItemsLength.value = response.data["total"];
+      } catch (e) {
+        console.log("fetchDepots failed..", e);
+      } finally {
+        loading.value = false;
+      }
+    }
 
     function onCancelInput() {
       this.close();
     }
 
     function onUpdate(item) {
-      this.editedIndex = this.industries.indexOf(item);
-      this.editedItem = Object.assign({}, item);
-      this.dialog = true;
-      this.dialogTitle = "Edit Industry";
+      editedIndex.value = items.value.indexOf(item);
+      editedItem.value = Object.assign({}, item);
+      dialog.value = true;
+      dialogTitle.value = "Edit Industry";
     }
 
     function onSearch(value) {
-      this.search = value;
-      fetchIndustries();
+      filter.value = value;
+      refreshData();
     }
 
     function onAdd() {
-      this.editedIndex = -1;
-      this.dialog = true;
-      this.dialogTitle = "Add new";
+      editedIndex.value = -1;
+      dialog.value = true;
+      dialogTitle.value = "Add new";
     }
 
     async function onDelete(item) {
       await IndustryApi.delete(item.industryId);
-      this.industries.splice(this.industries.indexOf(item), 1);
+      items.value.splice(items.value.indexOf(item), 1);
     }
 
     function close() {
-      this.dialog = false;
+      dialog.value = false;
       this.$nextTick(() => {
-        this.editedItem = Object.assign({}, this.defaultItem);
-        this.editedIndex = -1;
+        editedItem.value = Object.assign({}, this.defaultItem);
+        editedIndex.value = -1;
       });
     }
 
     function onSaveInput() {
       loading.value = true;
       if (this.editedIndex > -1) {
-        IndustryApi.update(this.editedItem.industryId, this.editedItem).then(({ data }) => {
-          Object.assign(this.industries[this.editedIndex], data);
+        IndustryApi.update(editedItem.value.industryId, editedItem.value).then(({ data }) => {
+          Object.assign(items.value[editedIndex.value], data);
           loading.value = false;
         });
       } else {
-        IndustryApi.create(this.editedItem).then(({ data }) => {
-          this.industries.push(data);
+        IndustryApi.create(editedItem.value).then(({ data }) => {
+          items.value.push(data);
           loading.value = false;
         });
       }
@@ -157,23 +215,34 @@ export default defineComponent({
 
     return {
       headers,
-      search,
-      industries,
-      onSaveInput,
-      onDelete,
-      close,
-      onCancelInput,
-      onUpdate,
-      dialogTitle,
-      defaultItem,
-      dialog,
+      loading,
+      items,
+      item,
+      filter,
       editedIndex,
       editedItem,
-      onAdd,
-      onSearch,
-      loading,
+      defaultItem,
+      serverItemsLength,
+      dialogTitle,
       options,
-      fetchIndustries
+      dialog,
+      expanded,
+      chips,
+      chipItems,
+      getIsoDate,
+      handleRefresh,
+      handleUpdateOptions,
+      refreshData,
+      fetchData,
+      setSortOptions,
+      sortParams,
+      onCancelInput,
+      onUpdate,
+      onSearch,
+      onAdd,
+      onDelete,
+      close,
+      onSaveInput
     };
   }
 });
