@@ -44,7 +44,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onActivated, nextTick } from "@vue/composition-api";
+import { defineComponent, ref, onActivated } from "@vue/composition-api";
 import IndustryApi from "./api";
 import { mapOptions } from "@/utils/datatable";
 
@@ -57,7 +57,7 @@ export default defineComponent({
     IndustryInput: () => import("./industry-input.vue")
   },
 
-  setup() {
+  setup({ root: { $nextTick } }) {
     const headers = ref([
       { text: "Id", align: "start", sortable: false, value: "industryId" },
       { text: "Name", value: "industryName" },
@@ -126,11 +126,12 @@ export default defineComponent({
     async function onDelete(item) {
       await IndustryApi.delete(item.industryId);
       industries.value.splice(industries.value.indexOf(item), 1);
+      industriesTotLenght.value--;
     }
 
     function close() {
       dialog.value = false;
-      nextTick(() => {
+      $nextTick(() => {
         editedItem.value = Object.assign({}, defaultItem.value);
         editedIndex.value = -1;
       });
@@ -147,6 +148,7 @@ export default defineComponent({
         IndustryApi.create(editedItem.value).then(({ data }) => {
           industries.value.push(data);
           loading.value = false;
+          industriesTotLenght.value++;
         });
       }
       close();
