@@ -29,9 +29,10 @@ export default {
     tinymce: "Tinymce"
   },
   vuetify: "Vuetify UI",
-  vuetifyComponents: {
-    components: "Components",
-    alert: "Alert",
+  orders: "Orders",
+  ordersComponents: {
+    ongoing: "Ongoing",
+    completed: "Completed",
     avatar: "Avatars",
     badge: "Badges",
     buttons: "Buttons",

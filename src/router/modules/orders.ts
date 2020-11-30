@@ -2,13 +2,13 @@
 
 import Layout from "@/views/layout/the-layout.vue";
 
-const adminRouter = {
+const ordersRouter = {
   path: "/admin",
   component: Layout,
   redirect: "noredirect",
-  name: "VuetifyDemo",
+  name: "Admin",
   meta: {
-    title: "route.vuetify",
+    title: "route.orders",
     icon: "mdi-home"
   },
   children: [
@@ -16,15 +16,15 @@ const adminRouter = {
       path: "/orders",
       component: () => import("@/views/components/orders/index.vue"),
       name: "Grid",
-      meta: { title: "route.vuetifyComponents.grid", icon: "mdi-home", affix: true }
+      meta: { title: "route.ordersComponents.ongoing", icon: "mdi-home", affix: true }
     },
     {
       path: "completed",
       component: () => import("@/views/components/completed/index.vue"),
       name: "Typography",
-      meta: { title: "route.vuetifyComponents.typography", icon: "mdi-home", affix: true }
+      meta: { title: "route.ordersComponents.completed", icon: "mdi-home", affix: true }
     }
   ]
 };
 
-export default adminRouter;
+export default ordersRouter;

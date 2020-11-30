@@ -6,6 +6,7 @@ export default {
   products: "資訊中心",
   profile: "個人資料",
   followUp: "訂單跟進",
+  orders: "訂單管理",
   // pagePermission: 'Page Permission',
   // rolePermission: 'Role Permission',
   permissions: "权限",
@@ -28,11 +29,9 @@ export default {
     tinymce: "富文本编辑(Tinymce)"
   },
   vuetify: "Vuetify UI",
-  vuetifyComponents: {
-    /* There might be some different names of each component in this section,
-    so the original English name of each component is reserved. */
-    components: "组件/Components",
-    alert: "警告/Alert",
+  ordersComponents: {
+    ongoing: "跟進中訂單",
+    completed: "已完成訂單",
     avatar: "头像/Avatars",
     badge: "标徽/Badges",
     buttons: "按钮/Buttons",

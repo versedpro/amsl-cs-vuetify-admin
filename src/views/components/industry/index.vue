@@ -64,6 +64,7 @@ export default defineComponent({
       { text: "Description", value: "description" },
       { text: null, value: "actions", sortable: false, align: "right" }
     ]);
+
     const options = ref({});
     const dialogTitle = ref("");
     const loading = ref(false);
@@ -152,25 +153,25 @@ export default defineComponent({
     }
 
     return {
+      fetchIndustries,
+      industriesTotLenght,
       headers,
       search,
       industries,
       onSaveInput,
       onDelete,
       close,
-      onCancelInput,
-      onUpdate,
       dialogTitle,
       defaultItem,
       dialog,
       editedIndex,
       editedItem,
-      onAdd,
-      onSearch,
       loading,
-      options,
-      fetchIndustries,
-      industriesTotLenght
+      onAdd,
+      onCancelInput,
+      onSearch,
+      onUpdate,
+      options
     };
   }
 });
