@@ -8,7 +8,7 @@
       :loading="loading"
       :search="search"
       :headers="headers"
-      :server-items-length="industries.length"
+      :server-items-length="industriesTotLenght"
       :options.sync="options"
       @update:options="fetchIndustries"
       :items="industries"
@@ -44,7 +44,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onActivated } from "@vue/composition-api";
+import { defineComponent, ref, onActivated, nextTick } from "@vue/composition-api";
 import IndustryApi from "./api";
 import { mapOptions } from "@/utils/datatable";
 
@@ -69,20 +69,21 @@ export default defineComponent({
     const loading = ref(false);
     const search = ref("");
     const industries = ref([]);
-    const dialog = false;
-    const editedIndex = -1;
-    const editedItem = {
+    const industriesTotLenght = ref(0);
+    const dialog = ref(false);
+    const editedIndex = ref(-1);
+    const editedItem = ref({
       industryName: "",
       industryId: "",
       description: "",
       status: 0
-    };
-    const defaultItem = {
+    });
+    const defaultItem = ref({
       industryName: "",
       industryId: "",
       description: "",
       status: 0
-    };
+    });
 
     function fetchIndustries() {
       loading.value = true;
@@ -90,6 +91,7 @@ export default defineComponent({
       dtOptions["filter"] = search.value;
       IndustryApi.datatable(dtOptions).then(({ data }) => {
         industries.value = data.data || [];
+        industriesTotLenght.value = data.total;
         loading.value = false;
       });
     }
@@ -99,54 +101,54 @@ export default defineComponent({
     });
 
     function onCancelInput() {
-      this.close();
+      close();
     }
 
     function onUpdate(item) {
-      this.editedIndex = this.industries.indexOf(item);
-      this.editedItem = Object.assign({}, item);
-      this.dialog = true;
-      this.dialogTitle = "Edit Industry";
+      editedIndex.value = industries.value.indexOf(item);
+      editedItem.value = Object.assign({}, item);
+      dialog.value = true;
+      dialogTitle.value = "Edit Industry";
     }
 
     function onSearch(value) {
-      this.search = value;
+      search.value = value;
       fetchIndustries();
     }
 
     function onAdd() {
-      this.editedIndex = -1;
-      this.dialog = true;
-      this.dialogTitle = "Add new";
+      editedIndex.value = -1;
+      dialog.value = true;
+      dialogTitle.value = "Add new";
     }
 
     async function onDelete(item) {
       await IndustryApi.delete(item.industryId);
-      this.industries.splice(this.industries.indexOf(item), 1);
+      industries.value.splice(industries.value.indexOf(item), 1);
     }
 
     function close() {
-      this.dialog = false;
-      this.$nextTick(() => {
-        this.editedItem = Object.assign({}, this.defaultItem);
-        this.editedIndex = -1;
+      dialog.value = false;
+      nextTick(() => {
+        editedItem.value = Object.assign({}, defaultItem.value);
+        editedIndex.value = -1;
       });
     }
 
     function onSaveInput() {
       loading.value = true;
-      if (this.editedIndex > -1) {
-        IndustryApi.update(this.editedItem.industryId, this.editedItem).then(({ data }) => {
-          Object.assign(this.industries[this.editedIndex], data);
+      if (editedIndex.value > -1) {
+        IndustryApi.update(editedItem.value.industryId, editedItem.value).then(({ data }) => {
+          Object.assign(industries.value[editedIndex.value], data);
           loading.value = false;
         });
       } else {
-        IndustryApi.create(this.editedItem).then(({ data }) => {
-          this.industries.push(data);
+        IndustryApi.create(editedItem.value).then(({ data }) => {
+          industries.value.push(data);
           loading.value = false;
         });
       }
-      this.close();
+      close();
     }
 
     return {
@@ -167,7 +169,8 @@ export default defineComponent({
       onSearch,
       loading,
       options,
-      fetchIndustries
+      fetchIndustries,
+      industriesTotLenght
     };
   }
 });
