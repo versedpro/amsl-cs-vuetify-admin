@@ -24,6 +24,40 @@ const authRouter = [
     component: Layout,
     children: [
       {
+        path: "/orders",
+        component: () => import("@/views/components/orders/index.vue"),
+        name: "Orders",
+        meta: {
+          title: "route.orders",
+          icon: "mdi-text-subject",
+          noCache: true,
+          affix: true
+        }
+      }
+    ]
+  },
+  {
+    path: "/",
+    component: Layout,
+    children: [
+      {
+        path: "/completed",
+        component: () => import("@/views/components/completed/index.vue"),
+        name: "Completed",
+        meta: {
+          title: "route.completed",
+          icon: "mdi-text-subject",
+          noCache: true,
+          affix: true
+        }
+      }
+    ]
+  },
+  {
+    path: "/",
+    component: Layout,
+    children: [
+      {
         path: "/industry",
         component: () => import("@/views/components/industry/index.vue"),
         name: "Industry",
@@ -41,11 +75,11 @@ const authRouter = [
     component: Layout,
     children: [
       {
-        path: "/industry/list",
-        component: () => import("@/views/components/industry/list.vue"),
-        name: "Industry",
+        path: "/products",
+        component: () => import("@/views/components/products/index.vue"),
+        name: "Products",
         meta: {
-          title: "route.industry.list",
+          title: "route.products",
           icon: "mdi-text-subject",
           noCache: true,
           affix: true

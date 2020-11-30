@@ -17,7 +17,7 @@
 
     <localization class="ml-4" />
 
-    <notification />
+    <!-- <notification /> -->
 
     <v-btn class="ml-2" icon color="gold" @click="logout">
       <v-icon>mdi-logout</v-icon>
@@ -29,7 +29,7 @@
 import Breadcrumbs from "../widget/app-breadcrumbs.vue";
 import FullScreen from "../widget/app-fullscreen.vue";
 import Localization from "../widget/app-localization.vue";
-import Notification from "../widget/app-notification.vue";
+// import Notification from "../widget/app-notification.vue";
 import { defineComponent, computed } from "@vue/composition-api";
 
 export default defineComponent({
@@ -38,8 +38,8 @@ export default defineComponent({
     Breadcrumbs,
     // ErrorLog,
     FullScreen,
-    Localization,
-    Notification
+    Localization
+    // Notification
     // Profile
   },
 
