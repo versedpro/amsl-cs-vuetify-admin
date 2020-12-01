@@ -13,7 +13,7 @@ import store from "./store";
 import "./router/permission";
 import "./registerServiceWorker";
 
-import axios from 'axios'
+import axios from "axios";
 // axios.defaults.baseURL = 'http://referlo.azurewebsites.net';
 axios.defaults.baseURL = "https://sunbus-mdr.azurewebsites.net";
 import CompositionAPI from "@vue/composition-api";
@@ -26,5 +26,5 @@ new Vue({
   store,
   i18n,
   vuetify,
-  render: h => h(App)
+  render: (h) => h(App)
 }).$mount("#app");

@@ -9,19 +9,19 @@ const ordersRouter = {
   name: "Admin",
   meta: {
     title: "route.orders",
-    icon: "mdi-home"
+    icon: "mdi-cart"
   },
   children: [
     {
       path: "/orders",
       component: () => import("@/views/components/orders/index.vue"),
-      name: "Grid",
+      name: "Ongoing",
       meta: { title: "route.ordersComponents.ongoing", icon: "mdi-home", affix: true }
     },
     {
       path: "completed",
-      component: () => import("@/views/components/completed/index.vue"),
-      name: "Typography",
+      component: () => import("@/views/components/orders/index.vue"),
+      name: "Completed",
       meta: { title: "route.ordersComponents.completed", icon: "mdi-home", affix: true }
     }
   ]

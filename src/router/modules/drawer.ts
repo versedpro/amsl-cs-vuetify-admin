@@ -1,6 +1,6 @@
 import Layout from "@/views/layout/the-layout.vue";
 
-const authRouter = [
+const drawerRouter = [
   {
     path: "/",
     component: Layout,
@@ -12,7 +12,7 @@ const authRouter = [
         name: "Home",
         meta: {
           title: "route.home",
-          icon: "mdi-home",
+          icon: "mdi-chart-line",
           noCache: true,
           affix: true
         }
@@ -24,92 +24,19 @@ const authRouter = [
     component: Layout,
     children: [
       {
-        path: "/orders",
-        component: () => import("@/views/components/orders/index.vue"),
-        name: "Orders",
+        path: "/home",
+        alias: "/",
+        component: () => import("@/views/components/home/index.vue"),
+        name: "Referlo",
         meta: {
-          title: "route.orders",
-          icon: "mdi-text-subject",
-          noCache: true,
-          affix: true
-        }
-      }
-    ]
-  },
-  {
-    path: "/",
-    component: Layout,
-    children: [
-      {
-        path: "/completed",
-        component: () => import("@/views/components/completed/index.vue"),
-        name: "Completed",
-        meta: {
-          title: "route.completed",
-          icon: "mdi-text-subject",
-          noCache: true,
-          affix: true
-        }
-      }
-    ]
-  },
-  {
-    path: "/",
-    component: Layout,
-    meta: {
-      title: "route.table",
-      icon: "mdi-text-subject",
-      noCache: true,
-      affix: true
-    },
-    children: [
-      {
-        path: "/industry",
-        component: () => import("@/views/components/industry/index.vue"),
-        name: "Industry",
-        meta: {
-          title: "route.industry",
-          icon: "mdi-text-subject",
-          noCache: true,
-          affix: true
-        }
-      },
-      {
-        path: "/products",
-        component: () => import("@/views/components/products/index.vue"),
-        name: "Products",
-        meta: {
-          title: "route.products",
-          icon: "mdi-text-subject",
-          noCache: true,
-          affix: true
-        }
-      },
-      {
-        path: "/supplier",
-        component: () => import("@/views/components/supplier/index.vue"),
-        name: "Supplier",
-        meta: {
-          title: "route.supplier",
-          icon: "mdi-text-subject",
+          title: "route.referlo",
+          icon: "mdi-account-multiple-plus",
           noCache: true,
           affix: true
         }
       }
     ]
   }
-  // {
-  //   path: "/",
-  //   component: Layout,
-  //   children: [
-  //     {
-  //       path: "/profile",
-  //       component: () => import("@/views/components/profile.vue"),
-  //       name: "Profile",
-  //       meta: { title: "route.profile", icon: "mdi-translate" }
-  //     }
-  //   ]
-  // }
 ];
 
-export default authRouter;
+export default drawerRouter;

@@ -2,9 +2,14 @@ import Vue from "vue";
 import Router from "vue-router";
 
 /* Router Modules */
-import ordersRouter from "./modules/orders";
 import authRouter from "./modules/auth";
 import drawerRouter from "./modules/drawer";
+
+import dbRouter from "./modules/db";
+
+import moreRouter from "./modules/more";
+import ordersRouter from "./modules/orders";
+import promotionRouter from "./modules/promotion";
 
 Vue.use(Router);
 
@@ -52,7 +57,10 @@ export default new Router({
 });
 
 export const asyncRoutes = [
+  promotionRouter,
   ordersRouter,
+  dbRouter,
+  moreRouter,
   /** When your routing table is too long, you can split it into small modules */
   { path: "*", redirect: "/error/404", meta: { hidden: true } }
 ];
