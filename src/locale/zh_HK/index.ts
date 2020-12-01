@@ -60,6 +60,10 @@ export default {
     404: "页面未找到",
     500: "内部服务器错误"
   },
+  input: {
+    cancel: "Cancel",
+    save: "Save"
+  },
   guide: {
     description:
       "引导页对于第一次进入项目的人来说是很有用的. 你可以简单的介绍一下项目的特性. Demo是基于",
