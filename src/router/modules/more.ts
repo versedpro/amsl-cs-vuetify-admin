@@ -13,9 +13,9 @@ const moreRouter = {
   },
   children: [
     {
-      path: "/industry",
-      component: () => import("@/views/components/industry/index.vue"),
-      name: "Industry",
+      path: "/privacy",
+      component: () => import("@/views/components/more/privacy.vue"),
+      name: "Privacy",
       meta: {
         title: "route.privacy",
         icon: "mdi-text-subject",
@@ -24,9 +24,9 @@ const moreRouter = {
       }
     },
     {
-      path: "/industry",
-      component: () => import("@/views/components/industry/index.vue"),
-      name: "Industry",
+      path: "/terms",
+      component: () => import("@/views/components/more/terms.vue"),
+      name: "Terms",
       meta: {
         title: "route.terms",
         icon: "mdi-text-subject",
@@ -35,9 +35,9 @@ const moreRouter = {
       }
     },
     {
-      path: "/supplier",
-      component: () => import("@/views/components/supplier/index.vue"),
-      name: "Supplier",
+      path: "/setting",
+      component: () => import("@/views/components/more/setting.vue"),
+      name: "Setting",
       meta: {
         title: "route.setting",
         icon: "mdi-text-subject",
