@@ -17,7 +17,7 @@
             <v-container>
               <v-row>
                 <v-col cols="12" sm="6" md="4">
-                  <validation-provider name="id" rules="required" v-slot="{ errors }">
+                  <validation-provider name="Id" rules="required" v-slot="{ errors }">
                     <v-text-field
                       :value="item.productId"
                       @input="handleChange('productId', $event)"
@@ -27,12 +27,62 @@
                   </validation-provider>
                 </v-col>
                 <v-col cols="12" sm="6" md="4">
-                  <validation-provider name="id" rules="required" v-slot="{ errors }">
+                  <validation-provider name="Product Name" rules="required" v-slot="{ errors }">
                     <v-text-field
                       :value="item.productName"
                       @input="handleChange('productName', $event)"
                       :error-messages="errors"
                       label="Name"
+                    ></v-text-field>
+                  </validation-provider>
+                </v-col>
+                <v-col cols="12" sm="6" md="4">
+                  <validation-provider name="Product Localized"  v-slot="{ errors }">
+                    <v-text-field
+                      :value="item.productLocalized"
+                      @input="handleChange('productLocalized', $event)"
+                      :error-messages="errors"
+                      label="Product Localized"
+                    ></v-text-field>
+                  </validation-provider>
+                </v-col>
+                <v-col cols="12" sm="6" md="4">
+                  <validation-provider name="Status Flag"  v-slot="{ errors }">
+                    <v-text-field
+                      :value="item.statusFlag"
+                      @input="handleChange('statusFlag', $event)"
+                      :error-messages="errors"
+                      label="Status Flag"
+                    ></v-text-field>
+                  </validation-provider>
+                </v-col>
+                <v-col cols="12" sm="6" md="4">
+                  <validation-provider name="Meta"  v-slot="{ errors }">
+                    <v-text-field
+                      :value="item.meta"
+                      @input="handleChange('meta', $event)"
+                      :error-messages="errors"
+                      label="Meta"
+                    ></v-text-field>
+                  </validation-provider>
+                </v-col>
+                <v-col cols="12" sm="6" md="4">
+                  <validation-provider name="Points"  v-slot="{ errors }">
+                    <v-text-field
+                      :value="item.points"
+                      @input="handleChange('points', $event)"
+                      :error-messages="errors"
+                      label="Points"
+                    ></v-text-field>
+                  </validation-provider>
+                </v-col>
+                <v-col cols="12" sm="6" md="4">
+                  <validation-provider name="Created Timestamp"  rules="required"  v-slot="{ errors }">
+                    <v-text-field
+                      :value="item.createdTimestamp"
+                      @input="handleChange('createdTimestamp', $event)"
+                      :error-messages="errors"
+                      label="Created Timestamp"
                     ></v-text-field>
                   </validation-provider>
                 </v-col>

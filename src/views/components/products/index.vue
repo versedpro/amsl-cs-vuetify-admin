@@ -29,15 +29,22 @@
           @on-cancel-input="onCancelInput"
           @on-save-input="onSaveInput"
         ></product-input>
+        <delete-product
+          :show="dialogDelete"
+          :itemID="itemIdToDelete"
+          @on-delete="(id) => onDeleteItem(id)"
+          @on-cancel-delete="onCancelDelete"
+        ></delete-product>
       </template>
 
       <!-- Action Slot -->
       <template v-slot:[`item.actions`]="{ item }">
         <datatable-action-slot
           @on-update="onUpdate(item)"
-          @on-delete="onDelete(item)"
+          @on-delete="onDelete(item.productId)"
           class="gold--text"
-        ></datatable-action-slot>
+        >
+        </datatable-action-slot>
       </template>
     </v-data-table>
   </v-card>
@@ -47,6 +54,7 @@
 import { defineComponent, ref, onActivated } from "@vue/composition-api";
 import ProductApi from "./api";
 import { mapOptions } from "@/utils/datatable";
+import DeleteProduct from "./delete-product.vue";
 
 export default defineComponent({
   name: "Product",
@@ -54,7 +62,8 @@ export default defineComponent({
   components: {
     ProductInput: () => import("./product-input.vue"),
     DatatableActionSlot: () => import("@/views/widget/datatable-action-slot.vue"),
-    DatatableTopSlot: () => import("@/views/widget/datatable-top-slot.vue")
+    DatatableTopSlot: () => import("@/views/widget/datatable-top-slot.vue"),
+    DeleteProduct: () => import("./delete-product.vue")
   },
 
   setup(_, { root: { $nextTick } }) {
@@ -72,7 +81,9 @@ export default defineComponent({
     const itemsPerPage = ref(4);
     const products = ref([]);
     const dialog = ref(false);
+    const dialogDelete = ref(false);
     const editedIndex = ref(-1);
+    const itemIdToDelete = ref(0);
     const editedItem = ref({
       productName: "",
       productId: ""
@@ -107,18 +118,30 @@ export default defineComponent({
       editedIndex.value = products.value.indexOf(item);
       editedItem.value = Object.assign({}, item);
       dialog.value = true;
-      dialogTitle.value = "Edit Industry";
+      dialogTitle.value = "Edit Product";
     }
 
-    async function onDelete(item) {
-      await ProductApi.delete(item.productId);
-      products.value.splice(products.value.indexOf(item), 1);
-      totalProducts.value--;
+    function onDeleteItem(id) {
+      ProductApi.delete(id).then(() => {
+        products.value.splice(products.value.findIndex(x => x.productId == id), 1);
+        totalProducts.value--;
+        dialogDelete.value = false;
+      });
+    }
+
+    function onDelete(id) {
+      itemIdToDelete.value = id;
+      dialogDelete.value = true;
     }
 
     function onSearch(value) {
       search.value = value;
       fetchProducts();
+    }
+
+    function onCancelDelete() {
+      itemIdToDelete.value = 0;
+      dialogDelete.value = false;
     }
 
     function close() {
@@ -133,7 +156,7 @@ export default defineComponent({
       dialog.value = false;
       if (editedIndex.value > -1) {
         ProductApi.update(editedItem.value.productId, editedItem.value).then(({ data }) => {
-          Object.assign(products.value[editedIndex.value], data);
+          fetchProducts();
         });
       } else {
         ProductApi.create(editedItem.value).then(({ data }) => {
@@ -153,7 +176,9 @@ export default defineComponent({
       itemsPerPage,
       onAdd,
       dialog,
+      dialogDelete,
       editedItem,
+      itemIdToDelete,
       dialogTitle,
       loading,
       onDelete,
@@ -166,7 +191,9 @@ export default defineComponent({
       headers,
       options,
       onCancelInput,
-      onSaveInput
+      onSaveInput,
+      onCancelDelete,
+      onDeleteItem
     };
   }
 });

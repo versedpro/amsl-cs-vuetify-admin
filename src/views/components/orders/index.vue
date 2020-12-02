@@ -34,9 +34,9 @@
         ></industry-input>
       </template>
 
-      <template v-slot:expanded-item="{ item , headers }">
+      <template v-slot:expanded-item="{ item , headers }"  >
         <td :colspan="headers.length" class="orange lighten-5 pa-0">
-          <expanded-data-table :item="{item}"></expanded-data-table>
+          <expanded-data-table  :item="item"></expanded-data-table>
         </td>
       </template>
 
@@ -171,7 +171,7 @@ export default defineComponent({
       editedIndex.value = items.value.indexOf(item);
       editedItem.value = Object.assign({}, item);
       dialog.value = true;
-      dialogTitle.value = "Edit Industry";
+      dialogTitle.value = "Edit Order";
     }
 
     function onSearch(value) {

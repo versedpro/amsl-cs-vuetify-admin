@@ -1,178 +1,199 @@
 <template>
-  <v-card class="red">
-    <v-card-title>Suppliers</v-card-title>
+  <v-card height="calc(100vh - 50px)" class="pa-4" elevation="0">
+    <v-alert border="bottom" dense class="pa-4 ma-0 primary rounded-b-0">
+      <p class="ma-0 gold--text text-center text-uppercase">Suppliers</p>
+    </v-alert>
 
-    <v-window v-model="window">
-      <v-window-item>
-        <v-data-table
-          class="elevation-1"
-          :headers="headers"
-          :items="industries"
-          :loading="loading"
-          :server-items-length="serverItemsLength"
-          @update:options="handleUpdateOptions"
+    <v-data-table
+      :loading="loading"
+      :search="search"
+      :server-items-length="totalSuppliers"
+      :options.sync="options"
+      @update:options="fetchSupplier"
+      :headers="headers"
+      :items="suppliers"
+      :items-per-page="5"
+      class="elevation-1"
+    >
+      <!-- Top Slot -->
+      <template v-slot:top>
+        <datatable-top-slot
+          @on-search="onSearch($event)"
+          @on-item-add="onAdd()"
+        ></datatable-top-slot>
+        <supplier-input
+          :show="dialog"
+          :item="editedItem"
+          :title="dialogTitle"
+          @on-item-changed="(key, value) => (editedItem[key] = value)"
+          @on-cancel-input="onCancelInput"
+          @on-save-input="onSaveInput"
+        ></supplier-input>
+        <delete-supplier
+          :show="dialogDelete"
+          :itemID="itemIdToDelete"
+          @on-delete="(id) => onDeleteItem(id)"
+          @on-cancel-delete="onCancelDelete"
+        ></delete-supplier>
+      </template>
+
+      <!-- Action Slot -->
+      <template v-slot:[`item.actions`]="{ item }">
+        <datatable-action-slot
+          @on-update="onUpdate(item)"
+          @on-delete="onDelete(item.supplierId)"
+          class="gold--text"
         >
-          <!-- Top Slot -->
-          <template v-slot:top>
-            <datatable-top-slot @on-item-add="addItem()"></datatable-top-slot>
-
-            <supplier-input
-              :show="dialog"
-              :item="editedItem"
-              :title="dialogTitle"
-              @on-item-changed="
-                (key, value) => {
-                  editedItem[key] = value;
-                }
-              "
-              @on-cancel-input="onCancelInput"
-              @on-save-input="onSaveInput"
-            ></supplier-input>
-          </template>
-
-          <!-- Action Slot -->
-          <template v-slot:[`item.actions`]="{ item }">
-            <datatable-action-slot
-              @on-update="onUpdate(item)"
-              @on-delete="onDelete(item)"
-            ></datatable-action-slot>
-          </template>
-        </v-data-table>
-      </v-window-item>
-
-      <v-window-item>
-        <v-card-text> hello </v-card-text>
-      </v-window-item>
-    </v-window>
+        </datatable-action-slot>
+      </template>
+    </v-data-table>
   </v-card>
 </template>
 
 <script lang="ts">
+import { defineComponent, ref, onActivated } from "@vue/composition-api";
 import SupplierApi from "./api";
-import { defineComponent, ref } from "@vue/composition-api";
+import { mapOptions } from "@/utils/datatable";
+import DeleteSupplier from "./delete-supplier.vue";
 
 export default defineComponent({
-  name: "Supplier",
+  name: "Product",
 
   components: {
+    SupplierInput: () => import("./supplier-input.vue"),
     DatatableActionSlot: () => import("@/views/widget/datatable-action-slot.vue"),
     DatatableTopSlot: () => import("@/views/widget/datatable-top-slot.vue"),
-    SupplierInput: () => import("./supplier-input.vue")
+    DeleteSupplier: () => import("./delete-supplier.vue")
   },
 
-  setup() {
-    const industries = ref([]);
-    const serverItemsLength = ref(0);
-    const dialogTitle = ref("");
-    const loading = ref(false);
-    const dialog = ref(false);
-    const editedIndex = ref(-1);
-    const deletedIndex = ref(-1);
-    const window = ref(0);
-    const editedItem = {
-      supplierName: "",
-      supplierId: "",
-      title: ""
-    };
-    const defaultItem = {
-      supplierName: "",
-      supplierId: "",
-      title: ""
-    };
-
+  setup(_, { root: { $nextTick } }) {
     const headers = ref([
-      {
-        text: "Id",
-        align: "start",
-        sortable: false,
-        value: "industryId"
-      },
-      { text: "Name", value: "industryName" },
+      { text: "Id", align: "start", sortable: false, value: "supplierId" },
+      { text: "Name", value: "supplierName" },
+      { text: "Created", value: "createdTimestamp" },
       { text: null, value: "actions", sortable: false, align: "right" }
     ]);
 
-    function fetchIndustries(page, itemsPerPage) {
-      loading.value = true;
-      SupplierApi.datatable("", page, itemsPerPage, "").then((response) => {
-        industries.value = response["data"]["data"];
-        serverItemsLength.value = response["data"]["total"];
-      });
-      loading.value = false;
+    const options = ref({});
+    const totalSuppliers = ref(0);
+    const loading = ref(false);
+    const search = ref("");
+    const itemsPerPage = ref(4);
+    const suppliers = ref([]);
+    const dialog = ref(false);
+    const dialogDelete = ref(false);
+    const editedIndex = ref(-1);
+    const itemIdToDelete = ref(0);
+    const editedItem = ref({
+      supplierName: "",
+      supplierId: ""
+    });
+    const defaultItem = ref({
+      supplierName: "",
+      supplierId: ""
+    });
+    const dialogTitle = ref("");
+
+    function onAdd() {
+      dialogTitle.value = "Add new";
+      dialog.value = true;
     }
+
+    function fetchSupplier() {
+      loading.value = true;
+      const dtOptions = mapOptions(options.value);
+      dtOptions["filter"] = search.value;
+      SupplierApi.datatable(dtOptions).then(({ data }) => {
+        suppliers.value = data.data || [];
+        totalSuppliers.value = data.total;
+        loading.value = false;
+      });
+    }
+
+    onActivated(() => {
+      fetchSupplier();
+    });
 
     function onUpdate(item) {
-      editedIndex.value = industries.value.indexOf(item);
-      this.editedItem = Object.assign({}, item);
+      editedIndex.value = suppliers.value.indexOf(item);
+      editedItem.value = Object.assign({}, item);
       dialog.value = true;
-      this.dialogTitle = "Edit Supplier";
+      dialogTitle.value = "Edit Product";
     }
 
-    function onDelete(item) {
-      const index = this.industries.indexOf(item);
-      this.industries.splice(index, 1);
-      SupplierApi.delete(item.supplierId);
+    function onDeleteItem(id) {
+      SupplierApi.delete(id).then(() => {
+        suppliers.value.splice(suppliers.value.findIndex(x => x.supplierId == id), 1);
+        totalSuppliers.value--;
+        dialogDelete.value = false;
+      });
     }
 
-    function onCancelInput() {
+    function onDelete(id) {
+      itemIdToDelete.value = id;
+      dialogDelete.value = true;
+    }
+
+    function onSearch(value) {
+      search.value = value;
+      fetchSupplier();
+    }
+
+    function onCancelDelete() {
+      itemIdToDelete.value = 0;
+      dialogDelete.value = false;
+    }
+
+    function close() {
       dialog.value = false;
-      this.$nextTick(() => {
-        this.editedItem = Object.assign({}, this.defaultItem);
-        this.editedIndex = -1;
+      $nextTick(() => {
+        editedItem.value = Object.assign({}, defaultItem.value);
+        editedIndex.value = -1;
       });
     }
 
     function onSaveInput() {
       dialog.value = false;
-      loading.value = true;
-      this.$nextTick(() => {
-        this.editedItem = Object.assign({}, this.defaultItem);
-        this.editedIndex = -1;
-      });
-      if (this.editedIndex > -1) {
-        Object.assign(this.industries[this.editedIndex], this.editedItem);
-        SupplierApi.update(this.editedItem.supplierId, this.editedItem).then(({ data }) => {
-          Object.assign(this.industries[this.editedIndex], data);
-          loading.value = false;
+      if (editedIndex.value > -1) {
+        SupplierApi.update(editedItem.value.supplierId, editedItem.value).then(({ data }) => {
+          fetchSupplier();
         });
       } else {
-        SupplierApi.create(this.editedItem).then(({ data }) => {
-          this.industries.push(data);
-          loading.value = false;
+        SupplierApi.create(editedItem.value).then(({ data }) => {
+          suppliers.value.push(data);
+          totalSuppliers.value--;
         });
       }
+
+      close();
     }
 
-    function addItem() {
-      window.value = 1;
-      // this.editedIndex = -1;
-      // this.dialog = true;
-      // this.dialogTitle = "Add new";
-    }
-
-    function handleUpdateOptions(opt) {
-      const { page, itemsPerPage } = opt;
-      fetchIndustries(page, itemsPerPage);
+    function onCancelInput() {
+      close();
     }
 
     return {
-      industries,
-      serverItemsLength,
-      headers,
-      onUpdate,
-      onDelete,
-      onCancelInput,
-      onSaveInput,
+      itemsPerPage,
+      onAdd,
       dialog,
-      editedIndex,
+      dialogDelete,
       editedItem,
-      addItem,
-      deletedIndex,
-      defaultItem,
+      itemIdToDelete,
       dialogTitle,
       loading,
-      handleUpdateOptions,
-      fetchIndustries,
-      window
+      onDelete,
+      onUpdate,
+      onSearch,
+      search,
+      suppliers,
+      fetchSupplier,
+      totalSuppliers,
+      headers,
+      options,
+      onCancelInput,
+      onSaveInput,
+      onCancelDelete,
+      onDeleteItem
     };
   }
 });
