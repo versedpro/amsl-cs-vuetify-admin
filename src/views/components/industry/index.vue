@@ -1,16 +1,16 @@
 <template>
   <v-card height="calc(100vh - 50px)" class="pa-4" elevation="0">
-    <v-alert border="bottom" dense class="pa-4 ma-0 primary rounded-b-0"
-      ><p class="ma-0 gold--text text-center text-uppercase">INDUSTRIES</p>
+    <v-alert border="bottom" dense class="pa-4 ma-0 primary rounded-b-0">
+      <p class="ma-0 gold--text text-center text-uppercase">INDUSTRIES</p>
     </v-alert>
 
     <v-data-table
       :loading="loading"
       :search="search"
-      :headers="headers"
-      :server-items-length="industriesTotLenght"
+      :server-items-length="totalIndustries"
       :options.sync="options"
       @update:options="fetchIndustries"
+      :headers="headers"
       :items="industries"
       :items-per-page="5"
       class="elevation-1"
@@ -29,15 +29,22 @@
           @on-cancel-input="onCancelInput"
           @on-save-input="onSaveInput"
         ></industry-input>
+        <delete-industry
+          :show="dialogDelete"
+          :itemID="itemIdToDelete"
+          @on-delete="(id) => onDeleteItem(id)"
+          @on-cancel-delete="onCancelDelete"
+        ></delete-industry>
       </template>
 
       <!-- Action Slot -->
       <template v-slot:[`item.actions`]="{ item }">
         <datatable-action-slot
           @on-update="onUpdate(item)"
-          @on-delete="onDelete(item)"
+          @on-delete="onDelete(item.industryId)"
           class="gold--text"
-        ></datatable-action-slot>
+        >
+        </datatable-action-slot>
       </template>
     </v-data-table>
   </v-card>
@@ -47,44 +54,50 @@
 import { defineComponent, ref, onActivated } from "@vue/composition-api";
 import IndustryApi from "./api";
 import { mapOptions } from "@/utils/datatable";
+import DeleteIndustry from "./delete-industry.vue";
 
 export default defineComponent({
   name: "Industry",
 
   components: {
+    IndustryInput: () => import("./industry-input.vue"),
     DatatableActionSlot: () => import("@/views/widget/datatable-action-slot.vue"),
     DatatableTopSlot: () => import("@/views/widget/datatable-top-slot.vue"),
-    IndustryInput: () => import("./industry-input.vue")
+    DeleteIndustry: () => import("./delete-industry.vue")
   },
 
-  setup({ root: { $nextTick } }) {
+  setup(_, { root: { $nextTick } }) {
     const headers = ref([
       { text: "Id", align: "start", sortable: false, value: "industryId" },
       { text: "Name", value: "industryName" },
-      { text: "Description", value: "description" },
+      { text: "Created", value: "createdTimestamp" },
       { text: null, value: "actions", sortable: false, align: "right" }
     ]);
 
     const options = ref({});
-    const dialogTitle = ref("");
+    const totalIndustries = ref(0);
     const loading = ref(false);
     const search = ref("");
+    const itemsPerPage = ref(4);
     const industries = ref([]);
-    const industriesTotLenght = ref(0);
     const dialog = ref(false);
+    const dialogDelete = ref(false);
     const editedIndex = ref(-1);
+    const itemIdToDelete = ref(0);
     const editedItem = ref({
       industryName: "",
-      industryId: "",
-      description: "",
-      status: 0
+      industryId: ""
     });
     const defaultItem = ref({
       industryName: "",
-      industryId: "",
-      description: "",
-      status: 0
+      industryId: ""
     });
+    const dialogTitle = ref("");
+
+    function onAdd() {
+      dialogTitle.value = "Add new";
+      dialog.value = true;
+    }
 
     function fetchIndustries() {
       loading.value = true;
@@ -92,7 +105,7 @@ export default defineComponent({
       dtOptions["filter"] = search.value;
       IndustryApi.datatable(dtOptions).then(({ data }) => {
         industries.value = data.data || [];
-        industriesTotLenght.value = data.total;
+        totalIndustries.value = data.total;
         loading.value = false;
       });
     }
@@ -101,15 +114,24 @@ export default defineComponent({
       fetchIndustries();
     });
 
-    function onCancelInput() {
-      close();
-    }
-
     function onUpdate(item) {
       editedIndex.value = industries.value.indexOf(item);
       editedItem.value = Object.assign({}, item);
       dialog.value = true;
-      dialogTitle.value = "Edit Industry";
+      dialogTitle.value = "Edit Product";
+    }
+
+    function onDeleteItem(id) {
+      IndustryApi.delete(id).then(() => {
+        industries.value.splice(industries.value.findIndex(x => x.productId == id), 1);
+        totalIndustries.value--;
+        dialogDelete.value = false;
+      });
+    }
+
+    function onDelete(id) {
+      itemIdToDelete.value = id;
+      dialogDelete.value = true;
     }
 
     function onSearch(value) {
@@ -117,16 +139,9 @@ export default defineComponent({
       fetchIndustries();
     }
 
-    function onAdd() {
-      editedIndex.value = -1;
-      dialog.value = true;
-      dialogTitle.value = "Add new";
-    }
-
-    async function onDelete(item) {
-      await IndustryApi.delete(item.industryId);
-      industries.value.splice(industries.value.indexOf(item), 1);
-      industriesTotLenght.value--;
+    function onCancelDelete() {
+      itemIdToDelete.value = 0;
+      dialogDelete.value = false;
     }
 
     function close() {
@@ -138,42 +153,47 @@ export default defineComponent({
     }
 
     function onSaveInput() {
-      loading.value = true;
+      dialog.value = false;
       if (editedIndex.value > -1) {
         IndustryApi.update(editedItem.value.industryId, editedItem.value).then(({ data }) => {
-          Object.assign(industries.value[editedIndex.value], data);
-          loading.value = false;
+          fetchIndustries();
         });
       } else {
         IndustryApi.create(editedItem.value).then(({ data }) => {
           industries.value.push(data);
-          loading.value = false;
-          industriesTotLenght.value++;
+          totalIndustries.value--;
         });
       }
+
+      close();
+    }
+
+    function onCancelInput() {
       close();
     }
 
     return {
-      fetchIndustries,
-      industriesTotLenght,
-      headers,
+      itemsPerPage,
+      onAdd,
+      dialog,
+      dialogDelete,
+      editedItem,
+      itemIdToDelete,
+      dialogTitle,
+      loading,
+      onDelete,
+      onUpdate,
+      onSearch,
       search,
       industries,
-      onSaveInput,
-      onDelete,
-      close,
-      dialogTitle,
-      defaultItem,
-      dialog,
-      editedIndex,
-      editedItem,
-      loading,
-      onAdd,
+      fetchIndustries,
+      totalIndustries,
+      headers,
+      options,
       onCancelInput,
-      onSearch,
-      onUpdate,
-      options
+      onSaveInput,
+      onCancelDelete,
+      onDeleteItem
     };
   }
 });
