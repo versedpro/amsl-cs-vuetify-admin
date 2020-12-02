@@ -14,8 +14,8 @@ import "./router/permission";
 import "./registerServiceWorker";
 
 import axios from "axios";
-// axios.defaults.baseURL = 'http://referlo.azurewebsites.net';
-axios.defaults.baseURL = "https://sunbus-mdr.azurewebsites.net";
+axios.defaults.baseURL = process.env.VUE_APP_API_URL;
+
 import CompositionAPI from "@vue/composition-api";
 
 Vue.use(CompositionAPI);
