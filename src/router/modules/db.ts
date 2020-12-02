@@ -44,6 +44,17 @@ const dbRouter = {
         noCache: true,
         affix: true
       }
+    },
+    {
+      path: "/supplierProducts",
+      component: () => import("@/views/components/supplierProducts/index.vue"),
+      name: "Supplier Products",
+      meta: {
+        title: "route.supplierProducts",
+        icon: "mdi-text-subject",
+        noCache: true,
+        affix: true
+      }
     }
   ]
 };

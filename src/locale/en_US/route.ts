@@ -9,6 +9,7 @@ export default {
   followUp: "Orders",
   industry: "Industry",
   supplier: "Supplier",
+  supplierProducts: "Supplier Products",
   database: "Database",
   // pagePermission: 'Page Permission',
   // rolePermission: 'Role Permission',
