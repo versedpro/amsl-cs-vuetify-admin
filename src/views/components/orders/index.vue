@@ -34,9 +34,9 @@
         ></industry-input>
       </template>
 
-      <template v-slot:expanded-item="{ headers }">
+      <template v-slot:expanded-item="{ item , headers }">
         <td :colspan="headers.length" class="orange lighten-5 pa-0">
-          <expanded-data-table></expanded-data-table>
+          <expanded-data-table :item="{item}"></expanded-data-table>
         </td>
       </template>
 
@@ -66,13 +66,13 @@ export default defineComponent({
 
   setup() {
     const headers = ref([
-      { text: "MDR#", sortable: false, align: "start", value: "MdrId" },
-      { text: "主廠", sortable: false, value: "DepotCode" },
-      { text: "主廠", sortable: false, value: "DepotName" },
-      { text: "StaffCodeBusCaptain", sortable: false, value: "StaffCodeBusCaptain" },
-      { text: "LicensePlate", sortable: false, value: "LicensePlate" },
-      { text: "RouteCode", sortable: false, value: "RouteCode" },
-      { text: "DateTimeCreated", sortable: false, value: "DateTimeCreated" }
+      { text: "OrderId", sortable: false, align: "start", value: "salesOrderId" },
+      { text: "ReferloId", sortable: false, value: "referloId" },
+      { text: "ContactName", sortable: false, value: "contactName" },
+      { text: "ContactPhone", sortable: false, value: "contactPhone" },
+      { text: "ContactEmail", sortable: false, value: "contactEmail" },
+      { text: "ContactOtherInfo", sortable: false, value: "contactOtherInfo" },
+      { text: "CreatedTimestamp", sortable: false, value: "createdTimestamp" }
     ]);
 
     const loading = ref(false);
@@ -150,9 +150,10 @@ export default defineComponent({
     async function fetchData() {
       loading.value = true;
       try {
+        debugger;
         const dtOptions = mapOptions(options.value);
         dtOptions["filter"] = filter.value;
-        const response = await IndustryApi.fetchOngoing(dtOptions);
+        const response = await IndustryApi.fetchOrders(dtOptions.page, dtOptions.per_page);
         items.value = response.data["data"];
         serverItemsLength.value = response.data["total"];
       } catch (e) {
