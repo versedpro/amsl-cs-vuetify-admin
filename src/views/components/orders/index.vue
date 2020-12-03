@@ -34,9 +34,9 @@
         ></industry-input>
       </template>
 
-      <template v-slot:expanded-item="{ item , headers }"  >
+      <template v-slot:expanded-item="{ item, headers }">
         <td :colspan="headers.length" class="orange lighten-5 pa-0">
-          <expanded-data-table  :item="item"></expanded-data-table>
+          <expanded-data-table :item="item"></expanded-data-table>
         </td>
       </template>
 

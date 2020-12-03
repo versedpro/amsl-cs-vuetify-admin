@@ -17,7 +17,7 @@ const moreRouter = {
       component: () => import("@/views/components/more/privacy.vue"),
       name: "Privacy",
       meta: {
-        title: "route.privacy",
+        title: "route.moreComponents.privacy",
         icon: "mdi-text-subject",
         noCache: true,
         affix: true
@@ -28,7 +28,7 @@ const moreRouter = {
       component: () => import("@/views/components/more/terms.vue"),
       name: "Terms",
       meta: {
-        title: "route.terms",
+        title: "route.moreComponents.terms",
         icon: "mdi-text-subject",
         noCache: true,
         affix: true
@@ -39,7 +39,7 @@ const moreRouter = {
       component: () => import("@/views/components/more/setting.vue"),
       name: "Setting",
       meta: {
-        title: "route.setting",
+        title: "route.moreComponents.setting",
         icon: "mdi-text-subject",
         noCache: true,
         affix: true

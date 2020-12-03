@@ -18,25 +18,25 @@ const drawerRouter = [
         }
       }
     ]
-  },
-  {
-    path: "/",
-    component: Layout,
-    children: [
-      {
-        path: "/home",
-        alias: "/",
-        component: () => import("@/views/components/home/index.vue"),
-        name: "Referlo",
-        meta: {
-          title: "route.referlo",
-          icon: "mdi-account-multiple-plus",
-          noCache: true,
-          affix: true
-        }
-      }
-    ]
   }
+  // {
+  //   path: "/",
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       path: "/home",
+  //       alias: "/",
+  //       component: () => import("@/views/components/home/index.vue"),
+  //       name: "Referlo",
+  //       meta: {
+  //         title: "route.referlo",
+  //         icon: "mdi-account-multiple-plus",
+  //         noCache: true,
+  //         affix: true
+  //       }
+  //     }
+  //   ]
+  // }
 ];
 
 export default drawerRouter;

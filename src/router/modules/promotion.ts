@@ -14,21 +14,21 @@ const promotionRouter = {
   children: [
     {
       path: "news",
-      component: () => import("@/views/components/promotion/index.vue"),
+      component: () => import("@/views/components/promotion/news.vue"),
       name: "News",
-      meta: { title: "route.news", icon: "mdi-home", affix: true }
+      meta: { title: "route.promotionComponents.news", icon: "mdi-home", affix: true }
     },
     {
       path: "ads",
       component: () => import("@/views/components/promotion/ads.vue"),
       name: "Ads",
-      meta: { title: "route.homeAds", icon: "mdi-home", affix: true }
+      meta: { title: "route.promotionComponents.homeAds", icon: "mdi-home", affix: true }
     },
     {
       path: "products",
       component: () => import("@/views/components/promotion/products.vue"),
       name: "Products",
-      meta: { title: "route.hotProducts", icon: "mdi-home", affix: true }
+      meta: { title: "route.promotionComponents.hotProduct", icon: "mdi-home", affix: true }
     }
   ]
 };

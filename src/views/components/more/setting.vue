@@ -8,9 +8,7 @@
       <v-card-text>
         <v-row>
           <v-col cols="6" md="6">
-            <v-subheader class="pa-0">
-              Language
-            </v-subheader>
+            <v-subheader class="pa-0"> Language </v-subheader>
             <v-btn block @click.stop="dialog = true">
               {{ selectedLanguage }}
               <v-spacer></v-spacer>
@@ -23,33 +21,24 @@
 
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn color="gold" class="mr-4">
-        Save
-      </v-btn>
-      <v-btn color="primary" class="mr-4">
-        Cancel
-      </v-btn>
+      <v-btn color="gold" class="mr-4"> Save </v-btn>
+      <v-btn color="primary" class="mr-4"> Cancel </v-btn>
     </v-card-actions>
-    
-    <v-dialog
-      v-model="dialog"
-      scrollable
-      persistent
-      max-width="600px"
-    >
+
+    <v-dialog v-model="dialog" scrollable persistent max-width="600px">
       <v-card>
-        <v-card-text style="height: 300px;">
-          <v-radio-group
-            v-model="language"
-            @change="dialog = false"
-            mandatory
-          >
-            <v-radio v-for="(item, i) in locales" :key="i" :label="item.title" :value="item.locale"></v-radio>
+        <v-card-text style="height: 300px">
+          <v-radio-group v-model="language" @change="dialog = false" mandatory>
+            <v-radio
+              v-for="(item, i) in locales"
+              :key="i"
+              :label="item.title"
+              :value="item.locale"
+            ></v-radio>
           </v-radio-group>
         </v-card-text>
       </v-card>
     </v-dialog>
-
   </v-card>
 </template>
 

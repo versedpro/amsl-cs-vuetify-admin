@@ -1,7 +1,7 @@
 <template>
   <v-card height="calc(100vh - 50px)" class="pa-4" elevation="0">
     <v-alert border="bottom" dense class="pa-4 ma-0 primary rounded-b-0"
-      ><p class="ma-0 gold--text text-center text-uppercase">COMPLETED ORDERS</p>
+      ><p class="ma-0 gold--text text-center text-uppercase">Rejected Order</p>
     </v-alert>
 
     <v-data-table

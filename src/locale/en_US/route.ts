@@ -1,6 +1,5 @@
 export default {
   // introduction: 'Introduction',
-  more: "More",
   home: "Dashboard",
   referlo: "The Referlo",
   history: "Job History",
@@ -10,7 +9,7 @@ export default {
   industry: "Industry",
   supplier: "Supplier",
   supplierProducts: "Supplier Products",
-  database: "Database",
+  database: "Base Table",
   // pagePermission: 'Page Permission',
   // rolePermission: 'Role Permission',
   permissions: "Permission",
@@ -37,7 +36,13 @@ export default {
   ordersComponents: {
     ongoing: "Ongoing",
     completed: "Completed",
-    canceled: "Canceled"
+    reject: "Canceled"
+  },
+  more: "More",
+  moreComponents: {
+    privacy: "Privacy Policy",
+    terms: "Terms & Conditions",
+    setting: "Setting"
   },
   errors: "Errors",
   errorPages: {

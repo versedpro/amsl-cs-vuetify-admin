@@ -9,7 +9,7 @@ import VueI18n from "vue-i18n";
 
 import { settings } from "@/config_ts";
 import vuetify from "@/locale/vuetify";
-import {en, hk} from "./available";
+import { en, hk } from "./available";
 
 Vue.use(VueI18n);
 

@@ -9,6 +9,7 @@ export default {
   industry: "行業",
   profile: "个人资料",
   followUp: "订单跟进",
+  database: "基本資料",
   // pagePermission: 'Page Permission',
   // rolePermission: 'Role Permission',
   permissions: "权限",
@@ -57,6 +58,18 @@ export default {
     timepicker: "时间选择/Timepicker",
     tooltip: "提示信息/Tooltip",
     typography: "版式/Typography"
+  },
+  more: "更多",
+  moreComponents: {
+    privacy: "隱私政策",
+    terms: "條款及細則",
+    setting: "設定"
+  },
+  orders: "訂單",
+  ordersComponents: {
+    ongoing: "跟進中",
+    completed: "已成功",
+    reject: "客戶拒絕"
   },
   errors: "错误",
   errorPages: {
