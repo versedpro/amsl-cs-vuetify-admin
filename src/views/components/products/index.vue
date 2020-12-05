@@ -1,19 +1,20 @@
 <template>
   <v-card height="calc(100vh - 50px)" class="pa-4" elevation="0">
-    <v-alert border="bottom" dense class="pa-4 ma-0 primary rounded-b-0">
-      <p class="ma-0 gold--text text-center text-uppercase">PRODUCTS</p>
-    </v-alert>
-
-    <v-data-table
-      :loading="loading"
-      :search="search"
-      :server-items-length="totalProducts"
-      :options.sync="options"
-      @update:options="fetchProducts"
-      :headers="headers"
-      :items="products"
-      :items-per-page="5"
-      class="elevation-1"
+    <v-window v-model="window" class="elevation-1" vertical>
+      <v-window-item>
+        <v-alert border="bottom" dense class="pa-4 ma-0 primary rounded-b-0">
+          <p class="ma-0 gold--text text-center text-uppercase">PRODUCTS</p>
+        </v-alert>
+        <v-data-table
+          :loading="loading"
+          :search="search"
+          :server-items-length="totalProducts"
+          :options.sync="options"
+          @update:options="fetchProducts"
+          :headers="headers"
+          :items="products"
+          :items-per-page="5"
+          class="elevation-1"
     >
       <!-- Top Slot -->
       <template v-slot:top>
@@ -21,14 +22,6 @@
           @on-search="onSearch($event)"
           @on-item-add="onAdd()"
         ></datatable-top-slot>
-        <product-input
-          :show="dialog"
-          :item="editedItem"
-          :title="dialogTitle"
-          @on-item-changed="(key, value) => (editedItem[key] = value)"
-          @on-cancel-input="onCancelInput"
-          @on-save-input="onSaveInput"
-        ></product-input>
         <delete-product
           :show="dialogDelete"
           :itemID="itemIdToDelete"
@@ -47,6 +40,18 @@
         </datatable-action-slot>
       </template>
     </v-data-table>
+      </v-window-item>
+      <v-window-item>
+        <product-input
+          :item="editedItem"
+          :title="dialogTitle"
+          @on-item-changed="(key, value) => (editedItem[key] = value)"
+          @on-cancel-input="onCancelInput"
+          @on-save-input="onSaveInput"
+          @on-back-button="onBackButton"
+        ></product-input>
+      </v-window-item>
+    </v-window>
   </v-card>
 </template>
 
@@ -93,10 +98,14 @@ export default defineComponent({
       productId: ""
     });
     const dialogTitle = ref("");
-
+    const window = ref(0);
     function onAdd() {
-      dialogTitle.value = "Add new";
-      dialog.value = true;
+      window.value = 1;
+      // dialogTitle.value = "Add new";
+      // dialog.value = true;
+    }
+     function onBackButton() {
+      window.value = 0;
     }
 
     function fetchProducts() {
@@ -123,7 +132,10 @@ export default defineComponent({
 
     function onDeleteItem(id) {
       ProductApi.delete(id).then(() => {
-        products.value.splice(products.value.findIndex(x => x.productId == id), 1);
+        products.value.splice(
+          products.value.findIndex((x) => x.productId == id),
+          1
+        );
         totalProducts.value--;
         dialogDelete.value = false;
       });
@@ -169,7 +181,7 @@ export default defineComponent({
     }
 
     function onCancelInput() {
-      close();
+       window.value = 0;
     }
 
     return {
@@ -193,7 +205,9 @@ export default defineComponent({
       onCancelInput,
       onSaveInput,
       onCancelDelete,
-      onDeleteItem
+      onDeleteItem,
+      window,
+      onBackButton,
     };
   }
 });

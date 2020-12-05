@@ -1,15 +1,19 @@
 <template>
-  <v-dialog :value="show" max-width="500px" @click:outside="handleCancel">
+  <v-card @click:outside="handleCancel">
     <validation-observer v-slot="{ invalid }">
       <v-form ref="form" lazy-validation>
         <v-card>
           <v-card-title class="py-1 px-3">
-            <span>{{ title }}</span>
+            <v-btn icon @click="handleBackButton">
+        <v-icon large>mdi-chevron-left</v-icon>
+      </v-btn>
+            
             <v-spacer></v-spacer>
+            <span>{{ title }}</span>
             <!-- Close button -->
-            <v-btn text icon color="primary" @click="handleCancel">
+            <!-- <v-btn text icon color="primary" @click="handleCancel">
               <v-icon>mdi-close</v-icon>
-            </v-btn>
+            </v-btn> -->
           </v-card-title>
           <v-divider></v-divider>
 
@@ -102,7 +106,7 @@
         </v-card>
       </v-form>
     </validation-observer>
-  </v-dialog>
+  </v-card>
 </template>
 
 <script lang="ts">
@@ -124,6 +128,10 @@ export default defineComponent({
   },
 
   setup() {
+    function handleBackButton() {
+      this.$emit("on-back-button");
+    }
+
     function handleCancel() {
       this.$emit("on-cancel-input");
     }
@@ -138,6 +146,7 @@ export default defineComponent({
 
     return {
       // update,
+      handleBackButton,
       handleCancel,
       handleSave,
       handleChange
