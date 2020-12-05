@@ -40,7 +40,8 @@
         </td>
       </template>
 
-      <template v-slot:item.DateTimeCreated="{ item }">
+      <!-- <template v-slot:item.DateTimeCreated="{ item }"> -->
+      <template v-slot:[`item.DateTimeCreated`]="{ item }">
         <span>{{ getIsoDate(item.DateTimeCreated) }}</span>
       </template>
     </v-data-table>
@@ -53,12 +54,10 @@ import IndustryApi from "./api";
 import { mapOptions } from "@/utils/datatable";
 import _ from "lodash";
 import moment from "moment";
-// import func from "vue-temp/vue-editor-bridge";
 
 export default defineComponent({
   name: "Orders",
   components: {
-    // DatatableActionSlot: () => import("@/views/widget/datatable-action-slot.vue"),
     DatatableTopSlot: () => import("@/views/widget/datatable-top-slot.vue"),
     IndustryInput: () => import("./industry-input.vue"),
     ExpandedDataTable: () => import("./expanded-data-table.vue")

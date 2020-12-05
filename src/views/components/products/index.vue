@@ -15,31 +15,31 @@
           :items="products"
           :items-per-page="5"
           class="elevation-1"
-    >
-      <!-- Top Slot -->
-      <template v-slot:top>
-        <datatable-top-slot
-          @on-search="onSearch($event)"
-          @on-item-add="onAdd()"
-        ></datatable-top-slot>
-        <delete-product
-          :show="dialogDelete"
-          :itemID="itemIdToDelete"
-          @on-delete="(id) => onDeleteItem(id)"
-          @on-cancel-delete="onCancelDelete"
-        ></delete-product>
-      </template>
-
-      <!-- Action Slot -->
-      <template v-slot:[`item.actions`]="{ item }">
-        <datatable-action-slot
-          @on-update="onUpdate()"
-          @on-delete="onDelete(item.productId)"
-          class="gold--text"
         >
-        </datatable-action-slot>
-      </template>
-    </v-data-table>
+          <!-- Top Slot -->
+          <template v-slot:top>
+            <datatable-top-slot
+              @on-search="onSearch($event)"
+              @on-item-add="onAdd()"
+            ></datatable-top-slot>
+            <delete-product
+              :show="dialogDelete"
+              :itemID="itemIdToDelete"
+              @on-delete="(id) => onDeleteItem(id)"
+              @on-cancel-delete="onCancelDelete"
+            ></delete-product>
+          </template>
+
+          <!-- Action Slot -->
+          <template v-slot:[`item.actions`]="{ item }">
+            <datatable-action-slot
+              @on-update="onUpdate(item)"
+              @on-delete="onDelete(item.productId)"
+              class="gold--text"
+            >
+            </datatable-action-slot>
+          </template>
+        </v-data-table>
       </v-window-item>
       <v-window-item>
         <product-input
@@ -59,7 +59,7 @@
 import { defineComponent, ref, onActivated } from "@vue/composition-api";
 import ProductApi from "./api";
 import { mapOptions } from "@/utils/datatable";
-import DeleteProduct from "./delete-product.vue";
+// import DeleteProduct from "./delete-product.vue";
 
 export default defineComponent({
   name: "Product",
@@ -104,7 +104,7 @@ export default defineComponent({
       // dialogTitle.value = "Add new";
       // dialog.value = true;
     }
-     function onBackButton() {
+    function onBackButton() {
       window.value = 0;
     }
 
@@ -123,16 +123,12 @@ export default defineComponent({
       fetchProducts();
     });
 
-    // function onUpdate(item) {
-    //   window.value = 0;
-    //   editedIndex.value = products.value.indexOf(item);
-    //   editedItem.value = Object.assign({}, item);
-    //   dialog.value = true;
-    //   dialogTitle.value = "Edit Product";
-    // }
-    function onUpdate() {
-    window.value = 1;
-  }
+    function onUpdate(item) {
+      editedIndex.value = products.value.indexOf(item);
+      editedItem.value = Object.assign({}, item);
+      dialog.value = true;
+      dialogTitle.value = "Edit Product";
+    }
 
     function onDeleteItem(id) {
       ProductApi.delete(id).then(() => {
@@ -185,7 +181,7 @@ export default defineComponent({
     }
 
     function onCancelInput() {
-       window.value = 0;
+      window.value = 0;
     }
 
     return {
@@ -211,7 +207,7 @@ export default defineComponent({
       onCancelDelete,
       onDeleteItem,
       window,
-      onBackButton,
+      onBackButton
     };
   }
 });

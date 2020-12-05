@@ -37,7 +37,7 @@
                   </validation-provider>
                 </v-col>
                 <v-col cols="12" sm="6" md="4">
-                  <validation-provider name="Display Name"  v-slot="{ errors }">
+                  <validation-provider name="Display Name" v-slot="{ errors }">
                     <v-text-field
                       :value="item.displayName"
                       @input="handleChange('displayName', $event)"
@@ -47,7 +47,7 @@
                   </validation-provider>
                 </v-col>
                 <v-col cols="12" sm="6" md="4">
-                  <validation-provider name="Ranking"  v-slot="{ errors }">
+                  <validation-provider name="Ranking" v-slot="{ errors }">
                     <v-text-field
                       :value="item.ranking"
                       @input="handleChange('ranking', $event)"
@@ -57,7 +57,7 @@
                   </validation-provider>
                 </v-col>
                 <v-col cols="12" sm="6" md="4">
-                  <validation-provider name="Meta"  v-slot="{ errors }">
+                  <validation-provider name="Meta" v-slot="{ errors }">
                     <v-text-field
                       :value="item.meta"
                       @input="handleChange('meta', $event)"
@@ -67,7 +67,7 @@
                   </validation-provider>
                 </v-col>
                 <v-col cols="12" sm="6" md="4">
-                  <validation-provider name="CreatedBy"  v-slot="{ errors }">
+                  <validation-provider name="CreatedBy" v-slot="{ errors }">
                     <v-text-field
                       :value="item.createdBy"
                       @input="handleChange('createdBy', $event)"
@@ -77,7 +77,7 @@
                   </validation-provider>
                 </v-col>
                 <v-col cols="12" sm="6" md="4">
-                  <validation-provider name="Status"  v-slot="{ errors }">
+                  <validation-provider name="Status" v-slot="{ errors }">
                     <v-text-field
                       :value="item.status"
                       @input="handleChange('status', $event)"
@@ -87,7 +87,11 @@
                   </validation-provider>
                 </v-col>
                 <v-col cols="12" sm="6" md="4">
-                  <validation-provider name="Created Timestamp" rules="required"  v-slot="{ errors }">
+                  <validation-provider
+                    name="Created Timestamp"
+                    rules="required"
+                    v-slot="{ errors }"
+                  >
                     <v-text-field
                       :value="item.createdTimestamp"
                       @input="handleChange('createdTimestamp', $event)"

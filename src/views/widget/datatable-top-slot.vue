@@ -1,19 +1,19 @@
 <template>
   <v-alert border="bottom" color="gold" colored-border class="ma-0 pa-0 rounded-b-0">
     <v-toolbar text color="grey" elevation="0">
-      <!-- <datatable-search></datatable-search> -->
       <v-text-field
+        v-model="filterText"
         placeholder="search"
         append-icon="mdi-magnify"
         clear-icon="mdi-close"
         clearable
         hide-details
-        @input="$emit('on-search', $event)"
         @keyup.enter="handleFilter"
         @click:append="handleFilter"
-        @click:clear="handleReset"
       ></v-text-field>
       <v-spacer class="hidden-xs-only"></v-spacer>
+      <!-- @click:clear="handleReset" -->
+      <!-- @input="$emit('on-search', $event)" -->
 
       <v-btn-toggle borderless dense group>
         <v-btn :value="1" text class="white--text">
@@ -33,23 +33,29 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "@vue/composition-api";
+import { defineComponent, ref } from "@vue/composition-api";
 
 export default defineComponent({
   name: "DatatableTopSlot",
 
-  setup() {
+  setup(_, { emit }) {
+    const filterText = ref("");
+
     function handleFilter() {
+      emit("on-search", filterText.value);
       // $store
     }
 
-    function handleReset() {
-      // $store
-    }
+    // function handleReset() {
+    //   // filterText.value = ""; // clear the text in text input
+    //   // emit("on-filter", filterText);
+    //   // $store
+    // }
 
     return {
-      handleFilter,
-      handleReset
+      filterText,
+      handleFilter
+      // handleReset
     };
   }
 });
