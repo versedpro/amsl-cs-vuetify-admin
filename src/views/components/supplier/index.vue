@@ -102,6 +102,7 @@ export default defineComponent({
     
     const window = ref(0);
     function onAdd() {
+      dialogTitle.value = "Add Suppier";
       window.value=1;
     }
 
@@ -127,7 +128,9 @@ export default defineComponent({
     //   dialogTitle.value = "Edit Product";
     // }
     function onUpdate() {
-     window.value=1;
+      dialogTitle.value = "Add Suppier";
+      window.value=1;
+     
     }
 
     function onDeleteItem(id) {

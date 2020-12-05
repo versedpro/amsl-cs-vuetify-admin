@@ -7,9 +7,9 @@
             <v-btn icon @click="handleBackButton">
               <v-icon large>mdi-chevron-left</v-icon>
             </v-btn>
-            
-            <v-spacer></v-spacer>
             <span>{{ title }}</span>
+            <v-spacer></v-spacer>
+            
             <!-- Close button -->
             <!-- <v-btn text icon color="primary" @click="handleCancel">
               <v-icon>mdi-close</v-icon>
@@ -60,7 +60,7 @@
                     ></v-text-field>
                   </validation-provider>
                 </v-col>
-                <v-col cols="12" sm="6" md="4">
+                <!-- <v-col cols="12" sm="6" md="4">
                   <validation-provider name="Meta" v-slot="{ errors }">
                     <v-text-field
                       :value="item.meta"
@@ -69,7 +69,7 @@
                       label="Meta"
                     ></v-text-field>
                   </validation-provider>
-                </v-col>
+                </v-col> -->
                 <v-col cols="12" sm="6" md="4">
                   <validation-provider name="CreatedBy" v-slot="{ errors }">
                     <v-text-field

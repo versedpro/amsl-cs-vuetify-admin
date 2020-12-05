@@ -100,6 +100,7 @@ export default defineComponent({
     const dialogTitle = ref("");
     const window = ref(0);
     function onAdd() {
+      dialogTitle.value = "Add Product";
       window.value = 1;
       // dialogTitle.value = "Add new";
       // dialog.value = true;
@@ -124,6 +125,7 @@ export default defineComponent({
     });
 
     function onUpdate() {
+      dialogTitle.value = "Add Product";
       window.value = 1;
     }
 

@@ -7,9 +7,9 @@
             <v-btn icon @click="handleBackButton">
               <v-icon large>mdi-chevron-left</v-icon>
             </v-btn>
-            
-            <v-spacer></v-spacer>
             <span>{{ title }}</span>
+            <v-spacer></v-spacer>
+            
             <!-- Close button -->
             <!-- <v-btn text icon color="primary" @click="handleCancel">
               <v-icon>mdi-close</v-icon>

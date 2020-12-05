@@ -4,12 +4,15 @@
       <v-form ref="form" lazy-validation>
         <v-card>
           <v-card-title class="py-1 px-3">
+            <v-btn icon @click="handleBackButton">
+              <v-icon large>mdi-chevron-left</v-icon>
+            </v-btn>
             <span>{{ title }}</span>
             <v-spacer></v-spacer>
             <!-- Close button -->
-            <v-btn text icon color="primary" @click="handleCancel">
+            <!-- <v-btn text icon color="primary" @click="handleCancel">
               <v-icon>mdi-close</v-icon>
-            </v-btn>
+            </v-btn> -->
           </v-card-title>
           <v-divider></v-divider>
 
@@ -37,7 +40,7 @@
                   </validation-provider>
                 </v-col>
                 <v-col cols="12" sm="6" md="4">
-                  <validation-provider name="Industry Localized"  v-slot="{ errors }">
+                  <validation-provider name="Industry Localized" v-slot="{ errors }">
                     <v-text-field
                       :value="item.industryLocalized"
                       @input="handleChange('industryLocalized', $event)"
@@ -47,7 +50,7 @@
                   </validation-provider>
                 </v-col>
                 <v-col cols="12" sm="6" md="4">
-                  <validation-provider name="Status" rules="required"  v-slot="{ errors }">
+                  <validation-provider name="Status" rules="required" v-slot="{ errors }">
                     <v-text-field
                       :value="item.status"
                       @input="handleChange('status', $event)"
@@ -57,7 +60,7 @@
                   </validation-provider>
                 </v-col>
                 <v-col cols="12" sm="6" md="4">
-                  <validation-provider name="Status Flag"  v-slot="{ errors }">
+                  <validation-provider name="Status Flag" v-slot="{ errors }">
                     <v-text-field
                       :value="item.statusFlag"
                       @input="handleChange('statusFlag', $event)"
@@ -67,7 +70,7 @@
                   </validation-provider>
                 </v-col>
                 <v-col cols="12" sm="6" md="4">
-                  <validation-provider name="Meta"  v-slot="{ errors }">
+                  <validation-provider name="Meta" v-slot="{ errors }">
                     <v-text-field
                       :value="item.meta"
                       @input="handleChange('meta', $event)"
@@ -77,7 +80,7 @@
                   </validation-provider>
                 </v-col>
                 <v-col cols="12" sm="6" md="4">
-                  <validation-provider name="Description"  v-slot="{ errors }">
+                  <validation-provider name="Description" v-slot="{ errors }">
                     <v-text-field
                       :value="item.description"
                       @input="handleChange('description', $event)"
@@ -87,7 +90,7 @@
                   </validation-provider>
                 </v-col>
                 <v-col cols="12" sm="6" md="4">
-                  <validation-provider name="Row Ranking"  v-slot="{ errors }">
+                  <validation-provider name="Row Ranking" v-slot="{ errors }">
                     <v-text-field
                       :value="item.rowRanking"
                       @input="handleChange('rowRanking', $event)"
@@ -97,7 +100,11 @@
                   </validation-provider>
                 </v-col>
                 <v-col cols="12" sm="6" md="4">
-                  <validation-provider name="Created Timestamp"  rules="required"  v-slot="{ errors }">
+                  <validation-provider
+                    name="Created Timestamp"
+                    rules="required"
+                    v-slot="{ errors }"
+                  >
                     <v-text-field
                       :value="item.createdTimestamp"
                       @input="handleChange('createdTimestamp', $event)"
@@ -144,6 +151,10 @@ export default defineComponent({
   },
 
   setup() {
+    function handleBackButton() {
+      this.$emit("on-back-button");
+    }
+
     function handleCancel() {
       this.$emit("on-cancel-input");
     }

@@ -35,7 +35,9 @@
     </v-window-item>
     <v-window-item>
       <industry-input
+      :title="dialogTitle"
       @on-cancel-input="onCancelInput"
+      @on-back-button="onBackButton"
       ></industry-input>
     </v-window-item>
     </v-window>
@@ -117,13 +119,20 @@ export default defineComponent({
     function handleUpdate(event) {
       console.log(event);
     }
+    const dialogTitle =ref("");
     const window = ref(0);
+    
+    function onBackButton() {
+      window.value = 0;
+    }
     function onCancelInput() {
       window.value = 0;
     }
-     function onAdd() {
+    function onAdd() {
+       dialogTitle.value="Add Industry";
       window.value = 1;
     }
+
     return {
       defaultFooterProps,
       loading,
@@ -136,8 +145,10 @@ export default defineComponent({
       handleUpdate,
       handleUpdateOptions,
       onCancelInput,
+      onBackButton,
       window,
       onAdd,
+      dialogTitle
     };
   }
 });
