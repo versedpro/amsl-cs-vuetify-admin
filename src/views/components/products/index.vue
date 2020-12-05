@@ -33,7 +33,7 @@
           <!-- Action Slot -->
           <template v-slot:[`item.actions`]="{ item }">
             <datatable-action-slot
-              @on-update="onUpdate(item)"
+              @on-update="onUpdate()"
               @on-delete="onDelete(item.productId)"
               class="gold--text"
             >
@@ -123,12 +123,16 @@ export default defineComponent({
       fetchProducts();
     });
 
-    function onUpdate(item) {
-      editedIndex.value = products.value.indexOf(item);
-      editedItem.value = Object.assign({}, item);
-      dialog.value = true;
-      dialogTitle.value = "Edit Product";
+    function onUpdate() {
+      window.value = 1;
     }
+
+    // function onUpdate(item) {
+    //   editedIndex.value = products.value.indexOf(item);
+    //   editedItem.value = Object.assign({}, item);
+    //   dialog.value = true;
+    //   dialogTitle.value = "Edit Product";
+    // }
 
     function onDeleteItem(id) {
       ProductApi.delete(id).then(() => {

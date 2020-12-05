@@ -1,5 +1,7 @@
 <template>
   <v-card height="calc(100vh - 50px)" class="pa-4" elevation="0">
+    <v-window v-model="window" class="elevation-1" vertical>
+      <v-window-item>
     <v-alert border="bottom" dense class="pa-4 ma-0 primary rounded-b-0">
       <p class="ma-0 gold--text text-center text-uppercase">Suppliers</p>
     </v-alert>
@@ -21,14 +23,6 @@
           @on-search="onSearch($event)"
           @on-item-add="onAdd()"
         ></datatable-top-slot>
-        <supplier-input
-          :show="dialog"
-          :item="editedItem"
-          :title="dialogTitle"
-          @on-item-changed="(key, value) => (editedItem[key] = value)"
-          @on-cancel-input="onCancelInput"
-          @on-save-input="onSaveInput"
-        ></supplier-input>
         <delete-supplier
           :show="dialogDelete"
           :itemID="itemIdToDelete"
@@ -40,13 +34,25 @@
       <!-- Action Slot -->
       <template v-slot:[`item.actions`]="{ item }">
         <datatable-action-slot
-          @on-update="onUpdate(item)"
+          @on-update="onUpdate()"
           @on-delete="onDelete(item.supplierId)"
           class="gold--text"
         >
         </datatable-action-slot>
       </template>
     </v-data-table>
+    </v-window-item>
+    <v-window-item>
+      <supplier-input
+          :item="editedItem"
+          :title="dialogTitle"
+          @on-item-changed="(key, value) => (editedItem[key] = value)"
+          @on-cancel-input="onCancelInput"
+          @on-save-input="onSaveInput"
+          @on-back-button="onBackButton"
+        ></supplier-input>
+    </v-window-item>
+    </v-window>
   </v-card>
 </template>
 
@@ -93,10 +99,10 @@ export default defineComponent({
       supplierId: ""
     });
     const dialogTitle = ref("");
-
+    
+    const window = ref(0);
     function onAdd() {
-      dialogTitle.value = "Add new";
-      dialog.value = true;
+      window.value=1;
     }
 
     function fetchSupplier() {
@@ -114,11 +120,14 @@ export default defineComponent({
       fetchSupplier();
     });
 
-    function onUpdate(item) {
-      editedIndex.value = suppliers.value.indexOf(item);
-      editedItem.value = Object.assign({}, item);
-      dialog.value = true;
-      dialogTitle.value = "Edit Product";
+    // function onUpdate(item) {
+    //   editedIndex.value = suppliers.value.indexOf(item);
+    //   editedItem.value = Object.assign({}, item);
+    //   dialog.value = true;
+    //   dialogTitle.value = "Edit Product";
+    // }
+    function onUpdate() {
+     window.value=1;
     }
 
     function onDeleteItem(id) {
@@ -167,9 +176,12 @@ export default defineComponent({
 
       close();
     }
+    function onBackButton() {
+      window.value = 0;
+    }
 
     function onCancelInput() {
-      close();
+      window.value=0;
     }
 
     return {
@@ -193,7 +205,9 @@ export default defineComponent({
       onCancelInput,
       onSaveInput,
       onCancelDelete,
-      onDeleteItem
+      onDeleteItem,
+      onBackButton,
+      window
     };
   }
 });

@@ -1,5 +1,5 @@
 <template>
-  <v-dialog :value="show" max-width="500px" @click:outside="handleCancel">
+  <v-card @click:outside="handleCancel">
     <validation-observer v-slot="{ invalid }">
       <v-form ref="form" lazy-validation>
         <v-card>
@@ -122,7 +122,7 @@
         </v-card>
       </v-form>
     </validation-observer>
-  </v-dialog>
+  </v-card>
 </template>
 
 <script lang="ts">

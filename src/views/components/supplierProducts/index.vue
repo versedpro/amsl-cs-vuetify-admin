@@ -1,5 +1,7 @@
 <template>
   <v-card height="calc(100vh - 50px)" class="pa-4" elevation="0">
+    <v-window v-model="window" class="elevation-1" vertical>
+       <v-window-item>
     <v-alert border="bottom" dense class="pa-4 ma-0 primary rounded-b-0">
       <p class="ma-0 gold--text text-center text-uppercase">SUPPLIER PRODUCTS</p>
     </v-alert>
@@ -21,14 +23,6 @@
           @on-search="onSearch($event)"
           @on-item-add="onAdd()"
         ></datatable-top-slot>
-        <product-input
-          :show="dialog"
-          :item="editedItem"
-          :title="dialogTitle"
-          @on-item-changed="(key, value) => (editedItem[key] = value)"
-          @on-cancel-input="onCancelInput"
-          @on-save-input="onSaveInput"
-        ></product-input>
         <delete-product
           :show="dialogDelete"
           :itemID="itemIdToDelete"
@@ -47,6 +41,18 @@
         </datatable-action-slot>
       </template>
     </v-data-table>
+    </v-window-item>
+      <v-window-item>
+          <product-input
+          :item="editedItem"
+          :title="dialogTitle"
+          @on-item-changed="(key, value) => (editedItem[key] = value)"
+          @on-cancel-input="onCancelInput"
+          @on-save-input="onSaveInput"
+          @on-back-button="onBackButton"
+          ></product-input>
+      </v-window-item>
+    </v-window>
   </v-card>
 </template>
 
@@ -55,6 +61,7 @@ import { defineComponent, ref, onActivated } from "@vue/composition-api";
 import ProductApi from "./api";
 import { mapOptions } from "@/utils/datatable";
 import DeleteProduct from "./delete-product.vue";
+import ProductInput from "../products/product-input.vue";
 
 export default defineComponent({
   name: "Product",
@@ -95,11 +102,15 @@ export default defineComponent({
     });
     const dialogTitle = ref("");
 
+    const window = ref(0);
     function onAdd() {
-      dialogTitle.value = "Add new";
-      dialog.value = true;
+      window.value = 1;
+      // dialogTitle.value = "Add new";
+      // dialog.value = true;
     }
-
+    function onBackButton() {
+      window.value = 0;
+    }
     function fetchProducts() {
       loading.value = true;
       const dtOptions = mapOptions(options.value);
@@ -115,11 +126,14 @@ export default defineComponent({
       fetchProducts();
     });
 
-    function onUpdate(item) {
-      editedIndex.value = products.value.indexOf(item);
-      editedItem.value = Object.assign({}, item);
-      dialog.value = true;
-      dialogTitle.value = "Edit Product";
+    // function onUpdate(item) {
+    //   editedIndex.value = products.value.indexOf(item);
+    //   editedItem.value = Object.assign({}, item);
+    //   dialog.value = true;
+    //   dialogTitle.value = "Edit Product";
+    // }
+     function onUpdate() {
+      window.value = 1;
     }
 
     function onDeleteItem(id) {
@@ -170,7 +184,7 @@ export default defineComponent({
     }
 
     function onCancelInput() {
-      close();
+      window.value = 0;
     }
 
     return {
@@ -194,7 +208,9 @@ export default defineComponent({
       onCancelInput,
       onSaveInput,
       onCancelDelete,
-      onDeleteItem
+      onDeleteItem,
+      onBackButton,
+      window
     };
   }
 });

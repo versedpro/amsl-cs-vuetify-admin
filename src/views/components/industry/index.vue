@@ -1,5 +1,7 @@
 <template>
   <v-card height="calc(100vh - 50px)" class="pa-4" elevation="0">
+    <v-window v-model="window" class="elevation-1" vertical>
+      <v-window-item>
     <v-alert border="bottom" dense class="pa-4 ma-0 primary rounded-b-0">
       <p class="ma-0 gold--text text-center text-uppercase">INDUSTRIES</p>
     </v-alert>
@@ -30,6 +32,13 @@
         </datatable-action-slot>
       </template>
     </v-data-table>
+    </v-window-item>
+    <v-window-item>
+      <industry-input
+      @on-cancel-input="onCancelInput"
+      ></industry-input>
+    </v-window-item>
+    </v-window>
   </v-card>
 </template>
 
@@ -38,11 +47,13 @@ import { defineComponent, ref } from "@vue/composition-api";
 import IndustryApi from "./api";
 import { defaultFooterProps, mapOptions, sortParams, setSortOptions } from "@/utils/datatable";
 import { DataOptions } from "vuetify";
+import IndustryInput from "../completed/industry-input.vue";
 
 export default defineComponent({
   name: "Industry",
 
   components: {
+    IndustryInput: () => import("./industry-input.vue"),
     DatatableActionSlot: () => import("@/views/widget/datatable-action-slot.vue"),
     DatatableTopSlot: () => import("@/views/widget/datatable-top-slot.vue")
   },
@@ -106,7 +117,13 @@ export default defineComponent({
     function handleUpdate(event) {
       console.log(event);
     }
-
+    const window = ref(0);
+    function onCancelInput() {
+      window.value = 0;
+    }
+     function onAdd() {
+      window.value = 1;
+    }
     return {
       defaultFooterProps,
       loading,
@@ -117,7 +134,10 @@ export default defineComponent({
       serverItemsLength,
       handleSearch,
       handleUpdate,
-      handleUpdateOptions
+      handleUpdateOptions,
+      onCancelInput,
+      window,
+      onAdd,
     };
   }
 });
