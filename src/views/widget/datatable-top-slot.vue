@@ -11,9 +11,8 @@
         @keyup.enter="handleFilter"
         @click:append="handleFilter"
       ></v-text-field>
+
       <v-spacer class="hidden-xs-only"></v-spacer>
-      <!-- @click:clear="handleReset" -->
-      <!-- @input="$emit('on-search', $event)" -->
 
       <v-btn-toggle borderless dense group>
         <v-btn :value="1" text class="white--text">
@@ -24,7 +23,7 @@
           <v-icon>mdi-refresh</v-icon>
         </v-btn>
 
-        <v-btn @click="$emit('on-item-add')" :value="3" text class="accent--text text--lighten-5">
+        <v-btn @click="$emit('on-insert')" :value="3" text class="accent--text text--lighten-5">
           <v-icon>mdi-plus</v-icon>
         </v-btn>
       </v-btn-toggle>
@@ -43,19 +42,11 @@ export default defineComponent({
 
     function handleFilter() {
       emit("on-search", filterText.value);
-      // $store
     }
-
-    // function handleReset() {
-    //   // filterText.value = ""; // clear the text in text input
-    //   // emit("on-filter", filterText);
-    //   // $store
-    // }
 
     return {
       filterText,
       handleFilter
-      // handleReset
     };
   }
 });

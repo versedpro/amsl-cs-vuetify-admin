@@ -106,15 +106,13 @@
             </v-container>
           </v-card-text>
 
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn rounded color="primary" text @click="handleCancel"
-              >{{ $t("input.cancel") }}
-            </v-btn>
-            <v-btn rounded text @click="handleSave" :disabled="invalid"
-              >{{ $t("input.save") }}
-            </v-btn>
-          </v-card-actions>
+          <v-divider></v-divider>
+
+          <input-form-action
+            :invalid="invalid"
+            @on-cancel="handleCancel"
+            @on-save="handleSave"
+          ></input-form-action>
         </v-card>
       </v-form>
     </validation-observer>
@@ -122,14 +120,16 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from "@vue/composition-api";
-import { ValidationProvider, ValidationObserver } from "vee-validate";
 import "./validations";
+import { ValidationProvider, ValidationObserver } from "vee-validate";
+
+import { computed, defineComponent } from "@vue/composition-api";
 
 export default defineComponent({
   name: "IndustryInput",
 
   components: {
+    InputFormAction: () => import("@/views/widget/input-form-action.vue"),
     InputFormTitle: () => import("@/views/widget/input-form-title.vue"),
     ValidationProvider,
     ValidationObserver
@@ -137,7 +137,10 @@ export default defineComponent({
 
   props: {
     mode: String,
-    item: Object
+    item: {
+      type: Object,
+      required: true
+    }
   },
 
   setup(props, { emit, root }) {

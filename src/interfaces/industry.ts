@@ -1,12 +1,12 @@
 export interface Industry {
-  IndustryId: number;
-  IndustryName: string;
-  IndustryLocalized: object;
-  Description: string;
-  RowRanking: number;
-  CreatedTimestamp: Date;
-  CreatedBy: number;
-  Status: number;
-  StatusFlag: number;
+  industryId: number;
+  industryName: string;
+  industryLocalized: object;
+  description: string;
+  rowRanking: number;
+  createdTimestamp: Date;
+  createdBy: number;
+  status: number;
+  statusFlag: number;
   meta: object;
 }

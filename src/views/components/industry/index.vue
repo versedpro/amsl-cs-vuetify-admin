@@ -19,10 +19,7 @@
         >
           <!-- Top Slot -->
           <template v-slot:top>
-            <datatable-top-slot
-              @on-search="handleSearch"
-              @on-item-add="handleInsert()"
-            ></datatable-top-slot>
+            <datatable-top-slot @on-search="handleSearch" @on-insert="handleInsert" />
           </template>
 
           <!-- Action Slot -->
@@ -30,7 +27,6 @@
             <datatable-action-slot
               @on-update="handleUpdate(item)"
               @on-delete="onDelete(item.industryId)"
-              class="gold--text"
             >
             </datatable-action-slot>
           </template>
@@ -41,9 +37,10 @@
           :mode="mode"
           :item="item"
           @on-cancel-input="onCancelInput"
-          @on-save-input="onCancelInput"
+          @on-save-input="handleSaveInput"
           @on-back-button="handleBackButton"
-        ></industry-input>
+        >
+        </industry-input>
       </v-window-item>
     </v-window>
   </v-card>
@@ -78,10 +75,10 @@ export default defineComponent({
     const options = ref({ sortBy: ["industryId"], sortDesc: [], itemsPerPage: 10 } as DataOptions);
 
     // Other datatable settings
+    const filter = ref("");
     const loading = ref(false);
     const item = ref<Industry>({} as Industry);
     const items = ref([]);
-    const filter = ref("");
     const serverItemsLength = ref(0);
     const mode = ref("add");
     const window = ref(0);
@@ -100,7 +97,7 @@ export default defineComponent({
           loading.value = false;
         });
       } catch (e) {
-        console.log("fetchDepots failed..", e);
+        // console.log("fetchDepots failed..", e);
       } finally {
         loading.value = false;
       }
@@ -132,12 +129,18 @@ export default defineComponent({
       window.value = 1;
     }
 
-    function handleSearch(event) {
-      console.log(event);
+    function handleSaveInput(mode) {
+      console.log(mode);
     }
 
-    function handleUpdate(event) {
-      console.log(event);
+    function handleSearch(val) {
+      filter.value = val;
+    }
+
+    function handleUpdate(val) {
+      mode.value = "edit";
+      item.value = val;
+      window.value = 1;
     }
 
     return {
@@ -154,6 +157,7 @@ export default defineComponent({
       onCancelInput,
       handleBackButton,
       handleInsert,
+      handleSaveInput,
       handleSearch,
       handleUpdate,
       handleUpdateOptions
