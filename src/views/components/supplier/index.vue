@@ -2,48 +2,48 @@
   <v-card height="calc(100vh - 50px)" class="pa-4" elevation="0">
     <v-window v-model="window" class="elevation-1" vertical>
       <v-window-item>
-    <v-alert border="bottom" dense class="pa-4 ma-0 primary rounded-b-0">
-      <p class="ma-0 gold--text text-center text-uppercase">Suppliers</p>
-    </v-alert>
+        <v-alert border="bottom" dense class="pa-4 ma-0 primary rounded-b-0">
+          <p class="ma-0 gold--text text-center text-uppercase">Suppliers</p>
+        </v-alert>
 
-    <v-data-table
-      :loading="loading"
-      :search="search"
-      :server-items-length="totalSuppliers"
-      :options.sync="options"
-      @update:options="fetchSupplier"
-      :headers="headers"
-      :items="suppliers"
-      :items-per-page="5"
-      class="elevation-1"
-    >
-      <!-- Top Slot -->
-      <template v-slot:top>
-        <datatable-top-slot
-          @on-search="onSearch($event)"
-          @on-item-add="onAdd()"
-        ></datatable-top-slot>
-        <delete-supplier
-          :show="dialogDelete"
-          :itemID="itemIdToDelete"
-          @on-delete="(id) => onDeleteItem(id)"
-          @on-cancel-delete="onCancelDelete"
-        ></delete-supplier>
-      </template>
-
-      <!-- Action Slot -->
-      <template v-slot:[`item.actions`]="{ item }">
-        <datatable-action-slot
-          @on-update="onUpdate()"
-          @on-delete="onDelete(item.supplierId)"
-          class="gold--text"
+        <v-data-table
+          :loading="loading"
+          :search="search"
+          :server-items-length="totalSuppliers"
+          :options.sync="options"
+          @update:options="fetchSupplier"
+          :headers="headers"
+          :items="suppliers"
+          :items-per-page="5"
+          class="elevation-1"
         >
-        </datatable-action-slot>
-      </template>
-    </v-data-table>
-    </v-window-item>
-    <v-window-item>
-      <supplier-input
+          <!-- Top Slot -->
+          <template v-slot:top>
+            <datatable-top-slot
+              @on-search="onSearch($event)"
+              @on-item-add="onAdd()"
+            ></datatable-top-slot>
+            <delete-supplier
+              :show="dialogDelete"
+              :itemID="itemIdToDelete"
+              @on-delete="(id) => onDeleteItem(id)"
+              @on-cancel-delete="onCancelDelete"
+            ></delete-supplier>
+          </template>
+
+          <!-- Action Slot -->
+          <template v-slot:[`item.actions`]="{ item }">
+            <datatable-action-slot
+              @on-update="onUpdate()"
+              @on-delete="onDelete(item.supplierId)"
+              class="gold--text"
+            >
+            </datatable-action-slot>
+          </template>
+        </v-data-table>
+      </v-window-item>
+      <v-window-item>
+        <supplier-input
           :item="editedItem"
           :title="dialogTitle"
           @on-item-changed="(key, value) => (editedItem[key] = value)"
@@ -51,7 +51,7 @@
           @on-save-input="onSaveInput"
           @on-back-button="onBackButton"
         ></supplier-input>
-    </v-window-item>
+      </v-window-item>
     </v-window>
   </v-card>
 </template>
@@ -60,7 +60,6 @@
 import { defineComponent, ref, onActivated } from "@vue/composition-api";
 import SupplierApi from "./api";
 import { mapOptions } from "@/utils/datatable";
-import DeleteSupplier from "./delete-supplier.vue";
 
 export default defineComponent({
   name: "Product",
@@ -99,11 +98,11 @@ export default defineComponent({
       supplierId: ""
     });
     const dialogTitle = ref("");
-    
+
     const window = ref(0);
     function onAdd() {
       dialogTitle.value = "Add Suppier";
-      window.value=1;
+      window.value = 1;
     }
 
     function fetchSupplier() {
@@ -129,13 +128,15 @@ export default defineComponent({
     // }
     function onUpdate() {
       dialogTitle.value = "Add Suppier";
-      window.value=1;
-     
+      window.value = 1;
     }
 
     function onDeleteItem(id) {
       SupplierApi.delete(id).then(() => {
-        suppliers.value.splice(suppliers.value.findIndex(x => x.supplierId == id), 1);
+        suppliers.value.splice(
+          suppliers.value.findIndex((x) => x.supplierId == id),
+          1
+        );
         totalSuppliers.value--;
         dialogDelete.value = false;
       });
@@ -184,7 +185,7 @@ export default defineComponent({
     }
 
     function onCancelInput() {
-      window.value=0;
+      window.value = 0;
     }
 
     return {

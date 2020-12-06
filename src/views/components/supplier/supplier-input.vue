@@ -1,5 +1,5 @@
 <template>
-  <v-card @click:outside="handleCancel">
+  <v-card>
     <validation-observer v-slot="{ invalid }">
       <v-form ref="form" lazy-validation>
         <v-card>
@@ -9,11 +9,6 @@
             </v-btn>
             <span>{{ title }}</span>
             <v-spacer></v-spacer>
-            
-            <!-- Close button -->
-            <!-- <v-btn text icon color="primary" @click="handleCancel">
-              <v-icon>mdi-close</v-icon>
-            </v-btn> -->
           </v-card-title>
           <v-divider></v-divider>
 

@@ -43,6 +43,11 @@ export default {
     password: "Password",
     confirm: "Confirm"
   },
+  industry: {
+    add: "Add Industry",
+    edit: "Edit Industry",
+    title: "Industry"
+  },
   referal: {
     clientName: "Client",
     phone: "Phone",

@@ -43,6 +43,11 @@ export default {
     password: "Password",
     confirm: "Confirm"
   },
+  industry: {
+    add: "Add Industry",
+    edit: "Edit Industry",
+    title: "行業"
+  },
   referal: {
     clientName: "客戶",
     phone: "電話戶",
