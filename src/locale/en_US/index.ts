@@ -48,6 +48,21 @@ export default {
     edit: "Edit Industry",
     title: "Industry"
   },
+  supplier: {
+    add: "Add Supplier",
+    edit: "Edit Supplier",
+    title: "Supplier"
+  },
+  products: {
+    add: "Add Products",
+    edit: "Edit Products",
+    title: "Products"
+  },
+  supplier_products:{
+    add: "Add Supplier Products",
+    edit: "Edit Supplier Products",
+    title: "Supplier Products"
+  },
   referal: {
     clientName: "Client",
     phone: "Phone",

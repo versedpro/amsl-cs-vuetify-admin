@@ -1,10 +1,10 @@
 <template>
   <v-toolbar flat tile color="primary" class="white--text">
-    <v-btn icon class="white--text" @click="handleBackButton">
+    <v-btn icon class="gold--text" @click="handleBackButton">
       <v-icon>mdi-arrow-left</v-icon>
     </v-btn>
 
-    <v-toolbar-title>{{ title }}</v-toolbar-title>
+    <v-toolbar-title class="gold--text">{{ title }}</v-toolbar-title>
   </v-toolbar>
 </template>
 

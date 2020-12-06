@@ -2,9 +2,10 @@
   <v-card height="calc(100vh - 50px)" class="pa-4" elevation="0">
     <v-window v-model="window" class="elevation-1" vertical>
       <v-window-item>
-        <v-alert border="bottom" dense class="pa-4 ma-0 primary rounded-b-0">
-          <p class="ma-0 gold--text text-center text-uppercase">PRODUCTS</p>
-        </v-alert>
+        <v-card-title class="primary justify-center gold--text"
+          >{{ $t("products.title") }}
+        </v-card-title>
+
         <v-data-table
           :loading="loading"
           :search="search"
@@ -20,7 +21,7 @@
           <template v-slot:top>
             <datatable-top-slot
               @on-search="onSearch($event)"
-              @on-item-add="onAdd()"
+              @on-insert="onAdd"
             ></datatable-top-slot>
             <delete-product
               :show="dialogDelete"
@@ -33,7 +34,7 @@
           <!-- Action Slot -->
           <template v-slot:[`item.actions`]="{ item }">
             <datatable-action-slot
-              @on-update="onUpdate()"
+              @on-update="onUpdate(item)"
               @on-delete="onDelete(item.productId)"
               class="gold--text"
             >
@@ -43,12 +44,11 @@
       </v-window-item>
       <v-window-item>
         <product-input
-          :item="editedItem"
-          :title="dialogTitle"
-          @on-item-changed="(key, value) => (editedItem[key] = value)"
+          :mode="mode"
+          :item="item"
           @on-cancel-input="onCancelInput"
-          @on-save-input="onSaveInput"
-          @on-back-button="onBackButton"
+          @on-save-input="handleSaveInput"
+          @on-back-button="handleBackButton"
         ></product-input>
       </v-window-item>
     </v-window>
@@ -80,6 +80,8 @@ export default defineComponent({
     ]);
 
     const options = ref({});
+    const mode = ref("insert");
+    const item = ref({});
     const totalProducts = ref(0);
     const loading = ref(false);
     const search = ref("");
@@ -99,11 +101,11 @@ export default defineComponent({
     });
     const dialogTitle = ref("");
     const window = ref(0);
+
     function onAdd() {
-      dialogTitle.value = "Add Product";
+      mode.value = "insert";
+      item.value = {};
       window.value = 1;
-      // dialogTitle.value = "Add new";
-      // dialog.value = true;
     }
     function onBackButton() {
       window.value = 0;
@@ -124,8 +126,9 @@ export default defineComponent({
       fetchProducts();
     });
 
-    function onUpdate() {
-      dialogTitle.value = "Add Product";
+    function onUpdate(val) {
+       mode.value = "edit"; 
+      item.value = val;
       window.value = 1;
     }
 
@@ -157,6 +160,10 @@ export default defineComponent({
       fetchProducts();
     }
 
+    function handleSaveInput(mode) {
+      console.log(mode);
+    }
+
     function onCancelDelete() {
       itemIdToDelete.value = 0;
       dialogDelete.value = false;
@@ -186,6 +193,10 @@ export default defineComponent({
       close();
     }
 
+     function handleBackButton() {
+      window.value = 0;
+    }
+
     function onCancelInput() {
       window.value = 0;
     }
@@ -193,6 +204,8 @@ export default defineComponent({
     return {
       itemsPerPage,
       onAdd,
+      mode,
+      item,
       dialog,
       dialogDelete,
       editedItem,
@@ -213,7 +226,9 @@ export default defineComponent({
       onCancelDelete,
       onDeleteItem,
       window,
-      onBackButton
+      onBackButton,
+      handleBackButton,
+      handleSaveInput
     };
   }
 });

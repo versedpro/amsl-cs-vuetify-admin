@@ -3,15 +3,7 @@
     <validation-observer v-slot="{ invalid }">
       <v-form ref="form" lazy-validation>
         <v-card>
-          <v-card-title class="py-1 px-3">
-            <v-btn icon @click="handleBackButton">
-              <v-icon large>mdi-chevron-left</v-icon>
-            </v-btn>
-            <span>{{ title }}</span>
-            <v-spacer></v-spacer>
-          </v-card-title>
-          <v-divider></v-divider>
-
+          <input-form-title :title="title" @on-back-button="onBackButton" />
           <v-card-text>
             <v-container>
               <v-row>
@@ -119,41 +111,55 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "@vue/composition-api";
-import { ValidationProvider, ValidationObserver } from "vee-validate";
 import "./validations";
+import { ValidationProvider, ValidationObserver } from "vee-validate";
+import { computed, defineComponent } from "@vue/composition-api";
 
 export default defineComponent({
-  name: "supplier-input",
+  name: "SupplierInput",
 
   components: {
+    // InputFormAction: () => import("@/views/widget/input-form-action.vue"),
+    InputFormTitle: () => import("@/views/widget/input-form-title.vue"),
     ValidationProvider,
     ValidationObserver
   },
+
   props: {
-    show: Boolean,
-    title: String,
-    item: Object
+    mode: String,
+    item: {
+      type: Object,
+      required: true
+    }
   },
 
-  setup() {
-    function handleBackButton() {
-      this.$emit("on-back-button");
-    }
+  setup(props, { emit, root }) {
+    const title = computed(() =>
+      props.mode == "insert" ? root.$t("supplier.add") : root.$t("supplier.edit")
+    );
+
     function handleCancel() {
-      this.$emit("on-cancel-input");
+      emit("on-cancel-input");
     }
+
     function handleSave() {
-      this.$emit("on-save-input");
+      emit("on-save-input", props.mode);
     }
+
     function handleChange(key, value) {
-      this.$emit("on-item-changed", key, value);
+      emit("on-item-changed", key, value);
     }
+
+    function onBackButton() {
+      emit("on-back-button");
+    }
+
     return {
-      handleBackButton,
+      title,
       handleCancel,
       handleSave,
-      handleChange
+      handleChange,
+      onBackButton
     };
   }
 });

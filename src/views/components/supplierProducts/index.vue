@@ -1,10 +1,10 @@
 <template>
-  <v-card height="calc(100vh - 50px)" class="pa-4" elevation="0">
+  <v-card flat tile height="calc(100vh - 50px)" class="pa-4" elevation="0">
     <v-window v-model="window" class="elevation-1" vertical>
       <v-window-item>
-        <v-alert border="bottom" dense class="pa-4 ma-0 primary rounded-b-0">
-          <p class="ma-0 gold--text text-center text-uppercase">SUPPLIER PRODUCTS</p>
-        </v-alert>
+        <v-card-title class="primary justify-center gold--text"
+          >{{ $t("supplier_products.title") }}
+        </v-card-title>
 
         <v-data-table
           :loading="loading"
@@ -20,8 +20,8 @@
           <!-- Top Slot -->
           <template v-slot:top>
             <datatable-top-slot
-              @on-search="onSearch($event)"
-              @on-item-add="onAdd()"
+               @on-search="onSearch($event)"
+              @on-insert="onAdd"
             ></datatable-top-slot>
             <delete-product
               :show="dialogDelete"
@@ -44,12 +44,11 @@
       </v-window-item>
       <v-window-item>
         <product-input
-          :item="editedItem"
-          :title="dialogTitle"
-          @on-item-changed="(key, value) => (editedItem[key] = value)"
+          :mode="mode"
+          :item="item"
           @on-cancel-input="onCancelInput"
-          @on-save-input="onSaveInput"
-          @on-back-button="onBackButton"
+          @on-save-input="handleSaveInput"
+          @on-back-button="handleBackButton"
         ></product-input>
       </v-window-item>
     </v-window>
@@ -83,6 +82,8 @@ export default defineComponent({
     ]);
 
     const options = ref({});
+    const mode = ref("insert");
+    const item = ref({});
     const totalProducts = ref(0);
     const loading = ref(false);
     const search = ref("");
@@ -104,10 +105,9 @@ export default defineComponent({
 
     const window = ref(0);
     function onAdd() {
-      dialogTitle.value = "Add Supplier Product";
+      mode.value = "insert";
+      item.value = {};
       window.value = 1;
-      // dialogTitle.value = "Add new";
-      // dialog.value = true;
     }
     function onBackButton() {
       window.value = 0;
@@ -127,8 +127,9 @@ export default defineComponent({
       fetchProducts();
     });
 
-    function onUpdate() {
-      dialogTitle.value = "Add Supplier Product";
+    function onUpdate(val) {
+       mode.value = "edit"; 
+      item.value = val;
       window.value = 1;
     }
 
@@ -182,6 +183,10 @@ export default defineComponent({
       close();
     }
 
+    function handleBackButton() {
+      window.value = 0;
+    }
+
     function onCancelInput() {
       window.value = 0;
     }
@@ -189,6 +194,8 @@ export default defineComponent({
     return {
       itemsPerPage,
       onAdd,
+      mode,
+      item,
       dialog,
       dialogDelete,
       editedItem,
@@ -209,7 +216,8 @@ export default defineComponent({
       onCancelDelete,
       onDeleteItem,
       onBackButton,
-      window
+      window,
+      handleBackButton
     };
   }
 });

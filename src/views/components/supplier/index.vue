@@ -2,9 +2,9 @@
   <v-card height="calc(100vh - 50px)" class="pa-4" elevation="0">
     <v-window v-model="window" class="elevation-1" vertical>
       <v-window-item>
-        <v-alert border="bottom" dense class="pa-4 ma-0 primary rounded-b-0">
-          <p class="ma-0 gold--text text-center text-uppercase">Suppliers</p>
-        </v-alert>
+        <v-card-title class="primary justify-center gold--text"
+          >{{ $t("supplier.title") }}
+        </v-card-title>
 
         <v-data-table
           :loading="loading"
@@ -21,20 +21,14 @@
           <template v-slot:top>
             <datatable-top-slot
               @on-search="onSearch($event)"
-              @on-item-add="onAdd()"
+              @on-insert="onAdd"
             ></datatable-top-slot>
-            <delete-supplier
-              :show="dialogDelete"
-              :itemID="itemIdToDelete"
-              @on-delete="(id) => onDeleteItem(id)"
-              @on-cancel-delete="onCancelDelete"
-            ></delete-supplier>
           </template>
 
           <!-- Action Slot -->
           <template v-slot:[`item.actions`]="{ item }">
             <datatable-action-slot
-              @on-update="onUpdate()"
+              @on-update="onUpdate(item)"
               @on-delete="onDelete(item.supplierId)"
               class="gold--text"
             >
@@ -44,12 +38,11 @@
       </v-window-item>
       <v-window-item>
         <supplier-input
-          :item="editedItem"
-          :title="dialogTitle"
-          @on-item-changed="(key, value) => (editedItem[key] = value)"
+          :mode="mode"
+          :item="item"
           @on-cancel-input="onCancelInput"
-          @on-save-input="onSaveInput"
-          @on-back-button="onBackButton"
+          @on-save-input="handleSaveInput"
+          @on-back-button="handleBackButton"
         ></supplier-input>
       </v-window-item>
     </v-window>
@@ -60,6 +53,7 @@
 import { defineComponent, ref, onActivated } from "@vue/composition-api";
 import SupplierApi from "./api";
 import { mapOptions } from "@/utils/datatable";
+import DeleteSupplier from "./delete-supplier.vue";
 
 export default defineComponent({
   name: "Product",
@@ -68,7 +62,7 @@ export default defineComponent({
     SupplierInput: () => import("./supplier-input.vue"),
     DatatableActionSlot: () => import("@/views/widget/datatable-action-slot.vue"),
     DatatableTopSlot: () => import("@/views/widget/datatable-top-slot.vue"),
-    DeleteSupplier: () => import("./delete-supplier.vue")
+    // DeleteSupplier: () => import("./delete-supplier.vue")
   },
 
   setup(_, { root: { $nextTick } }) {
@@ -80,6 +74,8 @@ export default defineComponent({
     ]);
 
     const options = ref({});
+    const mode = ref("insert");
+    const item = ref({});
     const totalSuppliers = ref(0);
     const loading = ref(false);
     const search = ref("");
@@ -100,8 +96,10 @@ export default defineComponent({
     const dialogTitle = ref("");
 
     const window = ref(0);
+
     function onAdd() {
-      dialogTitle.value = "Add Suppier";
+      mode.value = "insert";
+      item.value = {};
       window.value = 1;
     }
 
@@ -126,8 +124,9 @@ export default defineComponent({
     //   dialog.value = true;
     //   dialogTitle.value = "Edit Product";
     // }
-    function onUpdate() {
-      dialogTitle.value = "Add Suppier";
+    function onUpdate(val) {
+      mode.value = "edit"; 
+      item.value = val;
       window.value = 1;
     }
 
@@ -150,6 +149,10 @@ export default defineComponent({
     function onSearch(value) {
       search.value = value;
       fetchSupplier();
+    }
+
+    function handleSaveInput(mode) {
+      console.log(mode);
     }
 
     function onCancelDelete() {
@@ -184,6 +187,10 @@ export default defineComponent({
       window.value = 0;
     }
 
+    function handleBackButton() {
+      window.value = 0;
+    }
+    
     function onCancelInput() {
       window.value = 0;
     }
@@ -191,6 +198,8 @@ export default defineComponent({
     return {
       itemsPerPage,
       onAdd,
+      mode,
+      item,
       dialog,
       dialogDelete,
       editedItem,
@@ -211,6 +220,8 @@ export default defineComponent({
       onCancelDelete,
       onDeleteItem,
       onBackButton,
+      handleBackButton,
+      handleSaveInput,
       window
     };
   }

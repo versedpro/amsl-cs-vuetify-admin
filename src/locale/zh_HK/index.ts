@@ -48,6 +48,21 @@ export default {
     edit: "Edit Industry",
     title: "行業"
   },
+  supplier: {
+    add: "Add Supplier HK",
+    edit: "Edit Supplier HK",
+    title: "Supplier HK"
+  },
+  products: {
+    add: "Add Products HK",
+    edit: "Edit Products HK",
+    title: "Products HK"
+  },
+  supplier_products:{
+    add: "Add Supplier Products HK",
+    edit: "Edit Supplier Products HK",
+    title: "Supplier Products HK"
+  },
   referal: {
     clientName: "客戶",
     phone: "電話戶",

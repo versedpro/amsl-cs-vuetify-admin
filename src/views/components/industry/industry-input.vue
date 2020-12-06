@@ -122,7 +122,6 @@
 <script lang="ts">
 import "./validations";
 import { ValidationProvider, ValidationObserver } from "vee-validate";
-
 import { computed, defineComponent } from "@vue/composition-api";
 
 export default defineComponent({
