@@ -30,6 +30,10 @@
             >
             </datatable-action-slot>
           </template>
+
+          <template v-slot:[`item.createdTimestamp`]="{ item }">
+            <datatable-iso-date :value="item.createdTimestamp"></datatable-iso-date>
+          </template>
         </v-data-table>
       </v-window-item>
       <v-window-item>
@@ -58,6 +62,7 @@ export default defineComponent({
 
   components: {
     IndustryInput: () => import("./industry-input.vue"),
+    DatatableIsoDate: () => import("@/views/widget/datatable-iso-date.vue"),
     DatatableActionSlot: () => import("@/views/widget/datatable-action-slot.vue"),
     DatatableTopSlot: () => import("@/views/widget/datatable-top-slot.vue")
   },

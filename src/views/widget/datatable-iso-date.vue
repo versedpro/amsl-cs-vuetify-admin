@@ -1,9 +1,11 @@
 <template>
-  <div>{{ isoDate }}</div>
+  <span>{{ isoDate() }}</span>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "@vue/composition-api";
+import moment from "moment";
+
+import { defineComponent } from "@vue/composition-api";
 
 export default defineComponent({
   name: "DatatableIsoDate",
@@ -15,7 +17,16 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const isoDate = ref(props.value);
+    const format = "YYYY-MM-DD hh:mm";
+
+    function isoDate() {
+      let date = moment(props.value);
+      if (date.isValid()) {
+        return moment(this.dateStr).format(format);
+      } else {
+        return "";
+      }
+    }
 
     return {
       isoDate
