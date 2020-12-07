@@ -10,6 +10,7 @@ export default {
   profile: "个人资料",
   followUp: "订单跟进",
   database: "基本資料",
+  staff: "基本資料",
   // pagePermission: 'Page Permission',
   // rolePermission: 'Role Permission',
   permissions: "权限",

@@ -72,6 +72,11 @@ export default {
     edit: "Edit Supplier Products",
     title: "Supplier Products"
   },
+  staff: {
+    add: "Add Staff",
+    edit: "Edit Staff",
+    title: "Staff"
+  },
   referal: {
     clientName: "Client",
     phone: "Phone",

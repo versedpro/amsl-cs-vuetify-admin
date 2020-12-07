@@ -10,6 +10,7 @@ export default {
   supplier: "Supplier",
   supplierProducts: "Supplier Products",
   database: "Manage Table",
+  staff: "Staff",
   // pagePermission: 'Page Permission',
   // rolePermission: 'Role Permission',
   permissions: "Permission",

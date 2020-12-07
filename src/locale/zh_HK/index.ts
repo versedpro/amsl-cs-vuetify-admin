@@ -72,6 +72,11 @@ export default {
     edit: "Edit Supplier Products HK",
     title: "Supplier Products HK"
   },
+  staff: {
+    add: "Add Staff HK",
+    edit: "Edit Staff HK",
+    title: "Staff HK"
+  },
   referal: {
     clientName: "客戶",
     phone: "電話戶",
