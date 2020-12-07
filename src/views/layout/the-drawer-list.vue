@@ -5,6 +5,7 @@
         v-if="isVisibleItem(item)"
         :to="resolvePath(getVisibleChild(item))"
         ripple="ripple"
+        active-class="primary--text gold"
       >
         <v-list-item-icon class="layout-drawer__icon">
           <v-icon>{{ getListIcon(getVisibleChild(item)) }}</v-icon>
@@ -17,7 +18,8 @@
         </v-list-item-content>
       </v-list-item>
 
-      <v-list-group v-else :prepend-icon="getListIcon(item)">
+      <v-list-group v-else :prepend-icon="getListIcon(item)"
+      active-class="gold--text primary">
         <template v-slot:activator>
           <v-list-item-content>
             <v-list-item-title>
