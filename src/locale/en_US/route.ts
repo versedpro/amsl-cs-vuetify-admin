@@ -1,6 +1,6 @@
 export default {
   // introduction: 'Introduction',
-  home: "Dashboard",
+  home: "Referlo Dashboard",
   referlo: "The Referlo",
   history: "Job History",
   products: "Products",
@@ -9,7 +9,7 @@ export default {
   industry: "Industry",
   supplier: "Supplier",
   supplierProducts: "Supplier Products",
-  database: "Base Table",
+  database: "Manage Table",
   // pagePermission: 'Page Permission',
   // rolePermission: 'Role Permission',
   permissions: "Permission",
@@ -32,7 +32,7 @@ export default {
     tinymce: "Tinymce"
   },
   vuetify: "Vuetify UI",
-  orders: "Orders",
+  orders: "Process Orders",
   ordersComponents: {
     ongoing: "Ongoing",
     completed: "Successful",

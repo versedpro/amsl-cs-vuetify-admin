@@ -26,7 +26,7 @@
 </template>
 
 <script lang="ts">
-import Breadcrumbs from "../widget/app-breadcrumbs.vue";
+// import Breadcrumbs from "../widget/app-breadcrumbs.vue";
 import FullScreen from "../widget/app-fullscreen.vue";
 import Localization from "../widget/app-localization.vue";
 // import Notification from "../widget/app-notification.vue";

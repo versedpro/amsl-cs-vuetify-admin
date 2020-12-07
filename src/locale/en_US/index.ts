@@ -80,34 +80,39 @@ export default {
     productName: "Product",
     remark: "Remark"
   },
-  home:{
-    title: "REFER",
+  home: {
+    title: "Referlo Dashboard",
     itemTitle: "Card1",
     total: "Total Eng",
     moreInfo: "MORE INFO Eng"
   },
+  dashboard: {
+    new: "New",
+    ongoing: "Ongoing",
+    successful: "Successful",
+    rejected: "Rejected"
+  },
   homeData: [
-      {
-        title: "Card1",
-        total: "Total Eng",
-        moreInfo: "MORE INFO Eng"
-      },
-      {
-        title: "Card2",
-        total: "Total Eng",
-        moreInfo: "MORE INFO Eng"
-      },
-      {
-        title: "Card3",
-        total: "Total Eng",
-        moreInfo: "MORE INFO Eng"
-      },
-      {
-        title: "Card4",
-        total: "Total Eng",
-        moreInfo: "MORE INFO Eng"
-      }
-
+    {
+      title: "Card1",
+      total: "Total Eng",
+      moreInfo: "MORE INFO Eng"
+    },
+    {
+      title: "Card2",
+      total: "Total Eng",
+      moreInfo: "MORE INFO Eng"
+    },
+    {
+      title: "Card3",
+      total: "Total Eng",
+      moreInfo: "MORE INFO Eng"
+    },
+    {
+      title: "Card4",
+      total: "Total Eng",
+      moreInfo: "MORE INFO Eng"
+    }
   ],
   errors: {
     whoops: "Whoops",

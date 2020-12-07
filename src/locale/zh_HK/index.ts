@@ -80,11 +80,17 @@ export default {
     productName: "產品",
     remark: "備註"
   },
-  home:{
-    title: "REFER HK",
+  home: {
+    title: "Refer佬資訊",
     itemTitle: "Card HK",
     total: "Total HK",
     moreInfo: "MORE INFO HK"
+  },
+  dashboard: {
+    new: "新增",
+    ongoing: "跟進中",
+    successful: "已成功",
+    rejected: "客戶拒絕"
   },
   homeData: [
     {
@@ -107,8 +113,7 @@ export default {
       total: "Total Eng",
       moreInfo: "MORE INFO Eng"
     }
-
-],
+  ],
   errors: {
     whoops: "哦嚯~!",
     back: "返回!",

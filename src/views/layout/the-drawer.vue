@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer dark fixed app :value="navbarShow" width="250" @input="stateNavbarShow">
+  <v-navigation-drawer dark fixed app :value="navbarShow" width="264" @input="stateNavbarShow">
     <v-app-bar v-if="navbarLogo" :dense="toolbarDense" dark>
       <v-toolbar-title class="text-center">
         <v-avatar size="32px" tile>

@@ -1,6 +1,6 @@
 export default {
   // introduction: 'Introduction',
-  home: "主頁",
+  home: "Refer佬資訊",
   referal: "轉介客戶",
   history: "過往記錄",
   products: "資訊中心",
@@ -65,7 +65,7 @@ export default {
     terms: "條款及細則",
     setting: "設定"
   },
-  orders: "訂單",
+  orders: "訂單處理",
   ordersComponents: {
     ongoing: "跟進中",
     completed: "已成功",
