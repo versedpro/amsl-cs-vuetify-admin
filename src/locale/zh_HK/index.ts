@@ -43,6 +43,15 @@ export default {
     password: "Password",
     confirm: "Confirm"
   },
+  ongoing: {
+    title: "跟進中訂單"
+  },
+  completed: {
+    title: "已成功訂單"
+  },
+  rejected: {
+    title: "客戶拒絕訂單"
+  },
   industry: {
     add: "Add Industry",
     edit: "Edit Industry",
@@ -58,7 +67,7 @@ export default {
     edit: "Edit Products HK",
     title: "Products HK"
   },
-  supplier_products:{
+  supplier_products: {
     add: "Add Supplier Products HK",
     edit: "Edit Supplier Products HK",
     title: "Supplier Products HK"

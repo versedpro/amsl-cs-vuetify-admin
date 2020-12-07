@@ -43,6 +43,15 @@ export default {
     password: "Password",
     confirm: "Confirm"
   },
+  ongoing: {
+    title: "Ongoing Orders"
+  },
+  completed: {
+    title: "Successful Orders"
+  },
+  rejected: {
+    title: "Rejected Orders"
+  },
   industry: {
     add: "Add Industry",
     edit: "Edit Industry",
@@ -58,7 +67,7 @@ export default {
     edit: "Edit Products",
     title: "Products"
   },
-  supplier_products:{
+  supplier_products: {
     add: "Add Supplier Products",
     edit: "Edit Supplier Products",
     title: "Supplier Products"

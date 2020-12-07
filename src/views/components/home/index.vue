@@ -3,55 +3,39 @@
     <v-card-title class="primary justify-center display-1 text-h5 white--text">
       {{ title }}
     </v-card-title>
-    <v-container class="grey lighten-5 pa-0">
-      <v-row no-gutters>
-        <v-col v-for="n in 3" :key="n" cols="12" sm="4">
-          <v-card class="pa-2" outlined>
-            <v-card-title class="justify-center text-h4 text--white">
-              {{ score[n - 1] }}
+
+    <v-container id="dashboard" fluid grid-list-lg>
+      <v-layout wrap>
+        <v-flex xs12 sm6 v-for="(stat, index) in stats.monthlyStats" v-bind:key="index">
+          <v-card :class="stat.bgColor" dark class="pa-5" elevation="0">
+            <v-card-title>
+              {{ stat.title }}
             </v-card-title>
-            <v-card-text class="text-center text-h6">
-              {{ category[n - 1] }}
-            </v-card-text>
+            <v-container>
+              <v-layout wrap>
+                <v-flex>
+                  <v-icon x-large>{{ stat.icon }}</v-icon>
+                </v-flex>
+                <v-flex xs10 class="pl-5">
+                  <p class="ma-0 caption text-uppercase">{{ stat.subtitle }}</p>
+                  <h2 class="display-3 font-weight-bold">
+                    <small v-if="stat.currency" class="display-1">$</small>{{ stat.data }}
+                  </h2>
+                </v-flex>
+              </v-layout>
+            </v-container>
+            <v-card-actions>
+              <v-btn rounded block depressed color="white" outlined :class="stat.btnColor">
+                {{ stat.action.label }}
+              </v-btn>
+            </v-card-actions>
           </v-card>
-        </v-col>
-      </v-row>
-    </v-container>
-    <v-container class="container--fluid grid-list-md text-center">
-      <v-row class="mt-12">
-        <v-col cols="5" offset="1">
-          <v-sheet>
-            <v-icon size="128">mdi-share-circle</v-icon>
-            <h1 class="text-h6 mt-2">{{ menuItem[0] }}</h1>
-          </v-sheet>
-        </v-col>
-
-        <v-col cols="5">
-          <v-sheet>
-            <v-icon size="128">mdi-information</v-icon>
-            <h1 class="text-h6 mt-2">{{ menuItem[1] }}</h1>
-          </v-sheet>
-        </v-col>
-      </v-row>
-
-      <v-row class="mt-12">
-        <v-col cols="5" offset="1">
-          <v-sheet>
-            <v-icon size="128">mdi-information</v-icon>
-            <h1 class="text-h6 mt-2">{{ menuItem[2] }}</h1>
-          </v-sheet>
-        </v-col>
-
-        <v-col cols="5">
-          <v-sheet>
-            <v-icon size="128">mdi-information</v-icon>
-            <h1 class="text-h6 mt-2">{{ menuItem[3] }}</h1>
-          </v-sheet>
-        </v-col>
-      </v-row>
+        </v-flex>
+      </v-layout>
+      <v-layout class="" row wrap> </v-layout>
     </v-container>
 
-    <v-footer absolute>
+    <v-footer app>
       <v-card-actions>
         <h1 class="mr-5 text-h4">1323</h1>
         <v-divider vertical></v-divider>
@@ -61,19 +45,10 @@
 </template>
 
 <script lang="ts">
-/* eslint-disable @typescript-eslint/no-var-requires */
-
-// import PanelGroup from "./PanelGroup.vue";
-// import AppWidget from "@/views/widget/AppWidget.vue";
-
 import { defineComponent, ref } from "@vue/composition-api";
 
 export default defineComponent({
   name: "Home",
-  // components: {
-  //   PanelGroup,
-  //   AppWidget
-  // },
 
   setup() {
     const selected = ref([]);
@@ -83,14 +58,67 @@ export default defineComponent({
 
     const menuItem = ref(["轉介客戶", "過往記錄", "資訊中心", "個人資料"]);
 
-    const img1 = ref(require("@/assets/img/customer-support.png"));
+    // const img1 = ref(require("@/assets/img/customer-support.png"));
 
+    const stats = ref({
+      monthlyStats: [
+        {
+          bgColor: "orange lighten-5 red--text",
+          btnColor: "red--text",
+          icon: "fas fa-folder-plus red--text",
+          title: "新增",
+          subtitle: "total",
+          data: "120",
+          action: {
+            label: "More Info",
+            link: ""
+          }
+        },
+        {
+          bgColor: "orange lighten-5 red--text",
+          btnColor: "red--text",
+          icon: "far fa-hourglass red--text",
+          title: "未完成",
+          subtitle: "total",
+          data: "78",
+          action: {
+            label: "More Info",
+            link: ""
+          }
+        },
+        {
+          bgColor: "orange lighten-5 red--text",
+          btnColor: "red--text",
+          icon: "fas fa-check red--text",
+          title: "已完成",
+          subtitle: "total",
+          data: "780",
+          action: {
+            label: "More Info",
+            link: ""
+          }
+        },
+        {
+          bgColor: "orange lighten-5 red--text",
+          btnColor: "red--text",
+          icon: "fas fa-percent red--text",
+          title: "完成比率",
+          subtitle: "total",
+          data: "53%",
+          action: {
+            label: "More Info",
+            link: ""
+          }
+        }
+      ]
+    });
     return {
-      img1,
+      // img1,
       score,
       category,
       title,
       menuItem,
+      stats,
       selected
     };
   }

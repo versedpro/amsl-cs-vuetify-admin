@@ -1,249 +1,196 @@
 <template>
-  <v-card height="calc(100vh - 50px)" class="pa-4" elevation="0">
-    <v-alert border="bottom" dense class="pa-4 ma-0 primary rounded-b-0"
-      ><p class="ma-0 gold--text text-center text-uppercase">COMPLETED ORDERS</p>
-    </v-alert>
+  <v-card flat tile height="calc(100vh - 50px)" class="pa-4" elevation="0">
+    <v-window v-model="window" class="elevation-1" vertical>
+      <v-window-item>
+        <v-card-title class="primary justify-center gold--text"
+          >{{ $t("completed.title") }}
+        </v-card-title>
 
-    <v-data-table
-      class="elevation-0 mt-5"
-      :headers="headers"
-      :items="items"
-      :items-per-page="options.itemsPerPage"
-      :loading="loading"
-      :options.sync="options"
-      :server-items-length="serverItemsLength"
-      @update:options="handleUpdateOptions"
-      item-key="id"
-      show-expand
-      single-expand
-      :expanded.sync="expanded"
-    >
-      <!-- Top Slot -->
-      <template v-slot:top>
-        <datatable-top-slot
-          @on-search="onSearch($event)"
-          @on-item-add="onAdd()"
-        ></datatable-top-slot>
+        <v-data-table
+          class="elevation-1"
+          :footer-props="defaultFooterProps"
+          :headers="headers"
+          :items="items"
+          :items-per-page="options.itemsPerPage"
+          :loading="loading"
+          :options.sync="options"
+          :server-items-length="serverItemsLength"
+          @update:options="handleUpdateOptions"
+        >
+          <!-- Top Slot -->
+          <template v-slot:top>
+            <datatable-orders-top-slot @on-search="handleSearch" @on-insert="handleInsert" />
+          </template>
+
+          <!-- Action Slot -->
+          <template v-slot:[`item.actions`]="{ item }">
+            <datatable-action-slot @on-update="handleEdit(item)" @on-delete="handleDelete(item)">
+            </datatable-action-slot>
+          </template>
+
+          <!-- createdTimestamp slot -->
+          <template v-slot:[`item.createdTimestamp`]="{ value }">
+            <datatable-iso-date :timestamp="value"> </datatable-iso-date>
+          </template>
+        </v-data-table>
+      </v-window-item>
+
+      <!-- <v-window-item>
         <industry-input
-          :show="dialog"
-          :item="editedItem"
-          :title="dialogTitle"
-          @on-item-changed="(key, value) => (editedItem[key] = value)"
-          @on-cancel-input="onCancelInput"
-          @on-save-input="onSaveInput"
-        ></industry-input>
-      </template>
-
-      <template v-slot:expanded-item="{ item, headers }">
-        <td :colspan="headers.length" class="orange lighten-5 pa-0">
-          <expanded-data-table :item="item"></expanded-data-table>
-        </td>
-      </template>
-
-      <template v-slot:item.DateTimeCreated="{ item }">
-        <span>{{ getIsoDate(item.DateTimeCreated) }}</span>
-      </template>
-    </v-data-table>
+          :mode="mode"
+          :item="item"
+          @on-input-cancel="handleInputCancel"
+          @on-input-save="handleInputSave"
+          @on-input-back="handleInputBack"
+        >
+        </industry-input>
+      </v-window-item> -->
+    </v-window>
   </v-card>
 </template>
 
 <script lang="ts">
+import OngoingApi from "./api";
+
+import { defaultFooterProps, mapOptions, sortParams, setSortOptions } from "@/utils/datatable";
+import { DataOptions } from "vuetify";
+import { Industry } from "@/interfaces/industry";
+
 import { defineComponent, ref } from "@vue/composition-api";
-import IndustryApi from "./api";
-import { mapOptions } from "@/utils/datatable";
-import _ from "lodash";
-import moment from "moment";
-// import func from "vue-temp/vue-editor-bridge";
 
 export default defineComponent({
-  name: "Orders",
+  name: "Ongoing",
+
   components: {
-    // DatatableActionSlot: () => import("@/views/widget/datatable-action-slot.vue"),
-    DatatableTopSlot: () => import("@/views/widget/datatable-top-slot.vue"),
-    IndustryInput: () => import("./industry-input.vue"),
-    ExpandedDataTable: () => import("./expanded-data-table.vue")
+    // IndustryInput: () => import("./industry-input.vue"),
+    DatatableActionSlot: () => import("@/views/widget/datatable-action-slot.vue"),
+    DatatableOrdersTopSlot: () => import("@/views/widget/datatable-orders-top-slot.vue"),
+    DatatableIsoDate: () => import("@/views/widget/datatable-iso-date.vue")
   },
 
   setup() {
+    // datatable header
     const headers = ref([
-      { text: "OrderId", sortable: false, align: "start", value: "salesOrderId" },
-      { text: "ReferloId", sortable: false, value: "referloId" },
-      { text: "ContactName", sortable: false, value: "contactName" },
-      { text: "ContactPhone", sortable: false, value: "contactPhone" },
-      { text: "ContactEmail", sortable: false, value: "contactEmail" },
-      { text: "ContactOtherInfo", sortable: false, value: "contactOtherInfo" },
-      { text: "CreatedTimestamp", sortable: false, value: "createdTimestamp" }
+      { text: "OrderId", value: "salesOrderId", align: "start" },
+      { text: "ContactName", value: "contactName" },
+      { text: "ContactPhone", value: "contactPhone" },
+      { text: "ContactEmail", value: "contactEmail" },
+      { text: "ContactOtherInfo", value: "contactOtherInfo" },
+      { text: "CreatedTimestamp", value: "createdTimestamp" }
     ]);
 
-    const loading = ref(false);
-    const items = ref([]);
-    const item = ref({});
-    const filter = ref("");
-    const serverItemsLength = ref(0);
-    const dialogTitle = ref("");
-    const editedIndex = ref(-1);
-    const dialog = ref(false);
-    const editedItem = ref({
-      industryName: "",
-      industryId: "",
-      description: "",
-      status: 0
-    });
-    const defaultItem = ref({
-      industryName: "",
-      industryId: "",
-      description: "",
-      status: 0
-    });
-
+    // datatable options
     const options = ref({
-      itemsPerPage: 10,
-      page: 1,
-      sortBy: "",
-      sortDesc: true
-    });
-    const expanded = ref([]);
+      sortBy: ["salesOrderId"],
+      sortDesc: [],
+      itemsPerPage: 10
+    } as DataOptions);
 
-    const chips = ref(["Programming", "Playing video games", "Watching movies", "Sleeping"]);
-    const chipItems = ref(["Streaming", "Eating"]);
+    // Other datatable settings
+    const filter = ref("");
+    const loading = ref(false);
+    const item = ref<Industry>({} as Industry);
+    const items = ref([]);
+    const serverItemsLength = ref(0);
+    const mode = ref("add");
+    const showDialog = ref(false);
+    const window = ref(0);
 
-    function handleRefresh() {
-      refreshData();
-    }
-
-    function handleUpdateOptions(opt) {
-      const { page, itemsPerPage, sortBy, sortDesc } = opt;
-      setSortOptions(sortBy, sortDesc);
-      options.value.itemsPerPage = itemsPerPage;
-      options.value.page = page;
-      refreshData();
-    }
-
-    function sortParams() {
-      return _.zipWith(options.value.sortBy, options.value.sortDesc, function (by, isDesc) {
-        return isDesc ? by + "|desc" : by;
-      }).join(",");
-    }
-
-    function setSortOptions(sortBy, sortDesc) {
-      if (sortBy.length > 0 && options.value.sortBy != sortBy) {
-        options.value.sortBy = sortBy;
-      }
-      if (sortDesc.length > 0 && options.value.sortDesc != sortDesc) {
-        options.value.sortDesc = sortDesc;
-      } else if (sortBy.length <= 0) {
-        options.value.sortDesc = options.value.sortDesc ? false : true;
-        options.value.sortBy = sortBy;
-        options.value.sortDesc = sortDesc;
-      }
-    }
-
-    function getIsoDate(dateStr) {
-      return moment(dateStr).format("YYYY-MM-DD hh:mm");
-    }
-
-    function refreshData() {
-      sortParams();
-      fetchData();
-    }
-
-    async function fetchData() {
+    // Other functions
+    async function fetchData(pageNo, pageSize: number, sort?: string, filter?: string) {
       loading.value = true;
+
       try {
-        debugger;
         const dtOptions = mapOptions(options.value);
-        dtOptions["filter"] = filter.value;
-        const response = await IndustryApi.fetchOrders(dtOptions.page, dtOptions.per_page);
-        items.value = response.data["data"];
-        serverItemsLength.value = response.data["total"];
+        dtOptions["filter"] = filter;
+
+        OngoingApi.datatable(dtOptions).then(({ data }) => {
+          items.value = data.data || [];
+          serverItemsLength.value = data.total;
+          loading.value = false;
+        });
       } catch (e) {
-        console.log("fetchDepots failed..", e);
+        // console.log("fetchData failed..", e);
       } finally {
         loading.value = false;
       }
     }
 
-    function onCancelInput() {
-      this.close();
-    }
-
-    function onUpdate(item) {
-      editedIndex.value = items.value.indexOf(item);
-      editedItem.value = Object.assign({}, item);
-      dialog.value = true;
-      dialogTitle.value = "Edit Order";
-    }
-
-    function onSearch(value) {
-      filter.value = value;
+    const handleUpdateOptions = (opt: DataOptions) => {
+      const { itemsPerPage, sortBy, sortDesc } = opt;
+      setSortOptions(options.value, sortBy, sortDesc);
+      options.value.itemsPerPage = itemsPerPage;
       refreshData();
+    };
+
+    function refreshData() {
+      const params = sortParams(options.value);
+      fetchData(options.value.page, options.value.itemsPerPage, params, filter.value);
     }
 
-    function onAdd() {
-      editedIndex.value = -1;
-      dialog.value = true;
-      dialogTitle.value = "Add new";
+    function handleDelete(val) {
+      item.value = val;
+      showDialog.value = true;
     }
 
-    async function onDelete(item) {
-      await IndustryApi.delete(item.industryId);
-      items.value.splice(items.value.indexOf(item), 1);
+    function handleDeleteCancel() {
+      showDialog.value = false;
     }
 
-    function close() {
-      dialog.value = false;
-      this.$nextTick(() => {
-        editedItem.value = Object.assign({}, this.defaultItem);
-        editedIndex.value = -1;
-      });
+    function handleDeleteConfirm() {
+      showDialog.value = false;
     }
 
-    function onSaveInput() {
-      loading.value = true;
-      if (this.editedIndex > -1) {
-        IndustryApi.update(editedItem.value.industryId, editedItem.value).then(({ data }) => {
-          Object.assign(items.value[editedIndex.value], data);
-          loading.value = false;
-        });
-      } else {
-        IndustryApi.create(editedItem.value).then(({ data }) => {
-          items.value.push(data);
-          loading.value = false;
-        });
-      }
-      this.close();
+    function handleInputBack() {
+      window.value = 0;
+    }
+
+    function handleInputCancel() {
+      window.value = 0;
+    }
+
+    function handleInsert() {
+      mode.value = "insert";
+      item.value = {} as Industry;
+      window.value = 1;
+    }
+
+    function handleInputSave(mode) {
+      console.log(mode);
+    }
+
+    function handleSearch(val) {
+      filter.value = val;
+    }
+
+    function handleEdit(val) {
+      mode.value = "edit";
+      item.value = val;
+      window.value = 1;
     }
 
     return {
+      defaultFooterProps,
+      filter,
       headers,
       loading,
-      items,
       item,
-      filter,
-      editedIndex,
-      editedItem,
-      defaultItem,
-      serverItemsLength,
-      dialogTitle,
+      items,
+      mode,
       options,
-      dialog,
-      expanded,
-      chips,
-      chipItems,
-      getIsoDate,
-      handleRefresh,
-      handleUpdateOptions,
-      refreshData,
-      fetchData,
-      setSortOptions,
-      sortParams,
-      onCancelInput,
-      onUpdate,
-      onSearch,
-      onAdd,
-      onDelete,
-      close,
-      onSaveInput
+      serverItemsLength,
+      showDialog,
+      window,
+      handleDelete,
+      handleDeleteCancel,
+      handleDeleteConfirm,
+      handleEdit,
+      handleInputBack,
+      handleInputCancel,
+      handleInputSave,
+      handleInsert,
+      handleSearch,
+      handleUpdateOptions
     };
   }
 });

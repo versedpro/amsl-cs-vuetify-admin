@@ -13,8 +13,8 @@ const ordersRouter = {
   },
   children: [
     {
-      path: "/orders",
-      component: () => import("@/views/components/orders/index.vue"),
+      path: "/ongoing",
+      component: () => import("@/views/components/ongoing/index.vue"),
       name: "Ongoing",
       meta: { title: "route.ordersComponents.ongoing", icon: "mdi-home", affix: true }
     },

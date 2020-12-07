@@ -35,8 +35,8 @@ export default {
   orders: "Orders",
   ordersComponents: {
     ongoing: "Ongoing",
-    completed: "Completed",
-    reject: "Canceled"
+    completed: "Successful",
+    reject: "Rejected"
   },
   more: "More",
   moreComponents: {

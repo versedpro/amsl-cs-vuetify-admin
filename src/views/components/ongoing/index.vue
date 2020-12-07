@@ -3,7 +3,7 @@
     <v-window v-model="window" class="elevation-1" vertical>
       <v-window-item>
         <v-card-title class="primary justify-center gold--text"
-          >{{ $t("industry.title") }}
+          >{{ $t("ongoing.title") }}
         </v-card-title>
 
         <v-data-table
@@ -19,13 +19,7 @@
         >
           <!-- Top Slot -->
           <template v-slot:top>
-            <datatable-top-slot @on-search="handleSearch" @on-insert="handleInsert" />
-          </template>
-
-          <!-- Action Slot -->
-          <template v-slot:[`item.actions`]="{ item }">
-            <datatable-action-slot @on-update="handleEdit(item)" @on-delete="handleDelete(item)">
-            </datatable-action-slot>
+            <datatable-orders-top-slot @on-search="handleSearch" @on-insert="handleInsert" />
           </template>
 
           <!-- createdTimestamp slot -->
@@ -35,7 +29,7 @@
         </v-data-table>
       </v-window-item>
 
-      <v-window-item>
+      <!-- <v-window-item>
         <industry-input
           :mode="mode"
           :item="item"
@@ -44,54 +38,52 @@
           @on-input-back="handleInputBack"
         >
         </industry-input>
-      </v-window-item>
+      </v-window-item> -->
     </v-window>
-
-    <datatable-delete-dialog
-      :show="showDialog"
-      :title="$t('industry.delete')"
-      @on-delete-cancel="handleDeleteCancel"
-      @on-delete-confirm="handleDeleteConfirm"
-    ></datatable-delete-dialog>
   </v-card>
 </template>
 
 <script lang="ts">
-import api from "@/api/crud";
+import OngoingApi from "./api";
 
 import { defaultFooterProps, mapOptions, sortParams, setSortOptions } from "@/utils/datatable";
 import { DataOptions } from "vuetify";
-import { Industry } from "@/interfaces/industry";
+// import { Industry } from "@/interfaces/industry";
 
 import { defineComponent, ref } from "@vue/composition-api";
 
 export default defineComponent({
-  name: "Industry",
+  name: "Ongoing",
 
   components: {
-    IndustryInput: () => import("./industry-input.vue"),
-    DatatableActionSlot: () => import("@/views/widget/datatable-action-slot.vue"),
-    DatatableTopSlot: () => import("@/views/widget/datatable-top-slot.vue"),
-    DatatableDeleteDialog: () => import("@/views/widget/datatable-delete-dialog.vue"),
+    // IndustryInput: () => import("./industry-input.vue"),
+    // DatatableActionSlot: () => import("@/views/widget/datatable-action-slot.vue"),
+    DatatableOrdersTopSlot: () => import("@/views/widget/datatable-orders-top-slot.vue"),
     DatatableIsoDate: () => import("@/views/widget/datatable-iso-date.vue")
   },
 
   setup() {
     // datatable header
     const headers = ref([
-      { text: "Id", align: "start", sortable: false, value: "industryId" },
-      { text: "Name", value: "industryName" },
-      { text: "Created", value: "createdTimestamp" },
-      { text: null, value: "actions", sortable: false, align: "right" }
+      { text: "OrderId", value: "salesOrderId", align: "start" },
+      { text: "ContactName", value: "contactName" },
+      { text: "ContactPhone", value: "contactPhone" },
+      { text: "ContactEmail", value: "contactEmail" },
+      { text: "ContactOtherInfo", value: "contactOtherInfo" },
+      { text: "CreatedTimestamp", value: "createdTimestamp" }
     ]);
 
     // datatable options
-    const options = ref({ sortBy: ["industryId"], sortDesc: [], itemsPerPage: 10 } as DataOptions);
+    const options = ref({
+      sortBy: ["salesOrderId"],
+      sortDesc: [],
+      itemsPerPage: 10
+    } as DataOptions);
 
     // Other datatable settings
     const filter = ref("");
     const loading = ref(false);
-    const item = ref<Industry>({} as Industry);
+    // const item = ref<Industry>({} as Industry);
     const items = ref([]);
     const serverItemsLength = ref(0);
     const mode = ref("add");
@@ -106,7 +98,7 @@ export default defineComponent({
         const dtOptions = mapOptions(options.value);
         dtOptions["filter"] = filter;
 
-        api.get("/Industry/Datatable", dtOptions).then(({ data }) => {
+        OngoingApi.datatable(dtOptions).then(({ data }) => {
           items.value = data.data || [];
           serverItemsLength.value = data.total;
           loading.value = false;
@@ -130,19 +122,12 @@ export default defineComponent({
       fetchData(options.value.page, options.value.itemsPerPage, params, filter.value);
     }
 
-    function handleDelete(val) {
-      item.value = val;
-      showDialog.value = true;
-    }
-
     function handleDeleteCancel() {
       showDialog.value = false;
     }
 
-    async function handleDeleteConfirm() {
-      await api.delete(`/Industry/${item.value.industryId}`);
+    function handleDeleteConfirm() {
       showDialog.value = false;
-      refreshData();
     }
 
     function handleInputBack() {
@@ -153,25 +138,12 @@ export default defineComponent({
       window.value = 0;
     }
 
-    function handleInsert() {
-      mode.value = "insert";
-      item.value = {} as Industry;
-      window.value = 1;
-    }
-
-    function handleInputSave() {
-      handleInputBack();
-      refreshData();
+    function handleInputSave(mode) {
+      console.log(mode);
     }
 
     function handleSearch(val) {
       filter.value = val;
-    }
-
-    function handleEdit(val) {
-      mode.value = "edit";
-      item.value = val;
-      window.value = 1;
     }
 
     return {
@@ -179,21 +151,17 @@ export default defineComponent({
       filter,
       headers,
       loading,
-      item,
       items,
       mode,
       options,
       serverItemsLength,
       showDialog,
       window,
-      handleDelete,
       handleDeleteCancel,
       handleDeleteConfirm,
-      handleEdit,
       handleInputBack,
       handleInputCancel,
       handleInputSave,
-      handleInsert,
       handleSearch,
       handleUpdateOptions
     };
