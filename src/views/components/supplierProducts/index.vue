@@ -13,6 +13,9 @@
           :items="items"
           :items-per-page="options.itemsPerPage"
           :loading="loading"
+          item-key="supplierProductId"
+          :expanded.sync="expanded"
+          show-expand
           :options.sync="options"
           :server-items-length="serverItemsLength"
           @update:options="handleUpdateOptions"
@@ -31,6 +34,13 @@
           <!-- createdTimestamp slot -->
           <template v-slot:[`item.createdTimestamp`]="{ value }">
             <datatable-iso-date :timestamp="value"> </datatable-iso-date>
+          </template>
+
+          <!-- expand slot -->
+          <template v-slot:expanded-item="{ headers, item }">
+            <td :colspan="headers.length">
+              <file-upload :id="item.supplierProductId" style="min-height: 100px"></file-upload>
+            </td>
           </template>
         </v-data-table>
       </v-window-item>
@@ -70,7 +80,8 @@ export default defineComponent({
     DatatableActionSlot: () => import("@/views/widget/datatable-action-slot.vue"),
     DatatableTopSlot: () => import("@/views/widget/datatable-top-slot.vue"),
     DatatableDeleteDialog: () => import("@/views/widget/datatable-delete-dialog.vue"),
-    DatatableIsoDate: () => import("@/views/widget/datatable-iso-date.vue")
+    DatatableIsoDate: () => import("@/views/widget/datatable-iso-date.vue"),
+    FileUpload: () => import("@/views/widget/file-upload.vue")
   },
 
   setup() {
@@ -98,6 +109,7 @@ export default defineComponent({
     const mode = ref("add");
     const showDialog = ref(false);
     const window = ref(0);
+    const expanded = ref([]);
 
     // Other functions
     async function fetchData(pageNo, pageSize: number, sort?: string, filter?: string) {
@@ -187,6 +199,7 @@ export default defineComponent({
       serverItemsLength,
       showDialog,
       window,
+      expanded,
       handleDelete,
       handleDeleteCancel,
       handleDeleteConfirm,
