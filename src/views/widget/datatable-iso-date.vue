@@ -11,18 +11,19 @@ export default defineComponent({
   name: "DatatableIsoDate",
 
   props: {
-    value: {
+    timestamp: {
       type: String,
       default: "N/A"
     }
   },
+
   setup(props) {
     const format = "YYYY-MM-DD hh:mm";
 
     function isoDate() {
-      let date = moment(props.value);
+      let date = moment(props.timestamp);
       if (date.isValid()) {
-        return moment(this.dateStr).format(format);
+        return moment(props.timestamp).format(format);
       } else {
         return "";
       }

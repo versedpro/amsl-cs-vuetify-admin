@@ -16,15 +16,15 @@ import { defineComponent, ref } from "@vue/composition-api";
 export default defineComponent({
   name: "DatatableActionSlot",
 
-  setup() {
+  setup(_, { emit }) {
     const filterText = ref("");
 
     function handleUpdate() {
-      this.$emit("on-update");
+      emit("on-update");
     }
 
     function handleDelete() {
-      this.$emit("on-delete");
+      emit("on-delete");
     }
 
     return {

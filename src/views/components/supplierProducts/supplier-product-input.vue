@@ -10,51 +10,60 @@
               <v-col cols="12" sm="6" md="4">
                 <validation-provider name="Id" rules="required" v-slot="{ errors }">
                   <v-text-field
-                    :value="item.supplierId"
-                    @input="handleChange('supplierId', $event)"
+                    :value="item.supplierProductId"
+                    @input="handleChange('supplierProductId', $event)"
                     :error-messages="errors"
                     label="Id"
                   ></v-text-field>
                 </validation-provider>
               </v-col>
               <v-col cols="12" sm="6" md="4">
-                <validation-provider name="Supplier Name" rules="required" v-slot="{ errors }">
+                <validation-provider name="ProductId" rules="required" v-slot="{ errors }">
                   <v-text-field
-                    :value="item.supplierName"
-                    @input="handleChange('supplierName', $event)"
+                    :value="item.productId"
+                    @input="handleChange('productId', $event)"
                     :error-messages="errors"
-                    label="Name"
+                    label="ProductId"
                   ></v-text-field>
                 </validation-provider>
               </v-col>
               <v-col cols="12" sm="6" md="4">
-                <validation-provider name="Display Name" v-slot="{ errors }">
+                <validation-provider name="SupplierId" rules="required" v-slot="{ errors }">
                   <v-text-field
-                    :value="item.displayName"
-                    @input="handleChange('displayName', $event)"
+                    :value="item.supplierId"
+                    @input="handleChange('supplierId', $event)"
                     :error-messages="errors"
-                    label="Display Name"
+                    label="SupplierId"
                   ></v-text-field>
                 </validation-provider>
               </v-col>
               <v-col cols="12" sm="6" md="4">
-                <validation-provider name="Ranking" v-slot="{ errors }">
+                <validation-provider name="Remarks" rules="required" v-slot="{ errors }">
                   <v-text-field
-                    :value="item.ranking"
-                    @input="handleChange('ranking', $event)"
+                    :value="item.remarks"
+                    @input="handleChange('remarks', $event)"
                     :error-messages="errors"
-                    label="Ranking"
+                    label="Remarks"
                   ></v-text-field>
                 </validation-provider>
               </v-col>
-
               <v-col cols="12" sm="6" md="4">
-                <validation-provider name="CreatedBy" v-slot="{ errors }">
+                <validation-provider name="Points Limit" v-slot="{ errors }">
                   <v-text-field
-                    :value="item.createdBy"
-                    @input="handleChange('createdBy', $event)"
+                    :value="item.pointsLimit"
+                    @input="handleChange('pointsLimit', $event)"
                     :error-messages="errors"
-                    label="CreatedBy"
+                    label="Points Limit"
+                  ></v-text-field>
+                </validation-provider>
+              </v-col>
+              <v-col cols="12" sm="6" md="4">
+                <validation-provider name="Points" v-slot="{ errors }">
+                  <v-text-field
+                    :value="item.points"
+                    @input="handleChange('points', $event)"
+                    :error-messages="errors"
+                    label="Points"
                   ></v-text-field>
                 </validation-provider>
               </v-col>
@@ -65,6 +74,26 @@
                     @input="handleChange('status', $event)"
                     :error-messages="errors"
                     label="Status"
+                  ></v-text-field>
+                </validation-provider>
+              </v-col>
+              <v-col cols="12" sm="6" md="4">
+                <validation-provider name="Meta" v-slot="{ errors }">
+                  <v-text-field
+                    :value="item.meta"
+                    @input="handleChange('meta', $event)"
+                    :error-messages="errors"
+                    label="Meta"
+                  ></v-text-field>
+                </validation-provider>
+              </v-col>
+              <v-col cols="12" sm="6" md="4">
+                <validation-provider name="CreatedBy" v-slot="{ errors }">
+                  <v-text-field
+                    :value="item.createdBy"
+                    @input="handleChange('createdBy', $event)"
+                    :error-messages="errors"
+                    label="CreatedBy"
                   ></v-text-field>
                 </validation-provider>
               </v-col>
@@ -84,7 +113,6 @@
 
         <v-divider></v-divider>
 
-        <!-- The save and cancel button -->
         <input-form-action
           :invalid="invalid"
           @on-cancel="handleCancel"
@@ -101,7 +129,7 @@ import { ValidationProvider, ValidationObserver } from "vee-validate";
 import { computed, defineComponent } from "@vue/composition-api";
 
 export default defineComponent({
-  name: "SupplierInput",
+  name: "SupplierProductInput",
 
   components: {
     InputFormAction: () => import("@/views/widget/input-form-action.vue"),
@@ -120,7 +148,7 @@ export default defineComponent({
 
   setup(props, { emit, root }) {
     const title = computed(() =>
-      props.mode == "insert" ? root.$t("supplier.add") : root.$t("supplier.edit")
+      props.mode == "insert" ? root.$t("supplier_products.add") : root.$t("supplier_products.edit")
     );
 
     function handleBackButton() {

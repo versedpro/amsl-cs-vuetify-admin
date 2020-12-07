@@ -2,7 +2,7 @@
   <v-dialog :value="show" max-width="500px" @click:outside="handleCancel">
     <v-card>
       <v-card-title class="py-1 px-3">
-        <span>Delete Industry</span>
+        {{ title }}
         <v-spacer></v-spacer>
         <v-btn text icon color="primary" @click="handleCancel">
           <v-icon>mdi-close</v-icon>
@@ -21,17 +21,22 @@
 import { defineComponent } from "@vue/composition-api";
 
 export default defineComponent({
-  name: "industry-delete",
- props: {
-    itemID: Number,
+  name: "datatable-delete-dialog",
+
+  props: {
+    id: Number,
+    name: String,
+    title: String,
     show: Boolean
   },
-  setup() {
+
+  setup(_, { emit }) {
     function handleCancel() {
-      this.$emit("on-cancel-delete");
+      emit("on-delete-cancel");
     }
+
     function handleDelete() {
-      this.$emit("on-delete", this.itemID);
+      emit("on-delete-confirm", this.id);
     }
     return {
       handleCancel,

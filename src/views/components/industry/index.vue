@@ -2,7 +2,7 @@
   <v-card flat tile height="calc(100vh - 50px)" class="pa-4" elevation="0">
     <v-window v-model="window" class="elevation-1" vertical>
       <v-window-item>
-        <v-card-title class="primary justify-center white--text"
+        <v-card-title class="primary justify-center gold--text"
           >{{ $t("industry.title") }}
         </v-card-title>
 
@@ -24,34 +24,46 @@
 
           <!-- Action Slot -->
           <template v-slot:[`item.actions`]="{ item }">
-            <datatable-action-slot
-              @on-update="handleUpdate(item)"
-              @on-delete="onDelete(item.industryId)"
-            >
+            <datatable-action-slot @on-update="handleEdit(item)" @on-delete="handleDelete(item)">
             </datatable-action-slot>
+          </template>
+
+          <!-- createdTimestamp slot -->
+          <template v-slot:[`item.createdTimestamp`]="{ value }">
+            <datatable-iso-date :timestamp="value"> </datatable-iso-date>
           </template>
         </v-data-table>
       </v-window-item>
+
       <v-window-item>
         <industry-input
           :mode="mode"
           :item="item"
-          @on-cancel-input="onCancelInput"
-          @on-save-input="handleSaveInput"
-          @on-back-button="handleBackButton"
+          @on-input-cancel="handleInputCancel"
+          @on-input-save="handleInputSave"
+          @on-input-back="handleInputBack"
         >
         </industry-input>
       </v-window-item>
     </v-window>
+
+    <datatable-delete-dialog
+      :show="showDialog"
+      :title="$t('industry.delete')"
+      @on-delete-cancel="handleDeleteCancel"
+      @on-delete-confirm="handleDeleteConfirm"
+    ></datatable-delete-dialog>
   </v-card>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "@vue/composition-api";
 import IndustryApi from "./api";
+
 import { defaultFooterProps, mapOptions, sortParams, setSortOptions } from "@/utils/datatable";
 import { DataOptions } from "vuetify";
 import { Industry } from "@/interfaces/industry";
+
+import { defineComponent, ref } from "@vue/composition-api";
 
 export default defineComponent({
   name: "Industry",
@@ -59,7 +71,9 @@ export default defineComponent({
   components: {
     IndustryInput: () => import("./industry-input.vue"),
     DatatableActionSlot: () => import("@/views/widget/datatable-action-slot.vue"),
-    DatatableTopSlot: () => import("@/views/widget/datatable-top-slot.vue")
+    DatatableTopSlot: () => import("@/views/widget/datatable-top-slot.vue"),
+    DatatableDeleteDialog: () => import("@/views/widget/datatable-delete-dialog.vue"),
+    DatatableIsoDate: () => import("@/views/widget/datatable-iso-date.vue")
   },
 
   setup() {
@@ -81,6 +95,7 @@ export default defineComponent({
     const items = ref([]);
     const serverItemsLength = ref(0);
     const mode = ref("add");
+    const showDialog = ref(false);
     const window = ref(0);
 
     // Other functions
@@ -97,7 +112,7 @@ export default defineComponent({
           loading.value = false;
         });
       } catch (e) {
-        // console.log("fetchDepots failed..", e);
+        // console.log("fetchData failed..", e);
       } finally {
         loading.value = false;
       }
@@ -115,11 +130,24 @@ export default defineComponent({
       fetchData(options.value.page, options.value.itemsPerPage, params, filter.value);
     }
 
-    function handleBackButton() {
+    function handleDelete(val) {
+      item.value = val;
+      showDialog.value = true;
+    }
+
+    function handleDeleteCancel() {
+      showDialog.value = false;
+    }
+
+    function handleDeleteConfirm() {
+      showDialog.value = false;
+    }
+
+    function handleInputBack() {
       window.value = 0;
     }
 
-    function onCancelInput() {
+    function handleInputCancel() {
       window.value = 0;
     }
 
@@ -129,7 +157,7 @@ export default defineComponent({
       window.value = 1;
     }
 
-    function handleSaveInput(mode) {
+    function handleInputSave(mode) {
       console.log(mode);
     }
 
@@ -137,7 +165,7 @@ export default defineComponent({
       filter.value = val;
     }
 
-    function handleUpdate(val) {
+    function handleEdit(val) {
       mode.value = "edit";
       item.value = val;
       window.value = 1;
@@ -145,21 +173,25 @@ export default defineComponent({
 
     return {
       defaultFooterProps,
-      loading,
+      filter,
       headers,
-      options,
+      loading,
       item,
       items,
-      filter,
-      window,
-      serverItemsLength,
       mode,
-      onCancelInput,
-      handleBackButton,
+      options,
+      serverItemsLength,
+      showDialog,
+      window,
+      handleDelete,
+      handleDeleteCancel,
+      handleDeleteConfirm,
+      handleEdit,
+      handleInputBack,
+      handleInputCancel,
+      handleInputSave,
       handleInsert,
-      handleSaveInput,
       handleSearch,
-      handleUpdate,
       handleUpdateOptions
     };
   }
