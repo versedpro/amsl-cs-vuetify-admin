@@ -2,9 +2,7 @@
   <v-main class="pb-0">
     <v-sheet tile class="mx-auto" max-width="960" height="100%">
       <transition name="fade-transform" mode="out-in">
-        <keep-alive>
-          <router-view />
-        </keep-alive>
+        <router-view />
       </transition>
       <!-- <the-bottom-navigation /> -->
     </v-sheet>
