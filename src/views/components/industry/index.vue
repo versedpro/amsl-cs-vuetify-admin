@@ -63,7 +63,7 @@ import { defaultFooterProps, mapOptions, sortParams, setSortOptions } from "@/ut
 import { DataOptions } from "vuetify";
 import { Industry } from "@/interfaces/industry";
 
-import { defineComponent, ref } from "@vue/composition-api";
+import { computed, defineComponent, ref } from "@vue/composition-api";
 
 export default defineComponent({
   name: "Industry",
@@ -76,14 +76,16 @@ export default defineComponent({
     DatatableIsoDate: () => import("@/views/widget/datatable-iso-date.vue")
   },
 
-  setup() {
+  setup(_, { root }) {
     // datatable header
-    const headers = ref([
-      { text: "Id", align: "start", sortable: false, value: "industryId" },
-      { text: "Name", value: "industryName" },
-      { text: "Created", value: "createdTimestamp" },
-      { text: null, value: "actions", sortable: false, align: "right" }
-    ]);
+    const headers = computed(() => {
+      return [
+        { text: root.$t("industry.title"), align: "start", sortable: false, value: "industryId" },
+        { text: "Name", value: "industryName" },
+        { text: "Created", value: "createdTimestamp" },
+        { text: null, value: "actions", sortable: false, align: "right" }
+      ];
+    });
 
     // datatable options
     const options = ref({ sortBy: ["industryId"], sortDesc: [], itemsPerPage: 10 } as DataOptions);
