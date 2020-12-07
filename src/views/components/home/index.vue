@@ -1,15 +1,14 @@
 <template>
-  <v-card class="mx-auto pa-0" max-width="800" height="100%" tile>
-    <v-card-title class="primary justify-center display-1 text-h5 white--text">
-      {{ title }}
+  <v-card class="mx-auto" max-width="960" height="100%" tile>
+    <v-card-title class="primary justify-center display-1 text-h5 gold--text">
+      {{ $t("home.title") }}
     </v-card-title>
-
     <v-container id="dashboard" fluid grid-list-lg>
       <v-layout wrap>
         <v-flex xs12 sm6 v-for="(stat, index) in stats.monthlyStats" v-bind:key="index">
           <v-card :class="stat.bgColor" dark class="pa-5" elevation="0">
             <v-card-title>
-              {{ stat.title }}
+              {{ $t("home.itemTitle") }}
             </v-card-title>
             <v-container>
               <v-layout wrap>
@@ -17,7 +16,7 @@
                   <v-icon x-large>{{ stat.icon }}</v-icon>
                 </v-flex>
                 <v-flex xs10 class="pl-5">
-                  <p class="ma-0 caption text-uppercase">{{ stat.subtitle }}</p>
+                  <p class="ma-0 caption text-uppercase">{{ $t("home.total") }}</p>
                   <h2 class="display-3 font-weight-bold">
                     <small v-if="stat.currency" class="display-1">$</small>{{ stat.data }}
                   </h2>
@@ -26,7 +25,7 @@
             </v-container>
             <v-card-actions>
               <v-btn rounded block depressed color="white" outlined :class="stat.btnColor">
-                {{ stat.action.label }}
+                {{ $t("home.moreInfo") }}
               </v-btn>
             </v-card-actions>
           </v-card>
@@ -63,9 +62,9 @@ export default defineComponent({
     const stats = ref({
       monthlyStats: [
         {
-          bgColor: "orange lighten-5 red--text",
-          btnColor: "red--text",
-          icon: "fas fa-folder-plus red--text",
+          bgColor: "grey primary--text",
+          btnColor: "primary--text",
+          icon: "fas fa-folder-plus primary--text",
           title: "新增",
           subtitle: "total",
           data: "120",
@@ -75,9 +74,9 @@ export default defineComponent({
           }
         },
         {
-          bgColor: "orange lighten-5 red--text",
-          btnColor: "red--text",
-          icon: "far fa-hourglass red--text",
+          bgColor: "grey primary--text",
+          btnColor: "primary--text",
+          icon: "far fa-hourglass primary--text",
           title: "未完成",
           subtitle: "total",
           data: "78",
@@ -87,9 +86,9 @@ export default defineComponent({
           }
         },
         {
-          bgColor: "orange lighten-5 red--text",
-          btnColor: "red--text",
-          icon: "fas fa-check red--text",
+          bgColor: "grey primary--text",
+          btnColor: "primary--text",
+          icon: "fas fa-check primary--text",
           title: "已完成",
           subtitle: "total",
           data: "780",
@@ -99,9 +98,9 @@ export default defineComponent({
           }
         },
         {
-          bgColor: "orange lighten-5 red--text",
-          btnColor: "red--text",
-          icon: "fas fa-percent red--text",
+          bgColor: "grey primary--text",
+          btnColor: "primary--text",
+          icon: "fas fa-percent primary--text",
           title: "完成比率",
           subtitle: "total",
           data: "53%",

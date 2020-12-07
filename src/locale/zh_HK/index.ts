@@ -80,6 +80,35 @@ export default {
     productName: "產品",
     remark: "備註"
   },
+  home:{
+    title: "REFER HK",
+    itemTitle: "Card HK",
+    total: "Total HK",
+    moreInfo: "MORE INFO HK"
+  },
+  homeData: [
+    {
+      title: "Card1 HK",
+      total: "Total Eng",
+      moreInfo: "MORE INFO Eng"
+    },
+    {
+      title: "Card2 HK",
+      total: "Total Eng",
+      moreInfo: "MORE INFO Eng"
+    },
+    {
+      title: "Card3 HK",
+      total: "Total Eng",
+      moreInfo: "MORE INFO Eng"
+    },
+    {
+      title: "Card4 HK",
+      total: "Total Eng",
+      moreInfo: "MORE INFO Eng"
+    }
+
+],
   errors: {
     whoops: "哦嚯~!",
     back: "返回!",

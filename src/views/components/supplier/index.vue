@@ -1,5 +1,5 @@
 <template>
-  <v-card height="calc(100vh - 50px)" class="pa-4" elevation="0">
+  <v-card height="calc(100vh - 50px)" elevation="0">
     <v-window v-model="window" class="elevation-1" vertical>
       <v-window-item>
         <v-card-title class="primary justify-center gold--text"

@@ -9,7 +9,7 @@
       </v-avatar>
     </v-app-bar-nav-icon>
 
-    <breadcrumbs />
+    <!-- <breadcrumbs /> -->
 
     <v-spacer />
 
@@ -35,7 +35,7 @@ import { defineComponent, computed } from "@vue/composition-api";
 export default defineComponent({
   name: "TheLayoutToolbar",
   components: {
-    Breadcrumbs,
+    // Breadcrumbs,
     // ErrorLog,
     FullScreen,
     Localization

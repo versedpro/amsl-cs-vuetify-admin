@@ -80,6 +80,35 @@ export default {
     productName: "Product",
     remark: "Remark"
   },
+  home:{
+    title: "REFER",
+    itemTitle: "Card1",
+    total: "Total Eng",
+    moreInfo: "MORE INFO Eng"
+  },
+  homeData: [
+      {
+        title: "Card1",
+        total: "Total Eng",
+        moreInfo: "MORE INFO Eng"
+      },
+      {
+        title: "Card2",
+        total: "Total Eng",
+        moreInfo: "MORE INFO Eng"
+      },
+      {
+        title: "Card3",
+        total: "Total Eng",
+        moreInfo: "MORE INFO Eng"
+      },
+      {
+        title: "Card4",
+        total: "Total Eng",
+        moreInfo: "MORE INFO Eng"
+      }
+
+  ],
   errors: {
     whoops: "Whoops",
     back: "Get me out of here!",
