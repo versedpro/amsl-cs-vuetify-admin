@@ -10,8 +10,7 @@
               <v-col cols="12" sm="6" md="4">
                 <validation-provider name="Id" rules="required" v-slot="{ errors }">
                   <v-text-field
-                    :value="item.supplierId"
-                    @input="handleChange('supplierId', $event)"
+                    v-model="supplier.supplierId"
                     :error-messages="errors"
                     label="Id"
                   ></v-text-field>
@@ -20,8 +19,7 @@
               <v-col cols="12" sm="6" md="4">
                 <validation-provider name="Supplier Name" rules="required" v-slot="{ errors }">
                   <v-text-field
-                    :value="item.supplierName"
-                    @input="handleChange('supplierName', $event)"
+                    v-model="supplier.supplierName"
                     :error-messages="errors"
                     label="Name"
                   ></v-text-field>
@@ -30,8 +28,7 @@
               <v-col cols="12" sm="6" md="4">
                 <validation-provider name="Display Name" v-slot="{ errors }">
                   <v-text-field
-                    :value="item.displayName"
-                    @input="handleChange('displayName', $event)"
+                    v-model="supplier.displayName"
                     :error-messages="errors"
                     label="Display Name"
                   ></v-text-field>
@@ -40,8 +37,7 @@
               <v-col cols="12" sm="6" md="4">
                 <validation-provider name="Ranking" v-slot="{ errors }">
                   <v-text-field
-                    :value="item.ranking"
-                    @input="handleChange('ranking', $event)"
+                    v-model="supplier.ranking"
                     :error-messages="errors"
                     label="Ranking"
                   ></v-text-field>
@@ -51,8 +47,7 @@
               <v-col cols="12" sm="6" md="4">
                 <validation-provider name="CreatedBy" v-slot="{ errors }">
                   <v-text-field
-                    :value="item.createdBy"
-                    @input="handleChange('createdBy', $event)"
+                    v-model="supplier.createdBy"
                     :error-messages="errors"
                     label="CreatedBy"
                   ></v-text-field>
@@ -61,8 +56,7 @@
               <v-col cols="12" sm="6" md="4">
                 <validation-provider name="Status" v-slot="{ errors }">
                   <v-text-field
-                    :value="item.status"
-                    @input="handleChange('status', $event)"
+                    v-model="supplier.status"
                     :error-messages="errors"
                     label="Status"
                   ></v-text-field>
@@ -71,8 +65,7 @@
               <v-col cols="12" sm="6" md="4">
                 <validation-provider name="Created Timestamp" rules="required" v-slot="{ errors }">
                   <v-text-field
-                    :value="item.createdTimestamp"
-                    @input="handleChange('createdTimestamp', $event)"
+                    v-model="supplier.createdTimestamp"
                     :error-messages="errors"
                     label="Created Timestamp"
                   ></v-text-field>
@@ -98,7 +91,8 @@
 <script lang="ts">
 import "./validations";
 import { ValidationProvider, ValidationObserver } from "vee-validate";
-import { computed, defineComponent } from "@vue/composition-api";
+import { computed, defineComponent, ref, watchEffect } from "@vue/composition-api";
+import api from "@/api/crud";
 
 export default defineComponent({
   name: "SupplierInput",
@@ -123,6 +117,11 @@ export default defineComponent({
       props.mode == "insert" ? root.$t("supplier.add") : root.$t("supplier.edit")
     );
 
+    const supplier = ref(props.item);
+    watchEffect(() => {
+      supplier.value = props.item;
+    });
+
     function handleBackButton() {
       emit("on-input-back");
     }
@@ -131,7 +130,12 @@ export default defineComponent({
       emit("on-input-cancel");
     }
 
-    function handleSave() {
+    async function handleSave() {
+      if (props.mode === "insert") {
+        await api.create("/Supplier", supplier.value);
+      } else {
+        await api.update(`/Supplier/${supplier.value.supplierId}`, supplier.value);
+      }
       emit("on-input-save", props.mode);
     }
 
@@ -141,6 +145,7 @@ export default defineComponent({
 
     return {
       title,
+      supplier,
       handleBackButton,
       handleCancel,
       handleSave,

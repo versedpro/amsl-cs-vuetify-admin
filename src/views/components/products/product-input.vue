@@ -10,8 +10,7 @@
               <v-col cols="12" sm="6" md="4">
                 <validation-provider name="Id" rules="required" v-slot="{ errors }">
                   <v-text-field
-                    :value="item.productId"
-                    @input="handleChange('productId', $event)"
+                    v-model="product.productId"
                     :error-messages="errors"
                     label="Id"
                   ></v-text-field>
@@ -20,8 +19,7 @@
               <v-col cols="12" sm="6" md="4">
                 <validation-provider name="Product Name" rules="required" v-slot="{ errors }">
                   <v-text-field
-                    :value="item.productName"
-                    @input="handleChange('productName', $event)"
+                    v-model="product.productName"
                     :error-messages="errors"
                     label="Name"
                   ></v-text-field>
@@ -30,8 +28,7 @@
               <v-col cols="12" sm="6" md="4">
                 <validation-provider name="Product Localized" v-slot="{ errors }">
                   <v-text-field
-                    :value="item.productLocalized"
-                    @input="handleChange('productLocalized', $event)"
+                    v-model="product.productLocalized"
                     :error-messages="errors"
                     label="Product Localized"
                   ></v-text-field>
@@ -40,8 +37,7 @@
               <v-col cols="12" sm="6" md="4">
                 <validation-provider name="Status Flag" v-slot="{ errors }">
                   <v-text-field
-                    :value="item.statusFlag"
-                    @input="handleChange('statusFlag', $event)"
+                    v-model="product.statusFlag"
                     :error-messages="errors"
                     label="Status Flag"
                   ></v-text-field>
@@ -50,8 +46,7 @@
               <v-col cols="12" sm="6" md="4">
                 <validation-provider name="Meta" v-slot="{ errors }">
                   <v-text-field
-                    :value="item.meta"
-                    @input="handleChange('meta', $event)"
+                    v-model="product.meta"
                     :error-messages="errors"
                     label="Meta"
                   ></v-text-field>
@@ -60,8 +55,7 @@
               <v-col cols="12" sm="6" md="4">
                 <validation-provider name="Points" v-slot="{ errors }">
                   <v-text-field
-                    :value="item.points"
-                    @input="handleChange('points', $event)"
+                    v-model="product.points"
                     :error-messages="errors"
                     label="Points"
                   ></v-text-field>
@@ -70,8 +64,7 @@
               <v-col cols="12" sm="6" md="4">
                 <validation-provider name="Created Timestamp" rules="required" v-slot="{ errors }">
                   <v-text-field
-                    :value="item.createdTimestamp"
-                    @input="handleChange('createdTimestamp', $event)"
+                    v-model="product.createdTimestamp"
                     :error-messages="errors"
                     label="Created Timestamp"
                   ></v-text-field>
@@ -95,7 +88,8 @@
 <script lang="ts">
 import "./validations";
 import { ValidationProvider, ValidationObserver } from "vee-validate";
-import { computed, defineComponent } from "@vue/composition-api";
+import { computed, defineComponent, ref, watchEffect } from "@vue/composition-api";
+import api from "@/api/crud";
 
 export default defineComponent({
   name: "ProductInput",
@@ -120,6 +114,11 @@ export default defineComponent({
       props.mode == "insert" ? root.$t("products.add") : root.$t("products.edit")
     );
 
+    const product = ref(props.item);
+    watchEffect(() => {
+      product.value = props.item;
+    });
+
     function handleBackButton() {
       emit("on-input-back");
     }
@@ -128,7 +127,12 @@ export default defineComponent({
       emit("on-input-cancel");
     }
 
-    function handleSave() {
+    async function handleSave() {
+      if (props.mode === "insert") {
+        await api.create("/Product", product.value);
+      } else {
+        await api.update(`/Product/${product.value.productId}`, product.value);
+      }
       emit("on-input-save", props.mode);
     }
 
@@ -138,6 +142,7 @@ export default defineComponent({
 
     return {
       title,
+      product,
       handleBackButton,
       handleCancel,
       handleSave,
