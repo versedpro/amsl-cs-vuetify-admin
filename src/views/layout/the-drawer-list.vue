@@ -19,7 +19,7 @@
       </v-list-item>
 
       <v-list-group v-else :prepend-icon="getListIcon(item)"
-      active-class="gold--text primary">
+      active-class="white--text">
         <template v-slot:activator>
           <v-list-item-content>
             <v-list-item-title>
