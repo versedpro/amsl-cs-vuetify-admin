@@ -18,20 +18,26 @@
               </v-col>
               <v-col cols="12" sm="6" md="4">
                 <validation-provider name="ProductId" rules="required" v-slot="{ errors }">
-                  <v-text-field
+                  <v-select
                     v-model="supplierProduct.productId"
+                    :items="products"
                     :error-messages="errors"
+                    item-text="productName"
+                    item-value="productId"
                     label="ProductId"
-                  ></v-text-field>
+                  ></v-select>
                 </validation-provider>
               </v-col>
               <v-col cols="12" sm="6" md="4">
                 <validation-provider name="SupplierId" rules="required" v-slot="{ errors }">
-                  <v-text-field
+                  <v-select
                     v-model="supplierProduct.supplierId"
+                    :items="suppliers"
                     :error-messages="errors"
+                    item-text="supplierName"
+                    item-value="supplierId"
                     label="SupplierId"
-                  ></v-text-field>
+                  ></v-select>
                 </validation-provider>
               </v-col>
               <v-col cols="12" sm="6" md="4">
@@ -142,10 +148,28 @@ export default defineComponent({
       props.mode == "insert" ? root.$t("supplier_products.add") : root.$t("supplier_products.edit")
     );
 
+    let products = ref([]);
+    let suppliers = ref([]);
+
     const supplierProduct = ref(props.item);
     watchEffect(() => {
       supplierProduct.value = props.item;
     });
+
+    function fetchProducts() {
+      api.get("/Product", []).then(({ data }) => {
+        products.value = data;
+      });
+    }
+
+    function fetchSuppliers() {
+      api.get("/Supplier", []).then(({ data }) => {
+        suppliers.value = data;
+      });
+    }
+
+    fetchSuppliers();
+    fetchProducts();
 
     function handleBackButton() {
       emit("on-input-back");
@@ -160,7 +184,7 @@ export default defineComponent({
         await api.create("/SupplierProduct", supplierProduct.value);
       } else {
         await api.update(
-          `/SupplierProduct/${supplierProduct.value.supplierId}`,
+          `/SupplierProduct/${supplierProduct.value.supplierProductId}`,
           supplierProduct.value
         );
       }
@@ -174,6 +198,8 @@ export default defineComponent({
 
     return {
       title,
+      products,
+      suppliers,
       supplierProduct,
       handleBackButton,
       handleCancel,
