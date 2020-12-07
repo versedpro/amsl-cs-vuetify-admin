@@ -48,6 +48,7 @@ import OngoingApi from "./api";
 
 import { defaultFooterProps, mapOptions, sortParams, setSortOptions } from "@/utils/datatable";
 import { DataOptions } from "vuetify";
+import api from "@/api/crud";
 // import { Industry } from "@/interfaces/industry";
 
 import { defineComponent, ref } from "@vue/composition-api";
@@ -85,6 +86,7 @@ export default defineComponent({
     const loading = ref(false);
     // const item = ref<Industry>({} as Industry);
     const items = ref([]);
+    const item = ref({ supplierProductId: "" });
     const serverItemsLength = ref(0);
     const mode = ref("add");
     const showDialog = ref(false);
@@ -98,7 +100,7 @@ export default defineComponent({
         const dtOptions = mapOptions(options.value);
         dtOptions["filter"] = filter;
 
-        OngoingApi.datatable(dtOptions).then(({ data }) => {
+        api.get("/SalesOrder/Datatable", dtOptions).then(({ data }) => {
           items.value = data.data || [];
           serverItemsLength.value = data.total;
           loading.value = false;
@@ -126,8 +128,10 @@ export default defineComponent({
       showDialog.value = false;
     }
 
-    function handleDeleteConfirm() {
+    async function handleDeleteConfirm() {
+      await api.delete(`/SalesOrder/${item.value.supplierProductId}`);
       showDialog.value = false;
+      refreshData();
     }
 
     function handleInputBack() {
@@ -138,8 +142,9 @@ export default defineComponent({
       window.value = 0;
     }
 
-    function handleInputSave(mode) {
-      console.log(mode);
+    function handleInputSave() {
+      handleInputBack();
+      refreshData();
     }
 
     function handleSearch(val) {

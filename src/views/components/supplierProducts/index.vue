@@ -56,12 +56,10 @@
 </template>
 
 <script lang="ts">
-import SupplierProductApi from "./api";
-
+import api from "@/api/crud";
 import { defaultFooterProps, mapOptions, sortParams, setSortOptions } from "@/utils/datatable";
 import { DataOptions } from "vuetify";
 import { SupplierProduct } from "@/interfaces/supplier-product";
-
 import { defineComponent, ref } from "@vue/composition-api";
 
 export default defineComponent({
@@ -109,7 +107,7 @@ export default defineComponent({
         const dtOptions = mapOptions(options.value);
         dtOptions["filter"] = filter;
 
-        SupplierProductApi.datatable(dtOptions).then(({ data }) => {
+        api.get("/SupplierProduct/Datatable", dtOptions).then(({ data }) => {
           items.value = data.data || [];
           serverItemsLength.value = data.total;
           loading.value = false;
@@ -142,8 +140,10 @@ export default defineComponent({
       showDialog.value = false;
     }
 
-    function handleDeleteConfirm() {
+    async function handleDeleteConfirm() {
+      await api.delete(`/SupplierProduct/${item.value.supplierProductId}`);
       showDialog.value = false;
+      refreshData();
     }
 
     function handleInputBack() {
@@ -160,8 +160,9 @@ export default defineComponent({
       window.value = 1;
     }
 
-    function handleInputSave(mode) {
-      console.log(mode);
+    function handleInputSave() {
+      handleInputBack();
+      refreshData();
     }
 
     function handleSearch(val) {

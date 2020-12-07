@@ -12,8 +12,7 @@
               <v-col cols="12" sm="6" md="4">
                 <validation-provider name="industryId" rules="required" v-slot="{ errors }">
                   <v-text-field
-                    :value="item.industryId"
-                    @input="handleChange('industryId', $event)"
+                    v-model="order.salesOrderId"
                     :error-messages="errors"
                     label="Id"
                   ></v-text-field>
@@ -22,8 +21,7 @@
               <v-col cols="12" sm="6" md="4">
                 <validation-provider name="name" rules="required" v-slot="{ errors }">
                   <v-text-field
-                    :value="item.industryName"
-                    @input="handleChange('industryName', $event)"
+                    v-model="order.industryName"
                     :error-messages="errors"
                     label="Name"
                   ></v-text-field>
@@ -33,8 +31,7 @@
             <v-row>
               <v-col cols="12">
                 <v-textarea
-                  :value="item.description"
-                  @input="handleChange('description', $event)"
+                  v-model="order.description"
                   :error-messages="errors"
                   label="Description"
                 ></v-textarea>
@@ -56,8 +53,8 @@
 <script lang="ts">
 import { ValidationProvider, ValidationObserver } from "vee-validate";
 import "./validations";
-
-import { defineComponent } from "@vue/composition-api";
+import { defineComponent, ref, watchEffect } from "@vue/composition-api";
+import api from "@/api/crud";
 
 export default defineComponent({
   name: "industry-input",
@@ -74,6 +71,11 @@ export default defineComponent({
   },
 
   setup(props, { emit }) {
+    const order = ref(props.item);
+    watchEffect(() => {
+      order.value = props.item;
+    });
+
     function handleBackButton() {
       emit("on-input-back");
     }
@@ -82,7 +84,12 @@ export default defineComponent({
       emit("on-input-cancel");
     }
 
-    function handleSave() {
+    async function handleSave() {
+      if (props.mode === "insert") {
+        await api.create("/SalesOrder", order.value);
+      } else {
+        await api.update(`/SalesOrder/${order.value.supplierId}`, order.value);
+      }
       emit("on-input-save", props.mode);
     }
 
@@ -91,6 +98,7 @@ export default defineComponent({
     }
 
     return {
+      order,
       handleBackButton,
       handleCancel,
       handleSave,
