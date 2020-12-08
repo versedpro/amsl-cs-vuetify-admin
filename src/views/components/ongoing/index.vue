@@ -11,6 +11,9 @@
           :footer-props="defaultFooterProps"
           :headers="headers"
           :items="items"
+          item-key="salesOrderId"
+          show-expand
+          :expanded.sync="expanded"
           :items-per-page="options.itemsPerPage"
           :loading="loading"
           :options.sync="options"
@@ -25,6 +28,13 @@
           <!-- createdTimestamp slot -->
           <template v-slot:[`item.createdTimestamp`]="{ value }">
             <datatable-iso-date :timestamp="value"> </datatable-iso-date>
+          </template>
+
+          <!-- expand slot -->
+          <template v-slot:expanded-item="{ headers, item }">
+            <td :colspan="headers.length">
+              <expanded-data-table :item="item" :staff="staff"></expanded-data-table>
+            </td>
           </template>
         </v-data-table>
       </v-window-item>
@@ -60,7 +70,8 @@ export default defineComponent({
     // IndustryInput: () => import("./industry-input.vue"),
     // DatatableActionSlot: () => import("@/views/widget/datatable-action-slot.vue"),
     DatatableOrdersTopSlot: () => import("@/views/widget/datatable-orders-top-slot.vue"),
-    DatatableIsoDate: () => import("@/views/widget/datatable-iso-date.vue")
+    DatatableIsoDate: () => import("@/views/widget/datatable-iso-date.vue"),
+    ExpandedDataTable: () => import("./expanded-data-table.vue")
   },
 
   setup() {
@@ -84,6 +95,8 @@ export default defineComponent({
     // Other datatable settings
     const filter = ref("");
     const loading = ref(false);
+    const expanded = ref([]);
+    const staff = ref([]);
     // const item = ref<Industry>({} as Industry);
     const items = ref([]);
     const item = ref({ supplierProductId: "" });
@@ -124,6 +137,11 @@ export default defineComponent({
       fetchData(options.value.page, options.value.itemsPerPage, params, filter.value);
     }
 
+    function fetchStaff() {
+      api.get("/Staff").then(({ data }) => (staff.value = data));
+    }
+    fetchStaff();
+
     function handleDeleteCancel() {
       showDialog.value = false;
     }
@@ -157,6 +175,8 @@ export default defineComponent({
       headers,
       loading,
       items,
+      expanded,
+      staff,
       mode,
       options,
       serverItemsLength,
