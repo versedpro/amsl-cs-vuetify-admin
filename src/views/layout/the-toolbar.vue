@@ -52,7 +52,7 @@ export default defineComponent({
 
     function logout() {
       root.$store.dispatch("LogOut");
-      root.$router.push("/landing");
+      root.$router.push("/login");
     }
 
     function toggleNavbar() {

@@ -37,14 +37,14 @@ Vue.use(Router);
  */
 
 export const constantRoutes = [
-  {
-    path: "/landing",
-    alias: "/land",
-    component: () => import("@/views/auth/landing.vue"),
-    meta: {
-      hidden: true
-    }
-  },
+  // {
+  //   path: "/landing",
+  //   alias: "/land",
+  //   component: () => import("@/views/auth/landing.vue"),
+  //   meta: {
+  //     hidden: true
+  //   }
+  // },
 
   ...drawerRouter,
   ...authRouter
