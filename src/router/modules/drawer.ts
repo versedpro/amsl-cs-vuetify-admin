@@ -19,24 +19,6 @@ const drawerRouter = [
       }
     ]
   }
-  // {
-  //   path: "/",
-  //   component: Layout,
-  //   children: [
-  //     {
-  //       path: "/user",
-  //       alias: "/",
-  //       component: () => import("@/views/components/user/index.vue"),
-  //       name: "User",
-  //       meta: {
-  //         title: "route.drawerComponents.user",
-  //         icon: "mdi-chart-line",
-  //         noCache: true,
-  //         affix: true
-  //       }
-  //     }
-  //   ]
-  // }
 ];
 
 export default drawerRouter;

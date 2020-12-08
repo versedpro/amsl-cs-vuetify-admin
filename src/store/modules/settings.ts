@@ -1,4 +1,4 @@
-import { settings as defaultSettings, version } from "@/config_ts";
+import { settings as defaultSettings, version } from "@/config";
 
 import { setVuetifyThemeDark, setVuetifyTheme } from "@/plugins/vuetify";
 import { setLocale } from "@/locale";

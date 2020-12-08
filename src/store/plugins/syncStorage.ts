@@ -1,4 +1,4 @@
-import config from "@/config";
+import { prefix, ttl, storage, version } from "@/config";
 import user from "@/store/modules/user";
 import settings from "@/store/modules/settings";
 
@@ -6,11 +6,19 @@ import settings from "@/store/modules/settings";
  * Vuex plugin for save and sync 'settings' and 'user' from vuex modules.
  */
 class SyncStorage {
+  storage: any;
+  prefix: string;
+  ttl: number;
+  user: string;
+  settings: string;
+  userMutations: Array<string>;
+  settingsMutations: Array<string>;
+
   constructor(option) {
     /** init options */
-    this.storage = (window && window[option.storage]) || (window && window[config.storage]);
-    this.prefix = option.prefix || config.prefix;
-    this.ttl = option.ttl || config.ttl;
+    this.storage = (window && window[option.storage]) || (window && window[storage]);
+    this.prefix = option.prefix || prefix;
+    this.ttl = option.ttl || ttl;
     this.user = "user";
     this.settings = "settings";
 
@@ -21,7 +29,7 @@ class SyncStorage {
 
     console.log(
       "[vuex.SyncStorage] option:",
-      option.storage || config.storage,
+      option.storage || storage,
       this.prefix,
       this.ttl,
       option
@@ -32,15 +40,15 @@ class SyncStorage {
    * Vuex subscribe plugin function.
    * @param {Object} store Vuex instance
    */
-  subscribe = async store => {
+  subscribe = async (store) => {
     if (!this.checkStorage()) {
       throw new Error('[vuex.SyncStorage] Invalid "Storage" instance given');
     }
 
-    if (this.checkVersion(config.version)) {
-      console.log(`[vuex.SyncStorage] Current version of the application "${config.version}"`);
+    if (this.checkVersion(version)) {
+      console.log(`[vuex.SyncStorage] Current version of the application "${version}"`);
     } else {
-      console.warn(`[vuex.SyncStorage] Application version updated to "${config.version}"`);
+      console.warn(`[vuex.SyncStorage] Application version updated to "${version}"`);
     }
 
     // init and apply user state from storage
@@ -99,12 +107,12 @@ class SyncStorage {
    * Get current seconds + ttl.
    * @param {Number} ttl Session lifetime
    */
-  getSeconds = ttl => Math.floor(Date.now() / 1000) + (ttl || 0);
+  getSeconds = (ttl?: number) => Math.floor(Date.now() / 1000) + (ttl || 0);
 
   /**
    * Get array of module mutation types.
    */
-  getModuleOptions = (module, key) => {
+  getModuleOptions = (module, key: string) => {
     if (!module || !module[key]) return [];
     return Object.keys(module[key]);
   };
@@ -129,7 +137,7 @@ class SyncStorage {
    * and settings. Required to apply the settings of the new version of the application
    * @param {String} version version of the application
    */
-  checkVersion(version) {
+  checkVersion(version: string) {
     try {
       if (this.getFromStorage(`${this.prefix}version`) === version) {
         return true;
@@ -203,7 +211,7 @@ class SyncStorage {
   }
 }
 
-export default function(syncStorageOption) {
+export default function (syncStorageOption) {
   const syncStorage = new SyncStorage(syncStorageOption);
   return syncStorage.subscribe;
 }
