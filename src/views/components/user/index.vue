@@ -9,6 +9,9 @@
           :footer-props="defaultFooterProps"
           :headers="headers"
           :items="items"
+          item-key="roleCode"
+          group-by="roleCode"
+          :custom-group="groupBy"
           :items-per-page="options.itemsPerPage"
           :loading="loading"
           :options.sync="options"
@@ -56,8 +59,13 @@
 
 <script lang="ts">
 import api from "@/api/crud";
-
-import { defaultFooterProps, mapOptions, sortParams, setSortOptions } from "@/utils/datatable";
+import {
+  defaultFooterProps,
+  mapOptions,
+  sortParams,
+  setSortOptions,
+  groupItems
+} from "@/utils/datatable";
 import { DataOptions } from "vuetify";
 import { Staff } from "@/interfaces/staff";
 
@@ -175,7 +183,12 @@ export default defineComponent({
       window.value = 1;
     }
 
+    function groupBy(items: any[], groupBy: string[], groupDesc: boolean[]) {
+      return groupItems(items, groupBy, groupDesc);
+    }
+
     return {
+      groupBy,
       defaultFooterProps,
       filter,
       headers,
