@@ -1,8 +1,7 @@
 export interface Supplier {
   supplierId: number;
   supplierName: string;
-  supplierLocalized: object;
-  description: string;
+  displayName: string;
   ranking: number;
   createdTimestamp: Date;
   createdBy: number;

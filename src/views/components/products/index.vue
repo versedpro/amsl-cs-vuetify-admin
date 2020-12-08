@@ -11,9 +11,6 @@
           :items="items"
           :items-per-page="options.itemsPerPage"
           :loading="loading"
-          item-key="productId"
-          :expanded.sync="expanded"
-          show-expand
           :options.sync="options"
           :server-items-length="serverItemsLength"
           @update:options="handleUpdateOptions"
@@ -32,13 +29,6 @@
           <!-- createdTimestamp slot -->
           <template v-slot:[`item.createdTimestamp`]="{ value }">
             <datatable-iso-date :timestamp="value"> </datatable-iso-date>
-          </template>
-
-          <!-- expand slot -->
-          <template v-slot:expanded-item="{ headers, item }">
-            <td :colspan="headers.length">
-              <file-upload :id="item.productId" style="min-height: 100px"></file-upload>
-            </td>
           </template>
         </v-data-table>
       </v-window-item>
@@ -80,8 +70,7 @@ export default defineComponent({
     DatatableTopSlot: () => import("@/views/widget/datatable-top-slot.vue"),
     DatatableDeleteDialog: () => import("@/views/widget/datatable-delete-dialog.vue"),
     DatatableIsoDate: () => import("@/views/widget/datatable-iso-date.vue"),
-    DatatableTitle: () => import("@/views/widget/datatable-title.vue"),
-    FileUpload: () => import("@/views/widget/file-upload.vue")
+    DatatableTitle: () => import("@/views/widget/datatable-title.vue")
   },
 
   setup() {
@@ -89,6 +78,8 @@ export default defineComponent({
     const headers = ref([
       { text: "Id", align: "start", sortable: false, value: "productId" },
       { text: "Name", value: "productName" },
+      { text: "Points", value: "points" },
+      { text: "Flag Status", value: "statusFlag" },
       { text: "Created", value: "createdTimestamp" },
       { text: null, value: "actions", sortable: false, align: "right" }
     ]);
@@ -105,7 +96,6 @@ export default defineComponent({
     const mode = ref("add");
     const showDialog = ref(false);
     const window = ref(0);
-    const expanded = ref([]);
 
     // Other functions
     async function fetchData(pageNo, pageSize: number, sort?: string, filter?: string) {
@@ -195,7 +185,6 @@ export default defineComponent({
       serverItemsLength,
       showDialog,
       window,
-      expanded,
       handleDelete,
       handleDeleteCancel,
       handleDeleteConfirm,

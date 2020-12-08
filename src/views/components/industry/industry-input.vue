@@ -9,10 +9,12 @@
             <v-row>
               <v-col cols="12" sm="6" md="4">
                 <validation-provider name="Id" rules="required" v-slot="{ errors }">
+                  <v-card-subtitle class="mr-2">{{ industry.industryId }}</v-card-subtitle>
                   <v-text-field
                     v-model="industry.industryId"
                     :error-messages="errors"
                     label="Id"
+                    readonly
                   ></v-text-field>
                 </validation-provider>
               </v-col>
@@ -52,22 +54,23 @@
                   ></v-text-field>
                 </validation-provider>
               </v-col>
-              <v-col cols="12" sm="6" md="4">
-                <validation-provider name="Meta" v-slot="{ errors }">
-                  <v-text-field
-                    v-model="industry.meta"
-                    :error-messages="errors"
-                    label="Meta"
-                  ></v-text-field>
-                </validation-provider>
-              </v-col>
+
               <v-col cols="12" sm="6" md="4">
                 <validation-provider name="Description" v-slot="{ errors }">
                   <v-text-field
                     v-model="industry.description"
                     :error-messages="errors"
                     label="Description"
+                    rows="4"
                   ></v-text-field>
+                  <v-textarea
+                    filled
+                    auto-grow
+                    label="Four rows"
+                    rows="4"
+                    row-height="30"
+                    shaped
+                  ></v-textarea>
                 </validation-provider>
               </v-col>
               <v-col cols="12" sm="6" md="4">
@@ -76,15 +79,9 @@
                     v-model="industry.rowRanking"
                     :error-messages="errors"
                     label="Row Ranking"
-                  ></v-text-field>
-                </validation-provider>
-              </v-col>
-              <v-col cols="12" sm="6" md="4">
-                <validation-provider name="Created Timestamp" rules="required" v-slot="{ errors }">
-                  <v-text-field
-                    v-model="industry.createdTimestamp"
-                    :error-messages="errors"
-                    label="Created Timestamp"
+                    single-line
+                    type="number"
+                    style="width: 60px"
                   ></v-text-field>
                 </validation-provider>
               </v-col>
