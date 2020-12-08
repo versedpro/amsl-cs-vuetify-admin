@@ -11,13 +11,18 @@
           :items="items"
           :items-per-page="options.itemsPerPage"
           :loading="loading"
+          loading-text="Loading... Please wait"
           :options.sync="options"
           :server-items-length="serverItemsLength"
           @update:options="handleUpdateOptions"
         >
           <!-- Top Slot -->
           <template v-slot:top>
-            <datatable-top-slot @on-search="handleSearch" @on-insert="handleInsert" />
+            <datatable-top-slot
+              @on-refresh="handleRefresh"
+              @on-search="handleSearch"
+              @on-insert="handleInsert"
+            />
           </template>
 
           <!-- Action Slot -->
@@ -110,7 +115,7 @@ export default defineComponent({
         api.get("/Industry/Datatable", dtOptions).then(({ data }) => {
           items.value = data.data || [];
           serverItemsLength.value = data.total;
-          loading.value = false;
+          //loading.value = false;
         });
       } catch (e) {
         // console.log("fetchData failed..", e);
@@ -165,6 +170,12 @@ export default defineComponent({
       refreshData();
     }
 
+    function handleRefresh() {
+      console.log("refreh");
+      loading.value = true;
+      refreshData();
+    }
+
     function handleSearch(val) {
       filter.value = val;
     }
@@ -195,6 +206,7 @@ export default defineComponent({
       handleInputCancel,
       handleInputSave,
       handleInsert,
+      handleRefresh,
       handleSearch,
       handleUpdateOptions
     };

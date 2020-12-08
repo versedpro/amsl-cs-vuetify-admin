@@ -11,7 +11,8 @@ export default {
     logout: "退出"
   },
   settings: {
-    title: "主题设置",
+    title: "設定",
+    language: "Language (語言)",
     default: "设为默认",
     version: "版本",
     position: "元素位置",
@@ -67,6 +68,10 @@ export default {
   },
   registration: {
     title: "用戶註冊"
+  },
+  setting: {
+    title: "Setting",
+    language: "Language"
   },
   supplier: {
     add: "Add Supplier HK",

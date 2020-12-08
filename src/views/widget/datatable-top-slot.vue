@@ -19,7 +19,7 @@
           <v-icon>mdi-printer</v-icon>
         </v-btn>
 
-        <v-btn :value="2" text class="white--text">
+        <v-btn @click="$emit('on-refresh')" :value="2" text class="white--text">
           <v-icon>mdi-refresh</v-icon>
         </v-btn>
 

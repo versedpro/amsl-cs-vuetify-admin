@@ -11,7 +11,8 @@ export default {
     logout: "Logout"
   },
   settings: {
-    title: "Theme Settings",
+    title: "Settings",
+    language: "Language (語言)",
     default: "Set Default",
     version: "Version",
     position: "Position of elements",

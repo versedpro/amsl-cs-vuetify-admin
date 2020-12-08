@@ -1,58 +1,59 @@
 <template>
   <v-card class="mx-auto">
-    <v-card-title class="primary justify-center gold--text"
-          >{{ $t("settings.title") }}
-        </v-card-title>
+    <input-form-title :title="$t('settings.title')" @on-back-button="handleBackButton" />
+
     <v-list>
       <v-list-item>
         <v-list-item-content>
-          <v-list-item-title>Language</v-list-item-title>
+          <v-list-item-title>{{ $t("settings.language") }}</v-list-item-title>
         </v-list-item-content>
         <v-list-item-action class="d-flex align-center" height="100%">
           <v-switch
-            v-for="(item, index) in locales"
-            :key="index"
-            @change="setLocale(item.locale)"
-            :label="item.display"
-            hide-details
-          >
-          </v-switch>
-        </v-list-item-action>
-      </v-list-item>
-    </v-list>
-
-    <v-divider></v-divider>
-    <v-list>
-      <v-list-item>
-        <v-list-item-content>
-          <v-list-item-title>Another Switch</v-list-item-title>
-        </v-list-item-content>
-        <v-list-item-action class="d-flex align-center" height="100%">
-          <v-switch v-model="sticky" label="Off" hide-details></v-switch>
+            v-model="languageSwitch"
+            inset
+            :label="languageLabel"
+            @change="languageChange"
+          ></v-switch>
         </v-list-item-action>
       </v-list-item>
     </v-list>
   </v-card>
 </template>
+
 <script lang="ts">
-import { locales } from "@/locale/available";
-import { defineComponent, ref } from "@vue/composition-api";
+import { computed, defineComponent, ref } from "@vue/composition-api";
 
 export default defineComponent({
   name: "Settings",
 
-  setup() {
-    const selection = ref(1);
+  components: {
+    InputFormTitle: () => import("@/views/widget/input-form-title.vue")
+  },
+
+  setup(_, { root }) {
+    const languageSwitch = ref(true);
+    const languageLabel = computed(() => (languageSwitch.value ? "Eng" : "繁體中文"));
 
     async function setLocale(locale) {
-      console.log(locale);
+      //console.log(locale);
       // $store
-      await this.$store.dispatch("SetLocale", { locale });
+      await root.$store.dispatch("SetLocale", { locale });
+    }
+
+    function languageChange(val) {
+      const locale = val ? "en" : "hk";
+      setLocale(locale);
+    }
+
+    function handleBackButton() {
+      console.log("go back");
     }
 
     return {
-      selection,
-      locales,
+      languageChange,
+      languageSwitch,
+      languageLabel,
+      handleBackButton,
       setLocale
     };
   }
