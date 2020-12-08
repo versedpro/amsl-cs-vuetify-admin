@@ -2,7 +2,7 @@
   <v-card flat tile height="calc(100vh - 50px)" elevation="0">
     <v-window v-model="window" class="elevation-1" vertical>
       <v-window-item>
-        <datatable-title :title="$t('industry.title')"></datatable-title>
+        <datatable-title :title="$t('user.title')"></datatable-title>
 
         <v-data-table
           class="elevation-1"
@@ -34,20 +34,20 @@
       </v-window-item>
 
       <v-window-item>
-        <industry-input
+        <staff-input
           :mode="mode"
           :item="item"
           @on-input-cancel="handleInputCancel"
           @on-input-save="handleInputSave"
           @on-input-back="handleInputBack"
         >
-        </industry-input>
+        </staff-input>
       </v-window-item>
     </v-window>
 
     <datatable-delete-dialog
       :show="showDialog"
-      :title="$t('industry.delete')"
+      :title="$t('staff.delete')"
       @on-delete-cancel="handleDeleteCancel"
       @on-delete-confirm="handleDeleteConfirm"
     ></datatable-delete-dialog>
@@ -59,15 +59,15 @@ import api from "@/api/crud";
 
 import { defaultFooterProps, mapOptions, sortParams, setSortOptions } from "@/utils/datatable";
 import { DataOptions } from "vuetify";
-import { Industry } from "@/interfaces/industry";
+import { Staff } from "@/interfaces/staff";
 
 import { computed, defineComponent, ref } from "@vue/composition-api";
 
 export default defineComponent({
-  name: "Industry",
+  name: "Staff",
 
   components: {
-    IndustryInput: () => import("./industry-input.vue"),
+    StaffInput: () => import("./staff-input.vue"),
     DatatableActionSlot: () => import("@/views/widget/datatable-action-slot.vue"),
     DatatableTopSlot: () => import("@/views/widget/datatable-top-slot.vue"),
     DatatableDeleteDialog: () => import("@/views/widget/datatable-delete-dialog.vue"),
@@ -79,23 +79,23 @@ export default defineComponent({
     // datatable header
     const headers = computed(() => {
       return [
-        { text: root.$t("industry.title"), align: "start", sortable: false, value: "industryId" },
-        { text: "Name", value: "industryName" },
+        { text: root.$t("staff.title"), align: "start", sortable: false, value: "staffId" },
+        { text: "Name", value: "staffAlias" },
         { text: "Created", value: "createdTimestamp" },
         { text: null, value: "actions", sortable: false, align: "right" }
       ];
     });
 
     // datatable options
-    const options = ref({ sortBy: ["industryId"], sortDesc: [], itemsPerPage: 10 } as DataOptions);
+    const options = ref({ sortBy: ["staffId"], sortDesc: [], itemsPerPage: 10 } as DataOptions);
 
     // Other datatable settings
     const filter = ref("");
     const loading = ref(false);
-    const item = ref<Industry>({} as Industry);
+    const item = ref<Staff>({} as Staff);
     const items = ref([]);
     const serverItemsLength = ref(0);
-    const mode = ref("add");
+    const mode = ref("insert");
     const showDialog = ref(false);
     const window = ref(0);
 
@@ -107,7 +107,7 @@ export default defineComponent({
         const dtOptions = mapOptions(options.value);
         dtOptions["filter"] = filter;
 
-        api.get("/Industry/Datatable", dtOptions).then(({ data }) => {
+        api.get("/Staff/Datatable", dtOptions).then(({ data }) => {
           items.value = data.data || [];
           serverItemsLength.value = data.total;
           loading.value = false;
@@ -141,7 +141,7 @@ export default defineComponent({
     }
 
     async function handleDeleteConfirm() {
-      await api.delete(`/Industry/${item.value.industryId}`);
+      await api.delete(`/Staff/${item.value.staffId}`);
       showDialog.value = false;
       refreshData();
     }
@@ -156,7 +156,7 @@ export default defineComponent({
 
     function handleInsert() {
       mode.value = "insert";
-      item.value = {} as Industry;
+      item.value = {} as Staff;
       window.value = 1;
     }
 

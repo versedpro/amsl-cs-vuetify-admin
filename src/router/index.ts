@@ -9,7 +9,7 @@ import dbRouter from "./modules/db";
 
 import moreRouter from "./modules/more";
 import ordersRouter from "./modules/orders";
-// import promotionRouter from "./modules/promotion";
+import userRouter from "./modules/user";
 
 Vue.use(Router);
 
@@ -57,7 +57,7 @@ export default new Router({
 });
 
 export const asyncRoutes = [
-  // promotionRouter,
+  userRouter,
   ordersRouter,
   dbRouter,
   moreRouter,

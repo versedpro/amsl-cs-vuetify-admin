@@ -55,17 +55,6 @@ const dbRouter = {
         noCache: true,
         affix: true
       }
-    },
-    {
-      path: "/staff",
-      component: () => import("@/views/components/staff/index.vue"),
-      name: "Staff",
-      meta: {
-        title: "route.staff",
-        icon: "mdi-text-subject",
-        noCache: true,
-        affix: true
-      }
     }
   ]
 };

@@ -7,7 +7,7 @@ const moreRouter = {
   component: Layout,
   meta: {
     title: "route.more",
-    icon: "mdi-dots-horizontal",
+    icon: "mdi-more",
     noCache: true,
     affix: true
   },

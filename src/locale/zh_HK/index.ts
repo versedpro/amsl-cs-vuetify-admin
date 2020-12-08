@@ -57,20 +57,29 @@ export default {
     edit: "Edit Industry",
     title: "行業"
   },
-  supplier: {
-    add: "Add Supplier HK",
-    edit: "Edit Supplier HK",
-    title: "Supplier HK"
-  },
   products: {
     add: "Add Products HK",
     edit: "Edit Products HK",
     title: "Products HK"
   },
+  referlo: {
+    title: "Refer佬清單"
+  },
+  registration: {
+    title: "用戶註冊"
+  },
+  supplier: {
+    add: "Add Supplier HK",
+    edit: "Edit Supplier HK",
+    title: "Supplier HK"
+  },
   supplier_products: {
     add: "Add Supplier Products HK",
     edit: "Edit Supplier Products HK",
     title: "Supplier Products HK"
+  },
+  user: {
+    title: "後台用戶"
   },
   staff: {
     add: "Add Staff HK",

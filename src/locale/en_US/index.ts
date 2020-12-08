@@ -67,10 +67,19 @@ export default {
     edit: "Edit Products",
     title: "Products"
   },
+  referlo: {
+    title: "The Referlo"
+  },
+  registration: {
+    title: "Registration"
+  },
   supplier_products: {
     add: "Add Supplier Products",
     edit: "Edit Supplier Products",
     title: "Supplier Products"
+  },
+  user: {
+    title: "Back-end User"
   },
   staff: {
     add: "Add Staff",

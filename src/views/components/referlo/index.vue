@@ -2,7 +2,7 @@
   <v-card flat tile height="calc(100vh - 50px)" elevation="0">
     <v-window v-model="window" class="elevation-1" vertical>
       <v-window-item>
-        <datatable-title :title="$t('industry.title')"></datatable-title>
+        <datatable-title :title="$t('referlo.title')"></datatable-title>
 
         <v-data-table
           class="elevation-1"
@@ -20,37 +20,13 @@
             <datatable-top-slot @on-search="handleSearch" @on-insert="handleInsert" />
           </template>
 
-          <!-- Action Slot -->
-          <template v-slot:[`item.actions`]="{ item }">
-            <datatable-action-slot @on-update="handleEdit(item)" @on-delete="handleDelete(item)">
-            </datatable-action-slot>
-          </template>
-
           <!-- createdTimestamp slot -->
           <template v-slot:[`item.createdTimestamp`]="{ value }">
             <datatable-iso-date :timestamp="value"> </datatable-iso-date>
           </template>
         </v-data-table>
       </v-window-item>
-
-      <v-window-item>
-        <industry-input
-          :mode="mode"
-          :item="item"
-          @on-input-cancel="handleInputCancel"
-          @on-input-save="handleInputSave"
-          @on-input-back="handleInputBack"
-        >
-        </industry-input>
-      </v-window-item>
     </v-window>
-
-    <datatable-delete-dialog
-      :show="showDialog"
-      :title="$t('industry.delete')"
-      @on-delete-cancel="handleDeleteCancel"
-      @on-delete-confirm="handleDeleteConfirm"
-    ></datatable-delete-dialog>
   </v-card>
 </template>
 
@@ -64,13 +40,10 @@ import { Industry } from "@/interfaces/industry";
 import { computed, defineComponent, ref } from "@vue/composition-api";
 
 export default defineComponent({
-  name: "Industry",
+  name: "Referlo",
 
   components: {
-    IndustryInput: () => import("./industry-input.vue"),
-    DatatableActionSlot: () => import("@/views/widget/datatable-action-slot.vue"),
     DatatableTopSlot: () => import("@/views/widget/datatable-top-slot.vue"),
-    DatatableDeleteDialog: () => import("@/views/widget/datatable-delete-dialog.vue"),
     DatatableIsoDate: () => import("@/views/widget/datatable-iso-date.vue"),
     DatatableTitle: () => import("@/views/widget/datatable-title.vue")
   },
@@ -81,8 +54,7 @@ export default defineComponent({
       return [
         { text: root.$t("industry.title"), align: "start", sortable: false, value: "industryId" },
         { text: "Name", value: "industryName" },
-        { text: "Created", value: "createdTimestamp" },
-        { text: null, value: "actions", sortable: false, align: "right" }
+        { text: "Created", value: "createdTimestamp" }
       ];
     });
 
@@ -96,7 +68,7 @@ export default defineComponent({
     const items = ref([]);
     const serverItemsLength = ref(0);
     const mode = ref("add");
-    const showDialog = ref(false);
+    // const showDialog = ref(false);
     const window = ref(0);
 
     // Other functions
@@ -131,48 +103,8 @@ export default defineComponent({
       fetchData(options.value.page, options.value.itemsPerPage, params, filter.value);
     }
 
-    function handleDelete(val) {
-      item.value = val;
-      showDialog.value = true;
-    }
-
-    function handleDeleteCancel() {
-      showDialog.value = false;
-    }
-
-    async function handleDeleteConfirm() {
-      await api.delete(`/Industry/${item.value.industryId}`);
-      showDialog.value = false;
-      refreshData();
-    }
-
-    function handleInputBack() {
-      window.value = 0;
-    }
-
-    function handleInputCancel() {
-      window.value = 0;
-    }
-
-    function handleInsert() {
-      mode.value = "insert";
-      item.value = {} as Industry;
-      window.value = 1;
-    }
-
-    function handleInputSave() {
-      handleInputBack();
-      refreshData();
-    }
-
     function handleSearch(val) {
       filter.value = val;
-    }
-
-    function handleEdit(val) {
-      mode.value = "edit";
-      item.value = val;
-      window.value = 1;
     }
 
     return {
@@ -185,16 +117,7 @@ export default defineComponent({
       mode,
       options,
       serverItemsLength,
-      showDialog,
       window,
-      handleDelete,
-      handleDeleteCancel,
-      handleDeleteConfirm,
-      handleEdit,
-      handleInputBack,
-      handleInputCancel,
-      handleInputSave,
-      handleInsert,
       handleSearch,
       handleUpdateOptions
     };
