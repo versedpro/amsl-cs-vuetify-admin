@@ -67,7 +67,10 @@ export default {
     title: "Refer佬清單"
   },
   registration: {
-    title: "用戶註冊"
+    title: "用戶註冊",
+    phone: "Phone hk",
+    contactName: "Contact Name hk",
+    timeStamp: "Time Stamp hk"
   },
   setting: {
     title: "Setting",

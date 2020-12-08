@@ -72,7 +72,10 @@ export default {
     title: "The Referlo"
   },
   registration: {
-    title: "Registration"
+    title: "Registration",
+    phone: "Phone",
+    contactName: "Contact Name",
+    timeStamp: "Time Stamp"
   },
   supplier_products: {
     add: "Add Supplier Products",

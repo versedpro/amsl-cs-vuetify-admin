@@ -21,7 +21,7 @@
           </template>
 
           <!-- createdTimestamp slot -->
-          <template v-slot:[`item.createdTimestamp`]="{ value }">
+          <template v-slot:[`item.registrationTimestamp`]="{ value }">
             <datatable-iso-date :timestamp="value"> </datatable-iso-date>
           </template>
         </v-data-table>
@@ -35,12 +35,12 @@ import api from "@/api/crud";
 
 import { defaultFooterProps, mapOptions, sortParams, setSortOptions } from "@/utils/datatable";
 import { DataOptions } from "vuetify";
-import { Industry } from "@/interfaces/industry";
+import { Registration } from "@/interfaces/registration";
 
 import { computed, defineComponent, ref } from "@vue/composition-api";
 
 export default defineComponent({
-  name: "Referlo",
+  name: "Registration",
 
   components: {
     DatatableTopSlot: () => import("@/views/widget/datatable-top-slot.vue"),
@@ -52,19 +52,28 @@ export default defineComponent({
     // datatable header
     const headers = computed(() => {
       return [
-        { text: root.$t("industry.title"), align: "start", sortable: false, value: "industryId" },
-        { text: "Name", value: "industryName" },
-        { text: "Created", value: "createdTimestamp" }
+        {
+          text: root.$t("registration.phone"),
+          align: "start",
+          sortable: false,
+          value: "registrationPhone"
+        },
+        { text: root.$t("registration.contactName"), value: "contactName" },
+        { text: root.$t("registration.timeStamp"), value: "registrationTimestamp" }
       ];
     });
 
     // datatable options
-    const options = ref({ sortBy: ["industryId"], sortDesc: [], itemsPerPage: 10 } as DataOptions);
+    const options = ref({
+      sortBy: ["registrationPhone"],
+      sortDesc: [],
+      itemsPerPage: 10
+    } as DataOptions);
 
     // Other datatable settings
     const filter = ref("");
     const loading = ref(false);
-    const item = ref<Industry>({} as Industry);
+    const item = ref<Registration>({} as Registration);
     const items = ref([]);
     const serverItemsLength = ref(0);
     const mode = ref("add");
@@ -79,7 +88,7 @@ export default defineComponent({
         const dtOptions = mapOptions(options.value);
         dtOptions["filter"] = filter;
 
-        api.get("/Industry/Datatable", dtOptions).then(({ data }) => {
+        api.get("/Registration/Datatable", dtOptions).then(({ data }) => {
           items.value = data.data || [];
           serverItemsLength.value = data.total;
           loading.value = false;
