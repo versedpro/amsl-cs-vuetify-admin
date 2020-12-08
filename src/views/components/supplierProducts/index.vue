@@ -2,9 +2,7 @@
   <v-card flat tile height="calc(100vh - 50px)" elevation="0">
     <v-window v-model="window" class="elevation-1" vertical>
       <v-window-item>
-        <v-card-title class="primary justify-center gold--text"
-          >{{ $t("supplier_products.title") }}
-        </v-card-title>
+        <datatable-title :title="$t('supplier_products.title')"></datatable-title>
 
         <v-data-table
           class="elevation-1"
@@ -81,6 +79,7 @@ export default defineComponent({
     DatatableTopSlot: () => import("@/views/widget/datatable-top-slot.vue"),
     DatatableDeleteDialog: () => import("@/views/widget/datatable-delete-dialog.vue"),
     DatatableIsoDate: () => import("@/views/widget/datatable-iso-date.vue"),
+    DatatableTitle: () => import("@/views/widget/datatable-title.vue"),
     FileUpload: () => import("@/views/widget/file-upload.vue")
   },
 

@@ -1,9 +1,9 @@
 import route from "./route";
-import * as components from "@/demo/locale/en_US/components";
+// import * as components from "@/demo/locale/en_US/components";
 
 export default {
   route,
-  components,
+  // components,
   toolbar: {
     appname: "Application",
     settings: "Settings",
@@ -62,10 +62,10 @@ export default {
     edit: "Edit Supplier",
     title: "Supplier"
   },
-  products: {
+  product: {
     add: "Add Products",
     edit: "Edit Products",
-    title: "Products"
+    title: "Product / Service"
   },
   referlo: {
     title: "The Referlo"

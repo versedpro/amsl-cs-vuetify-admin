@@ -111,7 +111,7 @@ export default defineComponent({
 
   setup(props, { emit, root }) {
     const title = computed(() =>
-      props.mode == "insert" ? root.$t("products.add") : root.$t("products.edit")
+      props.mode == "insert" ? root.$t("product.add") : root.$t("product.edit")
     );
 
     const product = ref(props.item);

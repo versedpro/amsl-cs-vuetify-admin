@@ -1,9 +1,9 @@
 import route from "./route";
-import components from "@/demo/locale/zh_CN/components";
+// import components from "@/demo/locale/zh_CN/components";
 
 export default {
   route,
-  components,
+  // components,
   toolbar: {
     appname: "我的应用",
     settings: "设置",
@@ -57,10 +57,10 @@ export default {
     edit: "Edit Industry",
     title: "行業"
   },
-  products: {
+  product: {
     add: "Add Products HK",
     edit: "Edit Products HK",
-    title: "Products HK"
+    title: "產品/服務"
   },
   referlo: {
     title: "Refer佬清單"
