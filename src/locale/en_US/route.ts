@@ -17,7 +17,8 @@ export default {
   moreComponents: {
     privacy: "Privacy Policy",
     terms: "Terms & Conditions",
-    setting: "Setting"
+    setting: "Setting",
+    settings: "Settings"
   },
   orders: "Process Orders",
   ordersComponents: {

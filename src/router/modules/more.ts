@@ -35,11 +35,11 @@ const moreRouter = {
       }
     },
     {
-      path: "/setting",
-      component: () => import("@/views/components/more/setting.vue"),
-      name: "Setting",
+      path: "/settings",
+      component: () => import("@/views/components/more/settings.vue"),
+      name: "SettingS",
       meta: {
-        title: "route.moreComponents.setting",
+        title: "route.moreComponents.settings",
         icon: "mdi-text-subject",
         noCache: true,
         affix: true
