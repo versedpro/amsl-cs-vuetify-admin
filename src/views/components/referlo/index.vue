@@ -14,7 +14,7 @@
           :options.sync="options"
           :server-items-length="serverItemsLength"
           @update:options="handleUpdateOptions"
-          item-key="industryId"
+          item-key="referloId"
           show-expand
           single-expand
         >

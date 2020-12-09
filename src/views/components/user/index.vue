@@ -9,7 +9,6 @@
           :footer-props="defaultFooterProps"
           :headers="headers"
           :items="items"
-          item-key="roleCode"
           group-by="roleCode"
           :custom-group="groupBy"
           :items-per-page="options.itemsPerPage"
@@ -17,6 +16,9 @@
           :options.sync="options"
           :server-items-length="serverItemsLength"
           @update:options="handleUpdateOptions"
+          item-key="staffId"
+          show-expand
+          single-expand
         >
           <!-- Top Slot -->
           <template v-slot:top>
@@ -32,6 +34,12 @@
           <!-- createdTimestamp slot -->
           <template v-slot:[`item.createdTimestamp`]="{ value }">
             <datatable-iso-date :timestamp="value"> </datatable-iso-date>
+          </template>
+
+          <template v-slot:expanded-item="{ headers, item }">
+            <td :colspan="headers.length" class="pa-0">
+              <expanded-datatable :item="item"></expanded-datatable>
+            </td>
           </template>
         </v-data-table>
       </v-window-item>
@@ -80,7 +88,8 @@ export default defineComponent({
     DatatableTopSlot: () => import("@/views/widget/datatable-top-slot.vue"),
     DatatableDeleteDialog: () => import("@/views/widget/datatable-delete-dialog.vue"),
     DatatableIsoDate: () => import("@/views/widget/datatable-iso-date.vue"),
-    DatatableTitle: () => import("@/views/widget/datatable-title.vue")
+    DatatableTitle: () => import("@/views/widget/datatable-title.vue"),
+    ExpandedDatatable: () => import("./expanded-datatable.vue")
   },
 
   setup(_, { root }) {
