@@ -14,15 +14,24 @@
           :options.sync="options"
           :server-items-length="serverItemsLength"
           @update:options="handleUpdateOptions"
+          item-key="industryId"
+          show-expand
+          single-expand
         >
           <!-- Top Slot -->
           <template v-slot:top>
-            <datatable-top-slot @on-search="handleSearch" @on-insert="handleInsert" />
+            <datatable-top-slot @on-search="handleSearch" />
           </template>
 
           <!-- createdTimestamp slot -->
           <template v-slot:[`item.createdTimestamp`]="{ value }">
             <datatable-iso-date :timestamp="value"> </datatable-iso-date>
+          </template>
+
+          <template v-slot:expanded-item="{ headers, item }">
+            <td :colspan="headers.length" class="pa-0">
+              <expanded-datatable :item="item"></expanded-datatable>
+            </td>
           </template>
         </v-data-table>
       </v-window-item>
@@ -45,21 +54,22 @@ export default defineComponent({
   components: {
     DatatableTopSlot: () => import("@/views/widget/datatable-top-slot.vue"),
     DatatableIsoDate: () => import("@/views/widget/datatable-iso-date.vue"),
-    DatatableTitle: () => import("@/views/widget/datatable-title.vue")
+    DatatableTitle: () => import("@/views/widget/datatable-title.vue"),
+    ExpandedDatatable: () => import("./expanded-datatable.vue")
   },
 
   setup(_, { root }) {
     // datatable header
     const headers = computed(() => {
       return [
-        { text: root.$t("industry.title"), align: "start", sortable: false, value: "industryId" },
-        { text: "Name", value: "industryName" },
+        { text: "Phone", align: "start", sortable: false, value: "registeredPhone" },
+        { text: "Contact Name", value: "referloEmail" },
         { text: "Created", value: "createdTimestamp" }
       ];
     });
 
     // datatable options
-    const options = ref({ sortBy: ["industryId"], sortDesc: [], itemsPerPage: 10 } as DataOptions);
+    const options = ref({ sortBy: ["referloId"], sortDesc: [], itemsPerPage: 10 } as DataOptions);
 
     // Other datatable settings
     const filter = ref("");
@@ -79,7 +89,7 @@ export default defineComponent({
         const dtOptions = mapOptions(options.value);
         dtOptions["filter"] = filter;
 
-        api.get("/Industry/Datatable", dtOptions).then(({ data }) => {
+        api.get("/Referlo/Datatable", dtOptions).then(({ data }) => {
           items.value = data.data || [];
           serverItemsLength.value = data.total;
           loading.value = false;
