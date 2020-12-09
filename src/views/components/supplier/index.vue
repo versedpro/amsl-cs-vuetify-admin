@@ -34,6 +34,14 @@
           <template v-slot:[`item.createdTimestamp`]="{ value }">
             <datatable-iso-date :timestamp="value"> </datatable-iso-date>
           </template>
+
+          <!-- Name slot -->
+
+          <template v-slot:[`item.supplierName`]="{ value }">
+            <span>{{ value }}</span>
+            <br />
+            <span>{{ value }}</span>
+          </template>
         </v-data-table>
       </v-window-item>
 
@@ -81,10 +89,11 @@ export default defineComponent({
     // datatable header
     const headers = ref([
       { text: "Id", align: "start", sortable: false, value: "supplierId" },
-      { text: "Name", value: "supplierName" },
-      { text: "Display Name", value: "displayName" },
-      { text: "Ranking", value: "ranking" },
+      { text: "Name 1", value: "supplierName" },
+      { text: "Name 2", value: "displayName" },
+      // { text: "Ranking", value: "ranking" },
       { text: "Created", value: "createdTimestamp" },
+      { text: "Status", value: "status" },
       { text: null, value: "actions", sortable: false, align: "right" }
     ]);
 

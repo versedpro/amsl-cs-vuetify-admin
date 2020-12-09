@@ -35,6 +35,15 @@
           <template v-slot:[`item.createdTimestamp`]="{ value }">
             <datatable-iso-date :timestamp="value"> </datatable-iso-date>
           </template>
+
+          <!-- Name slot -->
+          <template v-slot:[`item.industryName`]="{ value }"
+            ><v-card-text class="px-0 d-block">
+              <span>{{ value }}</span>
+              <br />
+              <span>{{ value }}</span>
+            </v-card-text>
+          </template>
         </v-data-table>
       </v-window-item>
 
@@ -88,6 +97,8 @@ export default defineComponent({
         { text: "Name", value: "industryName" },
         { text: "Description", value: "description" },
         { text: "Created", value: "createdTimestamp" },
+        { text: "Status", value: "status" },
+        { text: "Ranking", value: "rowRanking" },
         { text: null, value: "actions", sortable: false, align: "right" }
       ];
     });

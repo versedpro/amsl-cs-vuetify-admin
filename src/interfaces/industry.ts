@@ -1,6 +1,7 @@
 export interface Industry {
   industryId: number;
   industryName: string;
+  industryName2: string;
   industryLocalized: object;
   description: string;
   rowRanking: number;
@@ -8,5 +9,6 @@ export interface Industry {
   createdBy: number;
   status: number;
   statusFlag: number;
+  points: number;
   meta: object;
 }

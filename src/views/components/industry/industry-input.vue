@@ -20,6 +20,15 @@
                 </validation-provider>
               </v-col>
               <v-col cols="12" sm="6" md="4">
+                <validation-provider name="Name 2" v-slot="{ errors }">
+                  <v-text-field
+                    v-model="industry.industryName2"
+                    :error-messages="errors"
+                    label="Name 2"
+                  ></v-text-field>
+                </validation-provider>
+              </v-col>
+              <!-- <v-col cols="12" sm="6" md="4">
                 <validation-provider name="Industry Localized" v-slot="{ errors }">
                   <v-text-field
                     v-model="industry.industryLocalized"
@@ -27,7 +36,7 @@
                     label="Industry Localized"
                   ></v-text-field>
                 </validation-provider>
-              </v-col>
+              </v-col> -->
               <v-col cols="12" sm="6" md="4">
                 <validation-provider name="Status" rules="required" v-slot="{ errors }">
                   <v-text-field
@@ -38,6 +47,15 @@
                 </validation-provider>
               </v-col>
               <v-col cols="12" sm="6" md="4">
+                <validation-provider name="Points" rules="required" v-slot="{ errors }">
+                  <v-text-field
+                    v-model="industry.points"
+                    :error-messages="errors"
+                    label="Points"
+                  ></v-text-field>
+                </validation-provider>
+              </v-col>
+              <!-- <v-col cols="12" sm="6" md="4">
                 <validation-provider name="Status Flag" v-slot="{ errors }">
                   <v-text-field
                     v-model="industry.statusFlag"
@@ -45,7 +63,7 @@
                     label="Status Flag"
                   ></v-text-field>
                 </validation-provider>
-              </v-col>
+              </v-col> -->
 
               <v-col cols="12" sm="6" md="4">
                 <validation-provider name="Description" v-slot="{ errors }">

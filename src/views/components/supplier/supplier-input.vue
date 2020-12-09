@@ -13,7 +13,7 @@
                   <v-text-field
                     v-model="supplier.supplierName"
                     :error-messages="errors"
-                    label="Name"
+                    label="Name 1"
                   ></v-text-field>
                 </validation-provider>
               </v-col>
@@ -22,11 +22,11 @@
                   <v-text-field
                     v-model="supplier.displayName"
                     :error-messages="errors"
-                    label="Display Name"
+                    label="Name 2"
                   ></v-text-field>
                 </validation-provider>
               </v-col>
-              <v-col cols="12" sm="6" md="4">
+              <!-- <v-col cols="12" sm="6" md="4">
                 <validation-provider name="Ranking" v-slot="{ errors }">
                   <v-text-field
                     v-model="supplier.ranking"
@@ -34,9 +34,9 @@
                     label="Ranking"
                   ></v-text-field>
                 </validation-provider>
-              </v-col>
+              </v-col> -->
 
-              <v-col cols="12" sm="6" md="4">
+              <!-- <v-col cols="12" sm="6" md="4">
                 <validation-provider name="CreatedBy" v-slot="{ errors }">
                   <v-text-field
                     v-model="supplier.createdBy"
@@ -44,7 +44,7 @@
                     label="CreatedBy"
                   ></v-text-field>
                 </validation-provider>
-              </v-col>
+              </v-col> -->
               <v-col cols="12" sm="6" md="4">
                 <validation-provider name="Status" v-slot="{ errors }">
                   <v-text-field
@@ -54,7 +54,7 @@
                   ></v-text-field>
                 </validation-provider>
               </v-col>
-              <v-col cols="12" sm="6" md="4">
+              <!-- <v-col cols="12" sm="6" md="4">
                 <validation-provider name="Created Timestamp" rules="required" v-slot="{ errors }">
                   <v-text-field
                     v-model="supplier.createdTimestamp"
@@ -62,7 +62,7 @@
                     label="Created Timestamp"
                   ></v-text-field>
                 </validation-provider>
-              </v-col>
+              </v-col> -->
             </v-row>
           </v-container>
         </v-card-text>

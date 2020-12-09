@@ -18,12 +18,21 @@
                   ></v-text-field>
                 </validation-provider>
               </v-col>
-              <v-col cols="12" sm="6" md="4">
+              <!-- <v-col cols="12" sm="6" md="4">
                 <validation-provider name="Product Localized" v-slot="{ errors }">
                   <v-text-field
                     v-model="product.productLocalized"
                     :error-messages="errors"
                     label="Product Localized"
+                  ></v-text-field>
+                </validation-provider>
+              </v-col> -->
+              <v-col cols="12" sm="6" md="4">
+                <validation-provider name="Product Localized" v-slot="{ errors }">
+                  <v-text-field
+                    v-model="product.productName2"
+                    :error-messages="errors"
+                    label="Name 2"
                   ></v-text-field>
                 </validation-provider>
               </v-col>
@@ -32,7 +41,7 @@
                   <v-text-field
                     v-model="product.statusFlag"
                     :error-messages="errors"
-                    label="Status Flag"
+                    label="Status"
                   ></v-text-field>
                 </validation-provider>
               </v-col>
@@ -45,7 +54,7 @@
                   ></v-text-field>
                 </validation-provider>
               </v-col>
-              <v-col cols="12" sm="6" md="4">
+              <!-- <v-col cols="12" sm="6" md="4">
                 <validation-provider name="Created Timestamp" rules="required" v-slot="{ errors }">
                   <v-text-field
                     v-model="product.createdTimestamp"
@@ -53,7 +62,7 @@
                     label="Created Timestamp"
                   ></v-text-field>
                 </validation-provider>
-              </v-col>
+              </v-col> -->
             </v-row>
           </v-container>
         </v-card-text>
