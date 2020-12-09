@@ -34,7 +34,7 @@
           <!-- expand slot -->
           <template v-slot:expanded-item="{ headers, item }">
             <td :colspan="headers.length" class="pa-0 orange lighten-5">
-              <rejected-expandable :item="item" :staff="staff"></rejected-expandable>
+              <rejected-expandable :item="item"></rejected-expandable>
             </td>
           </template>
         </v-data-table>
@@ -48,7 +48,6 @@ import api from "@/api/crud";
 
 import { defaultFooterProps, mapOptions, sortParams, setSortOptions } from "@/utils/datatable";
 import { DataOptions } from "vuetify";
-
 import { defineComponent, ref } from "@vue/composition-api";
 
 export default defineComponent({
@@ -84,7 +83,8 @@ export default defineComponent({
     const staff = ref([]);
 
     const items = ref([]);
-    const item = ref({ supplierProductId: "" });
+    // const item = ref({ supplierProductId: "" });
+    // const salesorderitem = ref<SalesOrder>({} as SalesOrder);
     const serverItemsLength = ref(0);
     const mode = ref("add");
     const showDialog = ref(false);
@@ -131,11 +131,11 @@ export default defineComponent({
       showDialog.value = false;
     }
 
-    async function handleDeleteConfirm() {
-      await api.delete(`/SalesOrder/${item.value.supplierProductId}`);
-      showDialog.value = false;
-      refreshData();
-    }
+    // async function handleDeleteConfirm() {
+    //   await api.delete(`/SalesOrder/${item.value.supplierProductId}`);
+    //   showDialog.value = false;
+    //   refreshData();
+    // }
 
     function handleInputBack() {
       window.value = 0;
@@ -160,6 +160,7 @@ export default defineComponent({
       headers,
       loading,
       items,
+      // salesorderitem,
       expanded,
       staff,
       mode,
@@ -168,7 +169,7 @@ export default defineComponent({
       showDialog,
       window,
       handleDeleteCancel,
-      handleDeleteConfirm,
+      // handleDeleteConfirm,
       handleInputBack,
       handleInputCancel,
       handleInputSave,

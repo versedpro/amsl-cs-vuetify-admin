@@ -1,4 +1,4 @@
-export interface Staff {
+export interface SalesOrder {
   salesOrderId: number;
   referloId: number;
   contactName: string;
