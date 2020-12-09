@@ -1,66 +1,109 @@
 <template>
-  <v-card flat tile class="orange lighten-5">
+  <v-card flat tile class="grey lighten-3">
     <v-card-text class="pt-0 mt-0">
       <v-container>
         <v-row>
+          <v-col cols="12"
+            ><h2 class="font-weight-black primary--text">
+              <v-icon color="gold">mdi-account-box-multiple-outline</v-icon> ID's
+            </h2></v-col
+          >
           <v-col cols="12" sm="6" md="3">
-            <h2 class="overline font-weight-black">Sales Order Id</h2>
-            <h4 class="font-weight-light">{{ item.salesOrderId }}</h4>
+            <span>Sales Order Id</span>
+            <h4 class="font-weight-black primary--text">{{ item.salesOrderId }}</h4>
           </v-col>
           <v-col cols="12" sm="6" md="3">
-            <h2 class="overline font-weight-black">Referlo Id</h2>
-            <h4 class="font-weight-light">{{ item.referloId }}</h4>
+            <span>Referlo Id</span>
+            <h4 class="font-weight-black primary--text">{{ item.referloId }}</h4>
+          </v-col>
+          <v-flex xs12 class="my-3">
+            <v-divider></v-divider>
+          </v-flex>
+          <v-col cols="12"
+            ><h2 class="font-weight-black primary--text">
+              <v-icon color="gold">mdi-card-account-phone-outline</v-icon> Contact Detail
+            </h2></v-col
+          >
+          <v-col cols="12" sm="6" md="3">
+            <span>Contact Name</span>
+            <h4 class="font-weight-black primary--text">{{ item.contactName }}</h4>
           </v-col>
           <v-col cols="12" sm="6" md="3">
-            <h2 class="overline font-weight-black">Contact Name</h2>
-            <h4 class="font-weight-light">{{ item.contactName }}</h4>
+            <span>Contact Phone</span>
+            <h4 class="font-weight-black primary--text">{{ item.contactPhone }}</h4>
           </v-col>
           <v-col cols="12" sm="6" md="3">
-            <h2 class="overline font-weight-black">Contact Phone</h2>
-            <h4 class="font-weight-light">{{ item.contactPhone }}</h4>
+            <span>Contact Email</span>
+            <h4 class="font-weight-black primary--text">{{ item.contactEmail }}</h4>
+          </v-col>
+          <v-flex xs12 class="my-3">
+            <v-divider></v-divider>
+          </v-flex>
+          <v-col cols="12"
+            ><h2 class="font-weight-black primary--text">
+              <v-icon color="gold">mdi-truck-fast-outline</v-icon>Supplier Detail
+            </h2></v-col
+          >
+          <v-col cols="12" sm="6" md="3">
+            <span>Supplier Product Id</span>
+            <h4 class="font-weight-black primary--text">{{ item.supplierProductId }}</h4>
           </v-col>
           <v-col cols="12" sm="6" md="3">
-            <h2 class="overline font-weight-black">Contact Email</h2>
-            <h4 class="font-weight-light">{{ item.contactEmail }}</h4>
+            <span>Supplier Sales Admin</span>
+            <h4 class="font-weight-black primary--text">{{ item.supplierSalesAdmin }}</h4>
           </v-col>
           <v-col cols="12" sm="6" md="3">
-            <h2 class="overline font-weight-black">Contact Other Info</h2>
-            <h4 class="font-weight-light">{{ item.contactOtherInfo }}</h4>
+            <span>Supplier Sales Time</span>
+            <h4 class="font-weight-black primary--text">{{ item.supplierSalesAppointedTime }}</h4>
           </v-col>
           <v-col cols="12" sm="6" md="3">
-            <h2 class="overline font-weight-black">Supplier Product Id</h2>
-            <h4 class="font-weight-light">{{ item.supplierProductId }}</h4>
+            <span>Supplier Sales Id</span>
+            <h4 class="font-weight-black primary--text">{{ item.supplierSalesId }}</h4>
           </v-col>
           <v-col cols="12" sm="6" md="3">
-            <h2 class="overline font-weight-black">Supplier Sales Admin</h2>
-            <h4 class="font-weight-light">{{ item.supplierSalesAdmin }}</h4>
+            <span>Supplier Other Info</span>
+            <h4 class="font-weight-black primary--text">{{ item.supplierOtherInfo }}</h4>
           </v-col>
           <v-col cols="12" sm="6" md="3">
-            <h2 class="overline font-weight-black">Supplier Sales Appointed Time</h2>
-            <h4 class="font-weight-light">{{ item.supplierSalesAppointedTime }}</h4>
+            <span>Sales Order Timestamp</span>
+            <h4 class="font-weight-black primary--text">{{ item.salesOrderProcessTimestamp }}</h4>
           </v-col>
           <v-col cols="12" sm="6" md="3">
-            <h2 class="overline font-weight-black">Supplier Sales Id</h2>
-            <h4 class="font-weight-light">{{ item.supplierSalesId }}</h4>
+            <span>Created Timestamp</span>
+            <h4 class="font-weight-black primary--text">{{ item.createdTimestamp }}</h4>
           </v-col>
           <v-col cols="12" sm="6" md="3">
-            <h2 class="overline font-weight-black">Supplier Other Info</h2>
-            <h4 class="font-weight-light">{{ item.supplierOtherInfo }}</h4>
+            <span>Status Flag</span>
+            <h4 class="font-weight-black primary--text">{{ item.statusFlag }}</h4>
+          </v-col>
+          <v-flex xs12 class="my-3">
+            <v-divider></v-divider>
+          </v-flex>
+          <v-col cols="12"
+            ><h2 class="font-weight-black primary--text">
+              <v-icon color="gold">mdi-database</v-icon>Points Detail
+            </h2></v-col
+          >
+          <v-col cols="12" sm="6" md="3">
+            <span>Points Level 1 %</span>
+            <h4 class="font-weight-black primary--text">{{ item.pointsLevel0 }}</h4>
           </v-col>
           <v-col cols="12" sm="6" md="3">
-            <h2 class="overline font-weight-black">Sales Order Process Timestamp</h2>
-            <h4 class="font-weight-light">{{ item.salesOrderProcessTimestamp }}</h4>
+            <span>Points Level 2 %</span>
+            <h4 class="font-weight-black primary--text">{{ item.pointsLevel1 }}</h4>
           </v-col>
           <v-col cols="12" sm="6" md="3">
-            <h2 class="overline font-weight-black">Created Timestamp</h2>
-            <h4 class="font-weight-light">{{ item.createdTimestamp }}</h4>
+            <span>Points Level 3 %</span>
+            <h4 class="font-weight-black primary--text">{{ item.pointsLevel2 }}</h4>
           </v-col>
           <v-col cols="12" sm="6" md="3">
-            <h2 class="overline font-weight-black">Status Flag</h2>
-            <h4 class="font-weight-light">{{ item.statusFlag }}</h4>
+            <span>Final Points</span>
+            <h4 class="font-weight-black primary--text">
+              {{ item.pointsFinal }}
+            </h4>
           </v-col>
 
-          <v-list>
+          <!-- <v-list class="pa-0">
             <v-list-group>
               <template v-slot:activator>
                 <v-list-item-content>
@@ -76,7 +119,7 @@
                 </v-list-item-content>
               </v-list-item>
             </v-list-group>
-          </v-list>
+          </v-list> -->
         </v-row>
       </v-container>
     </v-card-text>
