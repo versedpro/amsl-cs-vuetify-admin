@@ -14,15 +14,24 @@
           :options.sync="options"
           :server-items-length="serverItemsLength"
           @update:options="handleUpdateOptions"
+          item-key="registrationPhone"
+          show-expand
+          single-expand
         >
           <!-- Top Slot -->
           <template v-slot:top>
-            <datatable-top-slot @on-search="handleSearch" @on-insert="handleInsert" />
+            <datatable-top-slot @on-search="handleSearch" />
           </template>
 
           <!-- createdTimestamp slot -->
           <template v-slot:[`item.registrationTimestamp`]="{ value }">
             <datatable-iso-date :timestamp="value"> </datatable-iso-date>
+          </template>
+
+          <template v-slot:expanded-item="{ headers, item }">
+            <td :colspan="headers.length" class="pa-0">
+              <expanded-datatable :item="item"></expanded-datatable>
+            </td>
           </template>
         </v-data-table>
       </v-window-item>
@@ -45,7 +54,8 @@ export default defineComponent({
   components: {
     DatatableTopSlot: () => import("@/views/widget/datatable-top-slot.vue"),
     DatatableIsoDate: () => import("@/views/widget/datatable-iso-date.vue"),
-    DatatableTitle: () => import("@/views/widget/datatable-title.vue")
+    DatatableTitle: () => import("@/views/widget/datatable-title.vue"),
+    ExpandedDatatable: () => import("./expanded-datatable.vue")
   },
 
   setup(_, { root }) {
