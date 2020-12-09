@@ -20,7 +20,7 @@
         >
           <!-- Top Slot -->
           <template v-slot:top>
-            <datatable-top-slot @on-search="handleSearch" />
+            <datatable-top-slot-printer @on-search="handleSearch" />
           </template>
 
           <!-- createdTimestamp slot -->
@@ -52,7 +52,7 @@ export default defineComponent({
   name: "Registration",
 
   components: {
-    DatatableTopSlot: () => import("@/views/widget/datatable-top-slot.vue"),
+    DatatableTopSlotPrinter: () => import("@/views/widget/datatable-top-slot-printer.vue"),
     DatatableIsoDate: () => import("@/views/widget/datatable-iso-date.vue"),
     DatatableTitle: () => import("@/views/widget/datatable-title.vue"),
     ExpandedDatatable: () => import("./expanded-datatable.vue")

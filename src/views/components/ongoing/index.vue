@@ -23,7 +23,7 @@
         >
           <!-- Top Slot -->
           <template v-slot:top>
-            <datatable-orders-top-slot @on-search="handleSearch" @on-insert="handleInsert" />
+            <datatable-orders-top-slot @on-refresh="handleRefresh" @on-search="handleSearch" />
           </template>
 
           <!-- createdTimestamp slot -->
@@ -85,7 +85,7 @@ export default defineComponent({
     const staff = ref([]);
 
     const items = ref([]);
-    const item = ref({ supplierProductId: "" });
+    // const item = ref({ supplierProductId: "" });
     const serverItemsLength = ref(0);
     const mode = ref("add");
     const showDialog = ref(false);
@@ -102,12 +102,13 @@ export default defineComponent({
         api.get("/SalesOrder/Datatable", dtOptions).then(({ data }) => {
           items.value = data.data || [];
           serverItemsLength.value = data.total;
-          loading.value = false;
         });
       } catch (e) {
         // console.log("fetchData failed..", e);
       } finally {
-        loading.value = false;
+        setTimeout(() => {
+          loading.value = false;
+        }, 300);
       }
     }
 
@@ -132,11 +133,11 @@ export default defineComponent({
       showDialog.value = false;
     }
 
-    async function handleDeleteConfirm() {
-      await api.delete(`/SalesOrder/${item.value.supplierProductId}`);
-      showDialog.value = false;
-      refreshData();
-    }
+    // async function handleDeleteConfirm() {
+    //   await api.delete(`/SalesOrder/${item.value.supplierProductId}`);
+    //   showDialog.value = false;
+    //   refreshData();
+    // }
 
     function handleInputBack() {
       window.value = 0;
@@ -148,6 +149,11 @@ export default defineComponent({
 
     function handleInputSave() {
       handleInputBack();
+      refreshData();
+    }
+
+    function handleRefresh() {
+      loading.value = true;
       refreshData();
     }
 
@@ -169,10 +175,11 @@ export default defineComponent({
       showDialog,
       window,
       handleDeleteCancel,
-      handleDeleteConfirm,
+      // handleDeleteConfirm,
       handleInputBack,
       handleInputCancel,
       handleInputSave,
+      handleRefresh,
       handleSearch,
       handleUpdateOptions
     };

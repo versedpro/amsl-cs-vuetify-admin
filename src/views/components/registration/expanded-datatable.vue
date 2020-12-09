@@ -38,7 +38,7 @@ export default defineComponent({
     item: Object
   },
 
-  setup(props, { emit }) {
+  setup(props) {
     const statuses = [
       { value: 0, text: "submit" },
       { value: 1, text: "sale assign" },

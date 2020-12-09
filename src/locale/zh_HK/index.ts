@@ -68,9 +68,9 @@ export default {
   },
   registration: {
     title: "用戶註冊",
-    phone: "Phone hk",
-    contactName: "Contact Name hk",
-    timeStamp: "Time Stamp hk"
+    phone: "電話",
+    contactName: "聯繫人",
+    timeStamp: "時間"
   },
   setting: {
     title: "Setting",

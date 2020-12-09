@@ -35,7 +35,7 @@
 import { defineComponent, ref } from "@vue/composition-api";
 
 export default defineComponent({
-  name: "DatatableOrdersTopSlot",
+  name: "DatatableOrdersTopSlotPrinter",
 
   setup(_, { emit }) {
     const filterText = ref("");
