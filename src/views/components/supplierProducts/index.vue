@@ -11,12 +11,13 @@
           :items="items"
           :items-per-page="options.itemsPerPage"
           :loading="loading"
-          item-key="supplierProductId"
-          :expanded.sync="expanded"
-          show-expand
           :options.sync="options"
           :server-items-length="serverItemsLength"
           @update:options="handleUpdateOptions"
+          item-key="supplierProductId"
+          show-expand
+          single-expand
+          :expanded.sync="expanded"
         >
           <!-- top slot -->
           <template v-slot:top>
@@ -24,10 +25,10 @@
           </template>
 
           <!-- actions slot -->
-          <template v-slot:[`item.actions`]="{ item }">
+          <!-- <template v-slot:[`item.actions`]="{ item }">
             <datatable-action-slot @on-update="handleEdit(item)" @on-delete="handleDelete(item)">
             </datatable-action-slot>
-          </template>
+          </template> -->
 
           <!-- createdTimestamp slot -->
           <template v-slot:[`item.createdTimestamp`]="{ value }">
@@ -36,7 +37,7 @@
 
           <!-- expand slot -->
           <template v-slot:expanded-item="{ headers, item }">
-            <td :colspan="headers.length">
+            <td :colspan="headers.length" class="pa-0">
               <file-upload :id="item.supplierProductId" style="min-height: 100px"></file-upload>
             </td>
           </template>
@@ -75,21 +76,21 @@ export default defineComponent({
 
   components: {
     SupplierProductInput: () => import("./supplier-product-input.vue"),
-    DatatableActionSlot: () => import("@/views/widget/datatable-action-slot.vue"),
+    FileUpload: () => import("./supplier-product-expandable.vue"),
+    // DatatableActionSlot: () => import("@/views/widget/datatable-action-slot.vue"),
     DatatableTopSlot: () => import("@/views/widget/datatable-top-slot.vue"),
     DatatableDeleteDialog: () => import("@/views/widget/datatable-delete-dialog.vue"),
     DatatableIsoDate: () => import("@/views/widget/datatable-iso-date.vue"),
-    DatatableTitle: () => import("@/views/widget/datatable-title.vue"),
-    FileUpload: () => import("@/views/widget/file-upload.vue")
+    DatatableTitle: () => import("@/views/widget/datatable-title.vue")
   },
 
   setup() {
     const headers = ref([
-      { text: "Id", align: "start", sortable: false, value: "supplierProductId" },
-      { text: "SupplierId", sortable: false, value: "supplierId" },
-      { text: "ProductId", sortable: false, value: "productId" },
-      { text: "Created", value: "createdTimestamp" },
-      { text: null, value: "actions", sortable: false, align: "right" }
+      { text: "Id", align: "start", sortable: true, value: "supplierProductId" },
+      { text: "SupplierId", sortable: true, value: "supplierId" },
+      { text: "ProductId", sortable: true, value: "productId" },
+      { text: "Created", value: "createdTimestamp" }
+      // { text: null, value: "actions", sortable: false, align: "right" }
     ]);
 
     // datatable options

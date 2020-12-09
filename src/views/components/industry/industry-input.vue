@@ -4,20 +4,12 @@
       <v-form ref="form" lazy-validation>
         <input-form-title :title="title" @on-back-button="handleBackButton" />
 
-        <v-card-text>
+        <v-card-subtitle class="ml-4">{{ id }}</v-card-subtitle>
+        <v-divider class="my-1"></v-divider>
+
+        <v-card-text class="pt-0 mt-0">
           <v-container>
             <v-row>
-              <v-col cols="12" sm="6" md="4">
-                <validation-provider name="Id" rules="required" v-slot="{ errors }">
-                  <v-card-subtitle class="mr-2">{{ industry.industryId }}</v-card-subtitle>
-                  <v-text-field
-                    v-model="industry.industryId"
-                    :error-messages="errors"
-                    label="Id"
-                    readonly
-                  ></v-text-field>
-                </validation-provider>
-              </v-col>
               <v-col cols="12" sm="6" md="4">
                 <validation-provider name="Industry Name" rules="required" v-slot="{ errors }">
                   <v-text-field
@@ -57,19 +49,14 @@
 
               <v-col cols="12" sm="6" md="4">
                 <validation-provider name="Description" v-slot="{ errors }">
-                  <v-text-field
+                  <v-textarea
                     v-model="industry.description"
+                    filled
+                    auto-grow
                     :error-messages="errors"
                     label="Description"
                     rows="4"
-                  ></v-text-field>
-                  <v-textarea
-                    filled
-                    auto-grow
-                    label="Four rows"
-                    rows="4"
                     row-height="30"
-                    shaped
                   ></v-textarea>
                 </validation-provider>
               </v-col>
@@ -131,6 +118,8 @@ export default defineComponent({
       props.mode == "insert" ? root.$t("industry.add") : root.$t("industry.edit")
     );
 
+    const id = computed(() => "ID: " + props.item["industryId"]);
+
     const industry = ref(props.item);
     watchEffect(() => {
       industry.value = props.item;
@@ -154,6 +143,7 @@ export default defineComponent({
     }
 
     return {
+      id,
       title,
       industry,
       handleBackButton,

@@ -1,23 +1,25 @@
 export default {
   history: "過往記錄",
-  products: "資訊中心",
-  supplierProducts: "供應商產品",
-  supplier: "供應商",
-  industry: "行業",
   profile: "个人资料",
   followUp: "订单跟进",
-  database: "基本資料",
   staff: "基本資料",
   drawerComponents: {
     home: "儀表板",
     referlo: "Refer佬清單",
     user: "用戶管理"
   },
+  database: "基本資料",
+  databaseComponents: {
+    industry: "行業",
+    products: "產品類別",
+    supplier: "供應商",
+    supplierProducts: "供應商產品"
+  },
   more: "更多",
   moreComponents: {
     privacy: "隱私政策",
     terms: "條款及細則",
-    setting: "設定"
+    settings: "設定"
   },
   orders: "訂單處理",
   ordersComponents: {

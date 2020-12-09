@@ -4,18 +4,11 @@
       <v-form ref="form" lazy-validation>
         <input-form-title :title="title" @on-back-button="handleBackButton" />
 
+        <v-card-subtitle class="ml-4">{{ id }}</v-card-subtitle>
+        <v-divider></v-divider>
         <v-card-text>
           <v-container>
             <v-row>
-              <v-col cols="12" sm="6" md="4">
-                <validation-provider name="Id" rules="required" v-slot="{ errors }">
-                  <v-text-field
-                    v-model="product.productId"
-                    :error-messages="errors"
-                    label="Id"
-                  ></v-text-field>
-                </validation-provider>
-              </v-col>
               <v-col cols="12" sm="6" md="4">
                 <validation-provider name="Product Name" rules="required" v-slot="{ errors }">
                   <v-text-field
@@ -40,15 +33,6 @@
                     v-model="product.statusFlag"
                     :error-messages="errors"
                     label="Status Flag"
-                  ></v-text-field>
-                </validation-provider>
-              </v-col>
-              <v-col cols="12" sm="6" md="4">
-                <validation-provider name="Meta" v-slot="{ errors }">
-                  <v-text-field
-                    v-model="product.meta"
-                    :error-messages="errors"
-                    label="Meta"
                   ></v-text-field>
                 </validation-provider>
               </v-col>
@@ -114,6 +98,8 @@ export default defineComponent({
       props.mode == "insert" ? root.$t("product.add") : root.$t("product.edit")
     );
 
+    const id = computed(() => "ID: " + props.item["productId"]);
+
     const product = ref(props.item);
     watchEffect(() => {
       product.value = props.item;
@@ -141,6 +127,7 @@ export default defineComponent({
     }
 
     return {
+      id,
       title,
       product,
       handleBackButton,

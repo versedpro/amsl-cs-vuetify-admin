@@ -16,6 +16,10 @@
           :options.sync="options"
           :server-items-length="serverItemsLength"
           @update:options="handleUpdateOptions"
+          item-key="salesOrderId"
+          show-expand
+          single-expand
+          :expanded.sync="expanded"
         >
           <!-- Top Slot -->
           <template v-slot:top>
@@ -26,29 +30,24 @@
           <template v-slot:[`item.createdTimestamp`]="{ value }">
             <datatable-iso-date :timestamp="value"> </datatable-iso-date>
           </template>
+
+          <!-- expand slot -->
+          <template v-slot:expanded-item="{ headers, item }">
+            <td :colspan="headers.length" class="pa-0 orange lighten-5">
+              <rejected-expandable :item="item" :staff="staff"></rejected-expandable>
+            </td>
+          </template>
         </v-data-table>
       </v-window-item>
-
-      <!-- <v-window-item>
-        <industry-input
-          :mode="mode"
-          :item="item"
-          @on-input-cancel="handleInputCancel"
-          @on-input-save="handleInputSave"
-          @on-input-back="handleInputBack"
-        >
-        </industry-input>
-      </v-window-item> -->
     </v-window>
   </v-card>
 </template>
 
 <script lang="ts">
-import OngoingApi from "./api";
+import api from "@/api/crud";
 
 import { defaultFooterProps, mapOptions, sortParams, setSortOptions } from "@/utils/datatable";
 import { DataOptions } from "vuetify";
-// import { Industry } from "@/interfaces/industry";
 
 import { defineComponent, ref } from "@vue/composition-api";
 
@@ -56,20 +55,18 @@ export default defineComponent({
   name: "Ongoing",
 
   components: {
-    // IndustryInput: () => import("./industry-input.vue"),
-    // DatatableActionSlot: () => import("@/views/widget/datatable-action-slot.vue"),
     DatatableOrdersTopSlot: () => import("@/views/widget/datatable-orders-top-slot.vue"),
-    DatatableIsoDate: () => import("@/views/widget/datatable-iso-date.vue")
+    DatatableIsoDate: () => import("@/views/widget/datatable-iso-date.vue"),
+    RejectedExpandable: () => import("./rejected-expandable.vue")
   },
 
   setup() {
     // datatable header
     const headers = ref([
-      { text: "OrderId", value: "salesOrderId", align: "start" },
+      { text: "Order#", value: "salesOrderId", align: "start" },
       { text: "ContactName", value: "contactName" },
       { text: "ContactPhone", value: "contactPhone" },
-      { text: "ContactEmail", value: "contactEmail" },
-      { text: "ContactOtherInfo", value: "contactOtherInfo" },
+      { text: "SupplierProductId", value: "supplierProductId" },
       { text: "CreatedTimestamp", value: "createdTimestamp" }
     ]);
 
@@ -83,8 +80,11 @@ export default defineComponent({
     // Other datatable settings
     const filter = ref("");
     const loading = ref(false);
-    // const item = ref<Industry>({} as Industry);
+    const expanded = ref([]);
+    const staff = ref([]);
+
     const items = ref([]);
+    const item = ref({ supplierProductId: "" });
     const serverItemsLength = ref(0);
     const mode = ref("add");
     const showDialog = ref(false);
@@ -98,7 +98,7 @@ export default defineComponent({
         const dtOptions = mapOptions(options.value);
         dtOptions["filter"] = filter;
 
-        OngoingApi.datatable(dtOptions).then(({ data }) => {
+        api.get("/SalesOrder/Datatable", dtOptions).then(({ data }) => {
           items.value = data.data || [];
           serverItemsLength.value = data.total;
           loading.value = false;
@@ -122,12 +122,19 @@ export default defineComponent({
       fetchData(options.value.page, options.value.itemsPerPage, params, filter.value);
     }
 
+    function fetchStaff() {
+      api.get("/Staff").then(({ data }) => (staff.value = data));
+    }
+    fetchStaff();
+
     function handleDeleteCancel() {
       showDialog.value = false;
     }
 
-    function handleDeleteConfirm() {
+    async function handleDeleteConfirm() {
+      await api.delete(`/SalesOrder/${item.value.supplierProductId}`);
       showDialog.value = false;
+      refreshData();
     }
 
     function handleInputBack() {
@@ -138,8 +145,9 @@ export default defineComponent({
       window.value = 0;
     }
 
-    function handleInputSave(mode) {
-      console.log(mode);
+    function handleInputSave() {
+      handleInputBack();
+      refreshData();
     }
 
     function handleSearch(val) {
@@ -152,6 +160,8 @@ export default defineComponent({
       headers,
       loading,
       items,
+      expanded,
+      staff,
       mode,
       options,
       serverItemsLength,

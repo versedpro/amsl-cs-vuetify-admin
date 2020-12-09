@@ -17,8 +17,7 @@ const dbRouter = {
       component: () => import("@/views/components/industry/index.vue"),
       name: "Industry",
       meta: {
-        title: "route.industry",
-        icon: "mdi-text-subject",
+        title: "route.databaseComponents.industry",
         noCache: true,
         affix: true
       }
@@ -28,8 +27,7 @@ const dbRouter = {
       component: () => import("@/views/components/products/index.vue"),
       name: "Products",
       meta: {
-        title: "route.products",
-        icon: "mdi-text-subject",
+        title: "route.databaseComponents.products",
         noCache: true,
         affix: true
       }
@@ -39,8 +37,7 @@ const dbRouter = {
       component: () => import("@/views/components/supplier/index.vue"),
       name: "Supplier",
       meta: {
-        title: "route.supplier",
-        icon: "mdi-text-subject",
+        title: "route.databaseComponents.supplier",
         noCache: true,
         affix: true
       }
@@ -50,8 +47,7 @@ const dbRouter = {
       component: () => import("@/views/components/supplierProducts/index.vue"),
       name: "Supplier Products",
       meta: {
-        title: "route.supplierProducts",
-        icon: "mdi-text-subject",
+        title: "route.databaseComponents.supplierProducts",
         noCache: true,
         affix: true
       }

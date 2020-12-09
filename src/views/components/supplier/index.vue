@@ -17,7 +17,11 @@
         >
           <!-- Top Slot -->
           <template v-slot:top>
-            <datatable-top-slot @on-search="handleSearch" @on-insert="handleInsert" />
+            <datatable-top-slot
+              @on-refresh="handleRefresh"
+              @on-search="handleSearch"
+              @on-insert="handleInsert"
+            />
           </template>
 
           <!-- Action Slot -->
@@ -108,12 +112,13 @@ export default defineComponent({
         api.get("/Supplier/Datatable", dtOptions).then(({ data }) => {
           items.value = data.data || [];
           serverItemsLength.value = data.total;
-          loading.value = false;
         });
       } catch (e) {
         // console.log("fetchData failed..", e);
       } finally {
-        loading.value = false;
+        setTimeout(() => {
+          loading.value = false;
+        }, 300);
       }
     }
 
@@ -163,6 +168,11 @@ export default defineComponent({
       refreshData();
     }
 
+    function handleRefresh() {
+      loading.value = true;
+      refreshData();
+    }
+
     function handleSearch(val) {
       filter.value = val;
     }
@@ -193,6 +203,7 @@ export default defineComponent({
       handleInputCancel,
       handleInputSave,
       handleInsert,
+      handleRefresh,
       handleSearch,
       handleUpdateOptions
     };

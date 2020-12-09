@@ -4,18 +4,10 @@
       <v-form ref="form" lazy-validation>
         <input-form-title :title="title" @on-back-button="handleBackButton" />
 
+        <v-card-subtitle class="ml-2">ID. 1234</v-card-subtitle>
         <v-card-text>
           <v-container>
             <v-row>
-              <v-col cols="12" sm="6" md="4">
-                <validation-provider name="Id" rules="required" v-slot="{ errors }">
-                  <v-text-field
-                    v-model="supplier.supplierId"
-                    :error-messages="errors"
-                    label="Id"
-                  ></v-text-field>
-                </validation-provider>
-              </v-col>
               <v-col cols="12" sm="6" md="4">
                 <validation-provider name="Supplier Name" rules="required" v-slot="{ errors }">
                   <v-text-field

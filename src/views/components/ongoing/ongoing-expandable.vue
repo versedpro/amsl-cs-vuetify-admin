@@ -1,6 +1,7 @@
 <template>
-  <div class="d-flex ma-10">
-    <div md="6" class="mr-2">
+  <!-- <div class="d-flex ma-10"> -->
+  <v-card flat tile width="300px">
+    <!-- <div md="6" class="mr-2">
       <v-select
         :items="staff"
         v-model="staffId"
@@ -8,9 +9,11 @@
         item-value="staffId"
         label="Staff"
       ></v-select>
-    </div>
+    </div> -->
+
     <v-btn class="align-self-center" @click="save">Save</v-btn>
-  </div>
+    <!-- </div> -->
+  </v-card>
 </template>
 
 <script lang="ts">
@@ -19,10 +22,12 @@ import api from "@/api/crud";
 
 export default defineComponent({
   name: "ExpandedDataTable",
+
   props: {
     item: Object,
     staff: Array
   },
+
   setup(props) {
     const staffId = ref(0);
 

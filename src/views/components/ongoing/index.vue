@@ -11,14 +11,15 @@
           :footer-props="defaultFooterProps"
           :headers="headers"
           :items="items"
-          item-key="salesOrderId"
-          show-expand
-          :expanded.sync="expanded"
           :items-per-page="options.itemsPerPage"
           :loading="loading"
           :options.sync="options"
           :server-items-length="serverItemsLength"
           @update:options="handleUpdateOptions"
+          item-key="salesOrderId"
+          show-expand
+          single-expand
+          :expanded.sync="expanded"
         >
           <!-- Top Slot -->
           <template v-slot:top>
@@ -32,34 +33,21 @@
 
           <!-- expand slot -->
           <template v-slot:expanded-item="{ headers, item }">
-            <td :colspan="headers.length">
+            <td :colspan="headers.length" class="pa-0">
               <expanded-data-table :item="item" :staff="staff"></expanded-data-table>
             </td>
           </template>
         </v-data-table>
       </v-window-item>
-
-      <!-- <v-window-item>
-        <industry-input
-          :mode="mode"
-          :item="item"
-          @on-input-cancel="handleInputCancel"
-          @on-input-save="handleInputSave"
-          @on-input-back="handleInputBack"
-        >
-        </industry-input>
-      </v-window-item> -->
     </v-window>
   </v-card>
 </template>
 
 <script lang="ts">
-import OngoingApi from "./api";
+import api from "@/api/crud";
 
 import { defaultFooterProps, mapOptions, sortParams, setSortOptions } from "@/utils/datatable";
 import { DataOptions } from "vuetify";
-import api from "@/api/crud";
-// import { Industry } from "@/interfaces/industry";
 
 import { defineComponent, ref } from "@vue/composition-api";
 
@@ -67,21 +55,19 @@ export default defineComponent({
   name: "Ongoing",
 
   components: {
-    // IndustryInput: () => import("./industry-input.vue"),
-    // DatatableActionSlot: () => import("@/views/widget/datatable-action-slot.vue"),
     DatatableOrdersTopSlot: () => import("@/views/widget/datatable-orders-top-slot.vue"),
     DatatableIsoDate: () => import("@/views/widget/datatable-iso-date.vue"),
-    ExpandedDataTable: () => import("./expanded-data-table.vue")
+    ExpandedDataTable: () => import("./ongoing-expandable.vue")
   },
 
   setup() {
     // datatable header
     const headers = ref([
-      { text: "OrderId", value: "salesOrderId", align: "start" },
+      { text: "Order#", value: "salesOrderId", align: "start" },
       { text: "ContactName", value: "contactName" },
       { text: "ContactPhone", value: "contactPhone" },
       { text: "ContactEmail", value: "contactEmail" },
-      { text: "ContactOtherInfo", value: "contactOtherInfo" },
+      { text: "SupplierProductId", value: "supplierProductId" },
       { text: "CreatedTimestamp", value: "createdTimestamp" }
     ]);
 
@@ -97,7 +83,7 @@ export default defineComponent({
     const loading = ref(false);
     const expanded = ref([]);
     const staff = ref([]);
-    // const item = ref<Industry>({} as Industry);
+
     const items = ref([]);
     const item = ref({ supplierProductId: "" });
     const serverItemsLength = ref(0);

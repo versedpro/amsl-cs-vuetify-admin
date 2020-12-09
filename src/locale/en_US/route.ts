@@ -1,23 +1,24 @@
 export default {
   history: "Job History",
-  products: "Products",
   profile: "Profile",
   followUp: "Orders",
-  industry: "Industry",
-  supplier: "Supplier",
-  supplierProducts: "Supplier Products",
-  database: "Manage Table",
   staff: "Staff",
   drawerComponents: {
     home: "Dashboard",
     referlo: "Referlo",
     user: "Manager User"
   },
+  database: "Manage Table",
+  databaseComponents: {
+    industry: "Industry",
+    products: "Products Category",
+    supplier: "Supplier",
+    supplierProducts: "Supplier Products"
+  },
   more: "More",
   moreComponents: {
     privacy: "Privacy Policy",
     terms: "Terms & Conditions",
-    setting: "Setting",
     settings: "Settings"
   },
   orders: "Process Orders",

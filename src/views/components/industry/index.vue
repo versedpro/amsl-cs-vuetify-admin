@@ -121,10 +121,9 @@ export default defineComponent({
       } catch (e) {
         // console.log("fetchData failed..", e);
       } finally {
-        // loading.value = false;
         setTimeout(() => {
           loading.value = false;
-        }, 800);
+        }, 300);
       }
     }
 
@@ -175,7 +174,6 @@ export default defineComponent({
     }
 
     function handleRefresh() {
-      console.log("refreh");
       loading.value = true;
       refreshData();
     }
