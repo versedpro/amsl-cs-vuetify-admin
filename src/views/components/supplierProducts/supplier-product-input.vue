@@ -3,7 +3,6 @@
     <validation-observer v-slot="{ invalid }">
       <v-form ref="form" lazy-validation>
         <input-form-title :title="title" @on-back-button="handleBackButton" />
-
         <v-card-text>
           <v-container>
             <v-row>
@@ -68,6 +67,9 @@
                 </validation-provider>
               </v-col>
               <v-col cols="12" sm="6" md="4">
+                <v-select :items="select" label="Status"></v-select>
+              </v-col>
+              <!-- <v-col cols="12" sm="6" md="4">
                 <validation-provider name="Status" v-slot="{ errors }">
                   <v-text-field
                     v-model="supplierProduct.status"
@@ -75,16 +77,16 @@
                     label="Status"
                   ></v-text-field>
                 </validation-provider>
-              </v-col>
-              <!-- <v-col cols="12" sm="6" md="4">
-                <validation-provider name="Meta" v-slot="{ errors }">
-                  <v-text-field
-                    v-model="supplierProduct.meta"
-                    :error-messages="errors"
-                    label="Meta"
-                  ></v-text-field>
-                </validation-provider>
               </v-col> -->
+              <!-- <v-col cols="12" sm="6" md="4">
+                  <validation-provider name="Meta" v-slot="{ errors }">
+                    <v-text-field
+                      v-model="supplierProduct.meta"
+                      :error-messages="errors"
+                      label="Meta"
+                    ></v-text-field>
+                  </validation-provider>
+                </v-col> -->
               <v-col cols="12" sm="6" md="4">
                 <validation-provider name="CreatedBy" v-slot="{ errors }">
                   <v-text-field
@@ -106,9 +108,7 @@
             </v-row>
           </v-container>
         </v-card-text>
-
         <v-divider></v-divider>
-
         <input-form-action
           :invalid="invalid"
           @on-cancel="handleCancel"
@@ -144,6 +144,7 @@ export default defineComponent({
   },
 
   setup(props, { emit, root }) {
+    const select = ["active", "suspend"];
     const title = computed(() =>
       props.mode == "insert" ? root.$t("supplier_products.add") : root.$t("supplier_products.edit")
     );
@@ -198,6 +199,7 @@ export default defineComponent({
 
     return {
       title,
+      select,
       products,
       suppliers,
       supplierProduct,

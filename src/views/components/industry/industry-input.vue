@@ -38,6 +38,9 @@
                 </validation-provider>
               </v-col> -->
               <v-col cols="12" sm="6" md="4">
+                <v-select :items="select" label="Status"></v-select>
+              </v-col>
+              <v-col cols="12" sm="6" md="4">
                 <validation-provider name="Status" rules="required" v-slot="{ errors }">
                   <v-text-field
                     v-model="industry.status"
@@ -132,6 +135,7 @@ export default defineComponent({
   },
 
   setup(props, { emit, root }) {
+    const select = ["active", "suspend"];
     const title = computed(() =>
       props.mode == "insert" ? root.$t("industry.add") : root.$t("industry.edit")
     );
@@ -163,6 +167,7 @@ export default defineComponent({
     return {
       id,
       title,
+      select,
       industry,
       handleBackButton,
       handleCancel,
