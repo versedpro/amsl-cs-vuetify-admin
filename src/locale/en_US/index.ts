@@ -47,6 +47,9 @@ export default {
   ongoing: {
     title: "Ongoing Orders"
   },
+  received: {
+    title: "Received"
+  },
   completed: {
     title: "Successful Orders"
   },

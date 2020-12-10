@@ -47,6 +47,9 @@ export default {
   ongoing: {
     title: "跟進中訂單"
   },
+  received: {
+    title: "已收到訂單"
+  },
   completed: {
     title: "已成功訂單"
   },

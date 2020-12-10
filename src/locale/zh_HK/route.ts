@@ -23,6 +23,7 @@ export default {
   },
   orders: "訂單處理",
   ordersComponents: {
+    received: "已收到",
     ongoing: "跟進中",
     completed: "已成功",
     reject: "客戶拒絕"

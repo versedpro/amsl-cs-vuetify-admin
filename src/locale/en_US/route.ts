@@ -23,7 +23,8 @@ export default {
   },
   orders: "Process Orders",
   ordersComponents: {
-    ongoing: "Ongoing",
+    received: "Received",
+    ongoing: "Sales Assigned",
     completed: "Successful",
     reject: "Rejected"
   },
