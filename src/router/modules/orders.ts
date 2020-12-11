@@ -35,6 +35,12 @@ const ordersRouter = {
       component: () => import("@/views/components/rejected/index.vue"),
       name: "Reject",
       meta: { title: "route.ordersComponents.reject", icon: "mdi-home", affix: true, roles: ["cs_admin", "sales_admin"] }
+    },
+    {
+      path: "/order/details/:orderId",
+      component: () => import("@/views/components/chat/index.vue"),
+      name: "order.detail",
+      meta: {title: "route.ordersComponents.reject", icon: "mdi-home", affix: true, hidden: true}
     }
   ]
 };

@@ -26,6 +26,11 @@
             <datatable-orders-top-slot @on-refresh="handleRefresh" @on-search="handleSearch" />
           </template>
 
+          <!-- salesOrderId slot -->
+          <template v-slot:[`item.salesOrderId`]="{ item }">
+            <a @click="onOrderClick(item.salesOrderId)">{{ item.salesOrderId }}</a>
+          </template>
+
           <!-- createdTimestamp slot -->
           <template v-slot:[`item.createdTimestamp`]="{ value }">
             <datatable-iso-date :timestamp="value"> </datatable-iso-date>
@@ -60,7 +65,7 @@ export default defineComponent({
     ReceivedExpandable: () => import("./received-expandable.vue")
   },
 
-  setup() {
+  setup(_, { root }) {
     // datatable header
     const headers = ref([
       { text: "Order#", value: "salesOrderId", align: "start" },
@@ -147,6 +152,10 @@ export default defineComponent({
       window.value = 0;
     }
 
+    function onOrderClick(orderId) {
+      root.$router.push({ name: 'order.detail', params: { orderId }})
+    }
+
     function handleInputSave() {
       handleInputBack();
       refreshData();
@@ -175,6 +184,7 @@ export default defineComponent({
       showDialog,
       window,
       handleDeleteCancel,
+      onOrderClick,
       // handleDeleteConfirm,
       handleInputBack,
       handleInputCancel,
