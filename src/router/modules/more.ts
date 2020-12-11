@@ -21,7 +21,7 @@ const moreRouter = {
         icon: "mdi-text-subject",
         noCache: true,
         affix: true,
-        roles: ["cs_admin", "cs", "sales_admin", "sales"]
+        roles: ["cs", "sales"]
       }
     },
     {
@@ -33,7 +33,7 @@ const moreRouter = {
         icon: "mdi-text-subject",
         noCache: true,
         affix: true,
-        roles: ["cs_admin", "cs", "sales_admin", "sales"]
+        roles: ["cs", "sales"]
       }
     },
     {
@@ -45,7 +45,7 @@ const moreRouter = {
         icon: "mdi-text-subject",
         noCache: true,
         affix: true,
-        roles: ["cs", "sales_admin", "sales"]
+        roles: ["cs_admin", "sales_admin"]
       }
     }
   ]
