@@ -46,7 +46,7 @@
                 </validation-provider>
               </v-col> -->
               <v-col cols="12" sm="6" md="4">
-                <v-select :items="select" label="Status"></v-select>
+                <v-select :items="status" v-model="supplier.status" label="Status"></v-select>
               </v-col>
               <!-- <v-col cols="12" sm="6" md="4">
                 <validation-provider name="Status" v-slot="{ errors }">
@@ -108,7 +108,10 @@ export default defineComponent({
   },
 
   setup(props, { emit, root }) {
-    const select = ["active", "suspend"];
+    const status = [
+      { value: 0, text: "active" },
+      { value: 1, text: "suspend" }
+    ];
     const title = computed(() =>
       props.mode == "insert" ? root.$t("supplier.add") : root.$t("supplier.edit")
     );
@@ -141,7 +144,7 @@ export default defineComponent({
 
     return {
       title,
-      select,
+      status,
       supplier,
       handleBackButton,
       handleCancel,

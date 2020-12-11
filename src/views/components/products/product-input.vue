@@ -10,11 +10,20 @@
           <v-container>
             <v-row>
               <v-col cols="12" sm="6" md="4">
-                <validation-provider name="Product Name" rules="required" v-slot="{ errors }">
+                <validation-provider name="Name 1" rules="required" v-slot="{ errors }">
                   <v-text-field
-                    v-model="product.productName"
+                    v-model="name1"
                     :error-messages="errors"
-                    label="Name"
+                    label="Name 1"
+                  ></v-text-field>
+                </validation-provider>
+              </v-col>
+              <v-col cols="12" sm="6" md="4">
+                <validation-provider name="Name 2" rules="required" v-slot="{ errors }">
+                  <v-text-field
+                    v-model="name2"
+                    :error-messages="errors"
+                    label="Name 2"
                   ></v-text-field>
                 </validation-provider>
               </v-col>
@@ -27,7 +36,7 @@
                   ></v-text-field>
                 </validation-provider>
               </v-col> -->
-              <v-col cols="12" sm="6" md="4">
+              <!-- <v-col cols="12" sm="6" md="4">
                 <validation-provider name="Product Localized" v-slot="{ errors }">
                   <v-text-field
                     v-model="product.productName2"
@@ -35,9 +44,9 @@
                     label="Name 2"
                   ></v-text-field>
                 </validation-provider>
-              </v-col>
+              </v-col> -->
               <v-col cols="12" sm="6" md="4">
-                <v-select :items="select" label="Status"></v-select>
+                <v-select :items="status" v-model="product.statusFlag" label="Status"></v-select>
               </v-col>
               <!-- <v-col cols="12" sm="6" md="4">
                 <validation-provider name="Status Flag" v-slot="{ errors }">
@@ -106,7 +115,10 @@ export default defineComponent({
   },
 
   setup(props, { emit, root }) {
-    const select = ["active", "suspend"];
+    const status = [
+      { value: 0, text: "active" },
+      { value: 1, text: "suspend" }
+    ];
     const title = computed(() =>
       props.mode == "insert" ? root.$t("product.add") : root.$t("product.edit")
     );
@@ -114,6 +126,8 @@ export default defineComponent({
     const id = computed(() => "ID: " + props.item["productId"]);
 
     const product = ref(props.item);
+    const name1 = ref("");
+    const name2 = ref("");
     watchEffect(() => {
       product.value = props.item;
     });
@@ -130,6 +144,7 @@ export default defineComponent({
       if (props.mode === "insert") {
         await api.create("/Product", product.value);
       } else {
+        product.value.productLocalized = { en: name1, hk: name2 };
         await api.update(`/Product/${product.value.productId}`, product.value);
       }
       emit("on-input-save", props.mode);
@@ -142,7 +157,9 @@ export default defineComponent({
     return {
       id,
       title,
-      select,
+      name1,
+      name2,
+      status,
       product,
       handleBackButton,
       handleCancel,

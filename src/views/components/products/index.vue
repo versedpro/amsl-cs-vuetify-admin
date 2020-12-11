@@ -36,13 +36,7 @@
           </template>
 
           <!-- Name slot -->
-          <template v-slot:[`item.productName`]="{ value }"
-            ><v-card-text class="px-0 d-block">
-              <span>{{ value }}</span>
-              <br />
-              <span>{{ value }}</span>
-            </v-card-text>
-          </template>
+          <template v-slot:[`item.productLocalized`]="{ value }">{{ fn2(value) }} </template>
         </v-data-table>
       </v-window-item>
 
@@ -86,11 +80,11 @@ export default defineComponent({
     DatatableTitle: () => import("@/views/widget/datatable-title.vue")
   },
 
-  setup() {
+  setup(_, { root }) {
     // datatable header
     const headers = ref([
       { text: "Id", align: "start", sortable: false, value: "productId" },
-      { text: "Name", value: "productName" },
+      { text: "Name", value: "productLocalized" },
       { text: "Points", value: "points" },
       // { text: "Flag Status", value: "statusFlag" },
       { text: "Created", value: "createdTimestamp" },
@@ -192,7 +186,10 @@ export default defineComponent({
       item.value = val;
       window.value = 1;
     }
-
+    function fn2(val) {
+      const locale = root.$i18n.locale;
+      return val != null ? val[locale] : "";
+    }
     return {
       defaultFooterProps,
       filter,
@@ -201,6 +198,7 @@ export default defineComponent({
       item,
       items,
       mode,
+      fn2,
       options,
       serverItemsLength,
       showDialog,

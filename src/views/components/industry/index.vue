@@ -37,12 +37,8 @@
           </template>
 
           <!-- Name slot -->
-          <template v-slot:[`item.industryName`]="{ value }"
-            ><v-card-text class="px-0 d-block">
-              <span>{{ value }}</span>
-              <br />
-              <span>{{ value }}</span>
-            </v-card-text>
+          <template v-slot:[`item.industryLocalized`]="{ value }">
+            {{ fn2(value) }}
           </template>
         </v-data-table>
       </v-window-item>
@@ -94,7 +90,7 @@ export default defineComponent({
     const headers = computed(() => {
       return [
         { text: root.$t("industry.title"), align: "start", sortable: false, value: "industryId" },
-        { text: "Name", value: "industryName" },
+        { text: "Name", value: "industryLocalized" },
         { text: "Description", value: "description" },
         { text: "Created", value: "createdTimestamp" },
         { text: "Status", value: "status" },
@@ -199,6 +195,11 @@ export default defineComponent({
       window.value = 1;
     }
 
+    function fn2(val) {
+      const locale = root.$i18n.locale;
+      return val != null ? val[locale] : "";
+    }
+
     return {
       defaultFooterProps,
       filter,
@@ -211,6 +212,7 @@ export default defineComponent({
       serverItemsLength,
       showDialog,
       window,
+      fn2,
       handleDelete,
       handleDeleteCancel,
       handleDeleteConfirm,

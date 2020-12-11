@@ -13,7 +13,7 @@
               <v-col cols="12" sm="6" md="4">
                 <validation-provider name="Industry Name" rules="required" v-slot="{ errors }">
                   <v-text-field
-                    v-model="industry.industryName"
+                    v-model="name1"
                     :error-messages="errors"
                     label="Name"
                   ></v-text-field>
@@ -22,33 +22,17 @@
               <v-col cols="12" sm="6" md="4">
                 <validation-provider name="Name 2" v-slot="{ errors }">
                   <v-text-field
-                    v-model="industry.industryName2"
+                    v-model="name2"
                     :error-messages="errors"
                     label="Name 2"
                   ></v-text-field>
                 </validation-provider>
               </v-col>
-              <!-- <v-col cols="12" sm="6" md="4">
-                <validation-provider name="Industry Localized" v-slot="{ errors }">
-                  <v-text-field
-                    v-model="industry.industryLocalized"
-                    :error-messages="errors"
-                    label="Industry Localized"
-                  ></v-text-field>
-                </validation-provider>
-              </v-col> -->
+
               <v-col cols="12" sm="6" md="4">
-                <v-select :items="select" label="Status"></v-select>
+                <v-select :items="status" v-model="industry.status" label="Status"></v-select>
               </v-col>
-              <v-col cols="12" sm="6" md="4">
-                <validation-provider name="Status" rules="required" v-slot="{ errors }">
-                  <v-text-field
-                    v-model="industry.status"
-                    :error-messages="errors"
-                    label="Status"
-                  ></v-text-field>
-                </validation-provider>
-              </v-col>
+
               <v-col cols="12" sm="6" md="4">
                 <validation-provider name="Points" rules="required" v-slot="{ errors }">
                   <v-text-field
@@ -58,15 +42,6 @@
                   ></v-text-field>
                 </validation-provider>
               </v-col>
-              <!-- <v-col cols="12" sm="6" md="4">
-                <validation-provider name="Status Flag" v-slot="{ errors }">
-                  <v-text-field
-                    v-model="industry.statusFlag"
-                    :error-messages="errors"
-                    label="Status Flag"
-                  ></v-text-field>
-                </validation-provider>
-              </v-col> -->
 
               <v-col cols="12" sm="6" md="4">
                 <validation-provider name="Description" v-slot="{ errors }">
@@ -135,7 +110,11 @@ export default defineComponent({
   },
 
   setup(props, { emit, root }) {
-    const select = ["active", "suspend"];
+    const status = [
+      { value: 0, text: "active" },
+      { value: 1, text: "suspend" }
+    ];
+
     const title = computed(() =>
       props.mode == "insert" ? root.$t("industry.add") : root.$t("industry.edit")
     );
@@ -143,6 +122,9 @@ export default defineComponent({
     const id = computed(() => "ID: " + props.item["industryId"]);
 
     const industry = ref(props.item);
+    const name1 = ref("");
+    const name2 = ref("");
+
     watchEffect(() => {
       industry.value = props.item;
     });
@@ -159,6 +141,7 @@ export default defineComponent({
       if (props.mode === "insert") {
         await api.create("/Industry", industry.value);
       } else {
+        industry.value.industryLocalized = { en: name1, hk: name2 };
         await api.update(`/Industry/${industry.value.industryId}`, industry.value);
       }
       emit("on-input-save", props.mode);
@@ -167,8 +150,10 @@ export default defineComponent({
     return {
       id,
       title,
-      select,
+      status,
       industry,
+      name1,
+      name2,
       handleBackButton,
       handleCancel,
       handleSave
