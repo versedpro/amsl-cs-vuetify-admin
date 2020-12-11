@@ -31,7 +31,7 @@ const dbRouter = {
         title: "route.databaseComponents.products",
         noCache: true,
         affix: true,
-        roles: ["sales", "sales_admin"]
+        roles: ["sales_admin", "cs_admin"]
       }
     },
     {
@@ -42,7 +42,7 @@ const dbRouter = {
         title: "route.databaseComponents.supplier",
         noCache: true,
         affix: true,
-        roles: ["sales_admin", "sales"]
+        roles: ["cs_admin", "sales_admin"]
       }
     },
     {
@@ -53,7 +53,7 @@ const dbRouter = {
         title: "route.databaseComponents.supplierProducts",
         noCache: true,
         affix: true,
-        roles: ["cs_admin", "cs"]
+        roles: ["cs_admin", "sales_admin"]
       }
     }
   ]

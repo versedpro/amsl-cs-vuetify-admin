@@ -64,3 +64,32 @@ export const asyncRoutes = [
   /** When your routing table is too long, you can split it into small modules */
   { path: "*", redirect: "/error/404", meta: { hidden: true } }
 ];
+
+export const csRoutes = [
+  userRouter,
+  moreRouter,
+  /** When your routing table is too long, you can split it into small modules */
+  { path: "*", redirect: "/error/404", meta: { hidden: true } }
+];
+export const csAdminRoutes = [
+  userRouter,
+  ordersRouter,
+  dbRouter,
+  moreRouter,
+  /** When your routing table is too long, you can split it into small modules */
+  { path: "*", redirect: "/error/404", meta: { hidden: true } }
+];
+export const salesRoutes = [
+  ordersRouter,
+  moreRouter,
+  /** When your routing table is too long, you can split it into small modules */
+  { path: "*", redirect: "/error/404", meta: { hidden: true } }
+];
+
+export const salesAdminRoutes = [
+  ordersRouter,
+  dbRouter,
+  moreRouter,
+  /** When your routing table is too long, you can split it into small modules */
+  { path: "*", redirect: "/error/404", meta: { hidden: true } }
+];

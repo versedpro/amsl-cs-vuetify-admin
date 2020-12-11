@@ -16,19 +16,19 @@ const ordersRouter = {
       path: "/received",
       component: () => import("@/views/components/received/index.vue"),
       name: "Received",
-      meta: { title: "route.ordersComponents.received", icon: "mdi-home", affix: true, roles: ["sales_admin", "sales"] }
+      meta: { title: "route.ordersComponents.received", icon: "mdi-home", affix: true, roles: ["cs_admin", "sales_admin", "sales"] }
     },
     {
       path: "/ongoing",
       component: () => import("@/views/components/ongoing/index.vue"),
       name: "Ongoing",
-      meta: { title: "route.ordersComponents.ongoing", icon: "mdi-home", affix: true, roles: ["cs_admin", "cs"] }
+      meta: { title: "route.ordersComponents.ongoing", icon: "mdi-home", affix: true, roles: ["cs_admin", "sales"] }
     },
     {
       path: "completed",
       component: () => import("@/views/components/completed/index.vue"),
       name: "Completed",
-      meta: { title: "route.ordersComponents.completed", icon: "mdi-home", affix: true, roles: ["cs_admin", "cs"] }
+      meta: { title: "route.ordersComponents.completed", icon: "mdi-home", affix: true, roles: ["cs_admin", "sales"] }
     },
     {
       path: "Reject",

@@ -1,4 +1,4 @@
-import router, { asyncRoutes, constantRoutes } from "@/router";
+import router, { asyncRoutes, constantRoutes, csRoutes, csAdminRoutes, salesAdminRoutes, salesRoutes } from "@/router";
 
 /**
  * Through meta.role determines whether the current user rights match
@@ -61,13 +61,13 @@ const permission = {
         }
 
         if (roles.includes("cs_admin")) {
-          accessedRoutes = filterAsyncRoutes(roles, asyncRoutes);
+          accessedRoutes = filterAsyncRoutes(roles, csAdminRoutes);
         } else if (roles.includes("cs")) {
-          accessedRoutes = filterAsyncRoutes(roles, asyncRoutes);
+          accessedRoutes = filterAsyncRoutes(roles, csRoutes);
         } else if (roles.includes("sales_admin")) {
-          accessedRoutes = filterAsyncRoutes(roles, asyncRoutes);
+          accessedRoutes = filterAsyncRoutes(roles, salesAdminRoutes);
         } else if (roles.includes("sales")) {
-          accessedRoutes = filterAsyncRoutes(roles, asyncRoutes);
+          accessedRoutes = filterAsyncRoutes(roles, salesRoutes);
         }
         commit("SET_ROUTES", accessedRoutes);
         // Apply selected allowed routes

@@ -45,7 +45,7 @@ const userRouter = {
         icon: "mdi-text-subject",
         noCache: true,
         affix: true,
-        roles: ["sales_admin", "sales"]
+        roles: ["cs_admin", "cs"]
       }
     }
   ]
