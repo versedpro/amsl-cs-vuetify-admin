@@ -35,3 +35,55 @@ export const userEditor = {
   avatar: "",
   roles: ["editor"]
 };
+
+export const userCsAdmin = {
+  email: "admin@vvadmin.io",
+  phone: "cs_admin",
+  password: "abcd1234",
+  user: "NelsonEAX",
+  status: "admin",
+  code: "",
+  token: "3b759a9ca80234563d87672350659b2b",
+  name: "Nikolaev Nikolay",
+  avatar: "https://avatars.githubusercontent.com/u/13101802",
+  roles: ["cs_admin"]
+};
+
+export const userCs = {
+  email: "admin@vvadmin.io",
+  phone: "cs",
+  password: "abcd1234",
+  user: "NelsonEAX",
+  status: "admin",
+  code: "",
+  token: "3b759a9ca80234563d87672350659b2b",
+  name: "Nikolaev Nikolay",
+  avatar: "https://avatars.githubusercontent.com/u/13101802",
+  roles: ["cs"]
+};
+
+export const userSalesAdmin = {
+  email: "admin@vvadmin.io",
+  phone: "sales_admin",
+  password: "abcd1234",
+  user: "NelsonEAX",
+  status: "admin",
+  code: "",
+  token: "3b759a9ca80234563d87672350659b2b",
+  name: "Nikolaev Nikolay",
+  avatar: "https://avatars.githubusercontent.com/u/13101802",
+  roles: ["sales_admin"]
+};
+
+export const userSales = {
+  email: "admin@vvadmin.io",
+  phone: "sales",
+  password: "abcd1234",
+  user: "NelsonEAX",
+  status: "admin",
+  code: "",
+  token: "3b759a9ca80234563d87672350659b2b",
+  name: "Nikolaev Nikolay",
+  avatar: "https://avatars.githubusercontent.com/u/13101802",
+  roles: ["sales"]
+};

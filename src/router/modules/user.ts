@@ -20,7 +20,8 @@ const userRouter = {
         title: "route.userComponents.registration",
         icon: "mdi-text-subject",
         noCache: true,
-        affix: true
+        affix: true,
+        roles: ["cs_admin", "cs", "sales_admin", "sales"]
       }
     },
     {
@@ -31,7 +32,8 @@ const userRouter = {
         title: "route.userComponents.referlo",
         icon: "mdi-text-subject",
         noCache: true,
-        affix: true
+        affix: true,
+        roles: ["cs_admin", "cs", "sales_admin", "sales"]
       }
     },
     {
@@ -42,7 +44,8 @@ const userRouter = {
         title: "route.userComponents.backend",
         icon: "mdi-text-subject",
         noCache: true,
-        affix: true
+        affix: true,
+        roles: ["cs_admin", "cs", "sales_admin", "sales"]
       }
     }
   ]

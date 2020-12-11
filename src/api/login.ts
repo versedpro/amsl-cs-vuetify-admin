@@ -1,7 +1,7 @@
 /**
  * Vuetify theme options.
  */
-import { userAdmin, userEditor } from "@/api/mock";
+import { userAdmin, userEditor, userCs, userCsAdmin, userSales, userSalesAdmin } from "@/api/mock";
 
 /**
  * Login by email and password
@@ -42,6 +42,21 @@ export const loginByPhone = async (phone, password) => {
     } else if (userAdmin.phone === phone && userAdmin.password === password) {
       user = userAdmin;
     }
+
+    // fake login for 4 roles, cd_admin, cs, sales_admin, sales
+    if (userCs.phone === phone && userCs.password === password) {
+      user = userCs;
+    }
+    else if (userCsAdmin.phone === phone && userCsAdmin.password === password) {
+      user = userCsAdmin;
+    }
+    else if (userSalesAdmin.phone === phone && userSalesAdmin.password === password) {
+      user = userSalesAdmin;
+    }
+    else if (userSales.phone === phone && userSales.password === password) {
+      user = userSales;
+    }
+
     if (!user || !user["token"]) {
       throw new Error("User is not found");
     }

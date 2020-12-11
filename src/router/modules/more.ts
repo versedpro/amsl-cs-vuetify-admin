@@ -20,7 +20,8 @@ const moreRouter = {
         title: "route.moreComponents.privacy",
         icon: "mdi-text-subject",
         noCache: true,
-        affix: true
+        affix: true,
+        roles: ["cs_admin", "cs", "sales_admin", "sales"]
       }
     },
     {
@@ -31,7 +32,8 @@ const moreRouter = {
         title: "route.moreComponents.terms",
         icon: "mdi-text-subject",
         noCache: true,
-        affix: true
+        affix: true,
+        roles: ["cs_admin", "cs", "sales_admin", "sales"]
       }
     },
     {
@@ -42,7 +44,8 @@ const moreRouter = {
         title: "route.moreComponents.settings",
         icon: "mdi-text-subject",
         noCache: true,
-        affix: true
+        affix: true,
+        roles: ["cs", "sales_admin", "sales"]
       }
     }
   ]

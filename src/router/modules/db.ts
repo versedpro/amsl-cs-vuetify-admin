@@ -19,7 +19,8 @@ const dbRouter = {
       meta: {
         title: "route.databaseComponents.industry",
         noCache: true,
-        affix: true
+        affix: true,
+        roles: ["cs_admin", "sales_admin"]
       }
     },
     {
@@ -29,7 +30,8 @@ const dbRouter = {
       meta: {
         title: "route.databaseComponents.products",
         noCache: true,
-        affix: true
+        affix: true,
+        roles: ["cs_admin", "sales_admin"]
       }
     },
     {
@@ -39,7 +41,8 @@ const dbRouter = {
       meta: {
         title: "route.databaseComponents.supplier",
         noCache: true,
-        affix: true
+        affix: true,
+        roles: ["cs_admin", "sales_admin"]
       }
     },
     {
@@ -49,7 +52,8 @@ const dbRouter = {
       meta: {
         title: "route.databaseComponents.supplierProducts",
         noCache: true,
-        affix: true
+        affix: true,
+        roles: ["cs_admin", "sales_admin"]
       }
     }
   ]

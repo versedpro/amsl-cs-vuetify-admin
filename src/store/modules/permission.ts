@@ -59,6 +59,16 @@ const permission = {
         } else {
           accessedRoutes = filterAsyncRoutes(roles, asyncRoutes);
         }
+
+        if (roles.includes("cs_admin")) {
+          accessedRoutes = filterAsyncRoutes(roles, asyncRoutes);
+        } else if (roles.includes("cs")) {
+          accessedRoutes = filterAsyncRoutes(roles, asyncRoutes);
+        } else if (roles.includes("sales_admin")) {
+          accessedRoutes = filterAsyncRoutes(roles, asyncRoutes);
+        } else if (roles.includes("sales")) {
+          accessedRoutes = filterAsyncRoutes(roles, asyncRoutes);
+        }
         commit("SET_ROUTES", accessedRoutes);
         // Apply selected allowed routes
         router.addRoutes(accessedRoutes);
