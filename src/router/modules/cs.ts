@@ -2,7 +2,7 @@
 
 import Layout from "@/views/layout/the-layout.vue";
 
-const salesRouter = {
+const csRouter = {
   path: "/orders",
   component: Layout,
   redirect: "noredirect",
@@ -48,4 +48,4 @@ const salesRouter = {
   ]
 };
 
-export default salesRouter;
+export default csRouter;

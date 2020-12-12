@@ -4,6 +4,10 @@ import route from "./route";
 export default {
   route,
   // components,
+  about: {
+    title: "關於介紹王",
+    version: "版本"
+  },
   toolbar: {
     appname: "我的应用",
     settings: "设置",

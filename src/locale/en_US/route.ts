@@ -1,8 +1,4 @@
 export default {
-  history: "Job History",
-  profile: "Profile",
-  followUp: "Orders",
-  staff: "Staff",
   drawerComponents: {
     home: "Dashboard",
     referlo: "Referlo",
@@ -17,15 +13,17 @@ export default {
   },
   more: "More",
   moreComponents: {
+    about: "About",
     privacy: "Privacy Policy",
-    terms: "Terms & Conditions",
-    settings: "Settings"
+    settings: "Settings",
+    terms: "Terms & Conditions"
   },
   orders: "Process Orders",
   ordersComponents: {
     received: "Received",
-    ongoing: "Sales Assigned",
-    completed: "Successful",
+    following: "Following",
+    signed: "Signed",
+    completed: "Completed",
     reject: "Rejected"
   },
   user: "Manage Users",
@@ -33,15 +31,5 @@ export default {
     backend: "Back-end User",
     referlo: "Referlo",
     registration: "Registration"
-  },
-  errors: "Errors",
-  errorPages: {
-    page301: "301",
-    page401: "401",
-    page403: "403",
-    page404: "404",
-    page500: "500"
-  },
-  clipboard: "Clipboard",
-  externalLink: "External Link"
+  }
 };

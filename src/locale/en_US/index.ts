@@ -4,6 +4,16 @@ import route from "./route";
 export default {
   route,
   // components,
+  about: {
+    title: "About Referlo",
+    version: "Version"
+  },
+  completed: {
+    title: "Successful Orders"
+  },
+  rejected: {
+    title: "Rejected Orders"
+  },
   toolbar: {
     appname: "Application",
     settings: "Settings",
@@ -13,7 +23,6 @@ export default {
   settings: {
     title: "Settings",
     language: "Language (語言)",
-    default: "Set Default",
     version: "Version",
     position: "Position of elements",
     theme: "Theme",
@@ -35,6 +44,9 @@ export default {
     password: "Password",
     confirm: "Confirm"
   },
+  ongoing: {
+    title: "Ongoing Orders"
+  },
   orders: {
     referredBy: "Referred By",
     clientName: "Client",
@@ -44,18 +56,10 @@ export default {
     password: "Password",
     confirm: "Confirm"
   },
-  ongoing: {
-    title: "Ongoing Orders"
-  },
   received: {
     title: "Received"
   },
-  completed: {
-    title: "Successful Orders"
-  },
-  rejected: {
-    title: "Rejected Orders"
-  },
+
   industry: {
     add: "Add Industry",
     edit: "Edit Industry",

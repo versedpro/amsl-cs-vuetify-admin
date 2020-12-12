@@ -25,6 +25,7 @@ function mapOptions(options) {
   };
 }
 
+// eslint-disable-next-line
 function setSortOptions(options: DataOptions, sortBy: any, sortDesc: any) {
   if (sortBy.length > 0 && options.sortBy[0] != sortBy[0]) {
     options.sortBy = sortBy;

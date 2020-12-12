@@ -18,18 +18,26 @@ const ordersRouter = {
       name: "Received",
       meta: {
         title: "route.ordersComponents.received",
-        icon: "mdi-home",
         affix: true,
         roles: ["cs_admin", "sales_admin", "sales"]
       }
     },
     {
-      path: "/ongoing",
-      component: () => import("@/views/components/ongoing/index.vue"),
-      name: "Ongoing",
+      path: "/following",
+      component: () => import("@/views/components/following/index.vue"),
+      name: "Following",
       meta: {
-        title: "route.ordersComponents.ongoing",
-        icon: "mdi-home",
+        title: "route.ordersComponents.following",
+        affix: true,
+        roles: ["cs_admin", "sales"]
+      }
+    },
+    {
+      path: "signed",
+      component: () => import("@/views/components/completed/index.vue"),
+      name: "Signed",
+      meta: {
+        title: "route.ordersComponents.signed",
         affix: true,
         roles: ["cs_admin", "sales"]
       }

@@ -21,7 +21,7 @@ const moreRouter = {
         icon: "mdi-text-subject",
         noCache: true,
         affix: true,
-        roles: ["cs_admin", "cs", "sales_admin", "sales"]
+        roles: ["cs_admin"]
       }
     },
     {
@@ -33,7 +33,7 @@ const moreRouter = {
         icon: "mdi-text-subject",
         noCache: true,
         affix: true,
-        roles: ["cs_admin", "cs", "sales"]
+        roles: ["cs_admin"]
       }
     },
     {
@@ -44,8 +44,18 @@ const moreRouter = {
         title: "route.moreComponents.settings",
         icon: "mdi-text-subject",
         noCache: true,
-        affix: true,
-        roles: ["cs_admin", "sales_admin"]
+        affix: true
+      }
+    },
+    {
+      path: "/about",
+      component: () => import("@/views/components/more/about.vue"),
+      name: "About",
+      meta: {
+        title: "route.moreComponents.about",
+        icon: "mdi-text-subject",
+        noCache: true,
+        affix: true
       }
     }
   ]

@@ -86,6 +86,7 @@ export default defineComponent({
       { text: "Id", align: "start", sortable: false, value: "productId" },
       { text: "Name", value: "productLocalized" },
       { text: "Points", value: "points" },
+      { text: "Industry Id", value: "industryId" },
       // { text: "Flag Status", value: "statusFlag" },
       { text: "Created", value: "createdTimestamp" },
       { text: null, value: "actions", sortable: false, align: "right" }

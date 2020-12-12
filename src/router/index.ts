@@ -12,6 +12,7 @@ import ordersRouter from "./modules/orders";
 import userRouter from "./modules/user";
 
 import salesRouter from "./modules/sales";
+import salesAdminRouter from "./modules/sales-admin";
 
 Vue.use(Router);
 
@@ -73,6 +74,7 @@ export const csRoutes = [
   /** When your routing table is too long, you can split it into small modules */
   { path: "*", redirect: "/error/404", meta: { hidden: true } }
 ];
+
 export const csAdminRoutes = [
   userRouter,
   ordersRouter,
@@ -90,8 +92,7 @@ export const salesRoutes = [
 ];
 
 export const salesAdminRoutes = [
-  ordersRouter,
-  dbRouter,
+  salesAdminRouter,
   moreRouter,
   /** When your routing table is too long, you can split it into small modules */
   { path: "*", redirect: "/error/404", meta: { hidden: true } }

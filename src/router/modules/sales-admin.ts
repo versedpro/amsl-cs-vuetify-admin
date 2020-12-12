@@ -2,7 +2,7 @@
 
 import Layout from "@/views/layout/the-layout.vue";
 
-const salesRouter = {
+const salesAdminRouter = {
   path: "/orders",
   component: Layout,
   redirect: "noredirect",
@@ -19,8 +19,7 @@ const salesRouter = {
       meta: {
         title: "route.ordersComponents.received",
         icon: "mdi-home",
-        affix: true,
-        roles: ["cs_admin", "sales_admin", "sales"]
+        affix: true
       }
     },
     {
@@ -30,8 +29,7 @@ const salesRouter = {
       meta: {
         title: "route.ordersComponents.completed",
         icon: "mdi-home",
-        affix: true,
-        roles: ["cs_admin", "sales"]
+        affix: true
       }
     },
     {
@@ -41,11 +39,10 @@ const salesRouter = {
       meta: {
         title: "route.ordersComponents.reject",
         icon: "mdi-home",
-        affix: true,
-        roles: ["sales_admin", "sales"]
+        affix: true
       }
     }
   ]
 };
 
-export default salesRouter;
+export default salesAdminRouter;

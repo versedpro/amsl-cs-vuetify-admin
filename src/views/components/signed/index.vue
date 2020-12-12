@@ -3,7 +3,7 @@
     <v-window v-model="window" class="elevation-1" vertical>
       <v-window-item>
         <v-card-title class="primary justify-center gold--text"
-          >{{ $t("received.title") }}
+          >{{ $t("ongoing.title") }}
         </v-card-title>
 
         <v-data-table
@@ -26,11 +26,6 @@
             <datatable-orders-top-slot @on-refresh="handleRefresh" @on-search="handleSearch" />
           </template>
 
-          <!-- salesOrderId slot -->
-          <template v-slot:[`item.salesOrderId`]="{ item }">
-            <a @click="onOrderClick(item.salesOrderId)">{{ item.salesOrderId }}</a>
-          </template>
-
           <!-- createdTimestamp slot -->
           <template v-slot:[`item.createdTimestamp`]="{ value }">
             <datatable-iso-date :timestamp="value"> </datatable-iso-date>
@@ -39,7 +34,7 @@
           <!-- expand slot -->
           <template v-slot:expanded-item="{ headers, item }">
             <td :colspan="headers.length" class="pa-0">
-              <received-expandable :item="item" :staff="staff"></received-expandable>
+              <expanded-data-table :item="item" :staff="staff"></expanded-data-table>
             </td>
           </template>
         </v-data-table>
@@ -62,10 +57,10 @@ export default defineComponent({
   components: {
     DatatableOrdersTopSlot: () => import("@/views/widget/datatable-orders-top-slot.vue"),
     DatatableIsoDate: () => import("@/views/widget/datatable-iso-date.vue"),
-    ReceivedExpandable: () => import("./received-expandable.vue")
+    ExpandedDataTable: () => import("./ongoing-expandable.vue")
   },
 
-  setup(_, { root }) {
+  setup() {
     // datatable header
     const headers = ref([
       { text: "Order#", value: "salesOrderId", align: "start" },
@@ -152,10 +147,6 @@ export default defineComponent({
       window.value = 0;
     }
 
-    function onOrderClick(orderId) {
-      root.$router.push({ name: "order.detail", params: { orderId } });
-    }
-
     function handleInputSave() {
       handleInputBack();
       refreshData();
@@ -184,7 +175,6 @@ export default defineComponent({
       showDialog,
       window,
       handleDeleteCancel,
-      onOrderClick,
       // handleDeleteConfirm,
       handleInputBack,
       handleInputCancel,
