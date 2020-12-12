@@ -1,25 +1,26 @@
 <template>
-  <v-card flat tile>
+  <v-card flat tile class="grey lighten-3">
     <validation-observer v-slot="{ invalid }">
       <v-form ref="form" lazy-validation>
         <input-form-title :title="title" @on-back-button="handleBackButton" />
 
-        <v-card-subtitle class="ml-4">{{ id }}</v-card-subtitle>
-        <v-divider class="my-1"></v-divider>
+        <v-alert border="bottom" color="gold" colored-border class="rounded-b-0 grey">{{
+          id
+        }}</v-alert>
 
         <v-card-text class="pt-0 mt-0">
           <v-container>
             <v-row>
-              <v-col cols="12" sm="6" md="4">
-                <validation-provider name="Industry Name" rules="required" v-slot="{ errors }">
+              <v-col cols="12" sm="6">
+                <validation-provider name="Name1" rules="required" v-slot="{ errors }">
                   <v-text-field
                     v-model="name1"
                     :error-messages="errors"
-                    label="Name"
+                    label="Name 1"
                   ></v-text-field>
                 </validation-provider>
               </v-col>
-              <v-col cols="12" sm="6" md="4">
+              <v-col cols="12" sm="6">
                 <validation-provider name="Name 2" v-slot="{ errors }">
                   <v-text-field
                     v-model="name2"
@@ -28,12 +29,9 @@
                   ></v-text-field>
                 </validation-provider>
               </v-col>
-
-              <v-col cols="12" sm="6" md="4">
-                <v-select :items="status" v-model="industry.status" label="Status"></v-select>
-              </v-col>
-
-              <v-col cols="12" sm="6" md="4">
+            </v-row>
+            <v-col cols="3" class="pa-0">
+              <v-col cols="12" class="pa-0">
                 <validation-provider name="Points" rules="required" v-slot="{ errors }">
                   <v-text-field
                     v-model="industry.points"
@@ -42,8 +40,24 @@
                   ></v-text-field>
                 </validation-provider>
               </v-col>
+              <v-col cols="12" class="pa-0">
+                <validation-provider name="Row Ranking" v-slot="{ errors }">
+                  <v-text-field
+                    v-model="industry.rowRanking"
+                    :error-messages="errors"
+                    label="Row Ranking"
+                    single-line
+                    type="number"
+                  ></v-text-field>
+                </validation-provider>
+              </v-col>
+              <v-col cols="12" class="pa-0">
+                <v-select :items="status" v-model="industry.statusFlag" label="Status"></v-select>
+              </v-col>
+            </v-col>
 
-              <v-col cols="12" sm="6" md="4">
+            <!-- 
+              <v-col cols="12" sm="6">
                 <validation-provider name="Description" v-slot="{ errors }">
                   <v-textarea
                     v-model="industry.description"
@@ -55,31 +69,18 @@
                     row-height="30"
                   ></v-textarea>
                 </validation-provider>
-              </v-col>
-              <v-col cols="12" sm="6" md="4">
-                <validation-provider name="Row Ranking" v-slot="{ errors }">
-                  <v-text-field
-                    v-model="industry.rowRanking"
-                    :error-messages="errors"
-                    label="Row Ranking"
-                    single-line
-                    type="number"
-                    style="width: 60px"
-                  ></v-text-field>
-                </validation-provider>
-              </v-col>
-            </v-row>
+              </v-col> -->
           </v-container>
         </v-card-text>
-
-        <v-divider></v-divider>
+        <v-alert border="top" color="gold" colored-border class="rounded-0 grey lighten-3 mb-0">
+          <input-form-action
+            :invalid="invalid"
+            @on-cancel="handleCancel"
+            @on-save="handleSave"
+          ></input-form-action>
+        </v-alert>
 
         <!-- The save and cancel button -->
-        <input-form-action
-          :invalid="invalid"
-          @on-cancel="handleCancel"
-          @on-save="handleSave"
-        ></input-form-action>
       </v-form>
     </validation-observer>
   </v-card>

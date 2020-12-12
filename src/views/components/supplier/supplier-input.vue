@@ -117,9 +117,17 @@ export default defineComponent({
     );
 
     const supplier = ref(props.item);
+    let industry = ref([]);
     watchEffect(() => {
       supplier.value = props.item;
     });
+
+    function fetchIndustry() {
+      api.get("/Industry", []).then(({ data }) => {
+        industry.value = data;
+      });
+    }
+    fetchIndustry();
 
     function handleBackButton() {
       emit("on-input-back");
@@ -146,6 +154,7 @@ export default defineComponent({
       title,
       status,
       supplier,
+      industry,
       handleBackButton,
       handleCancel,
       handleSave,
