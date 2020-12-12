@@ -71,7 +71,7 @@ import { defaultFooterProps, mapOptions, sortParams, setSortOptions } from "@/ut
 import { DataOptions } from "vuetify";
 import { Supplier } from "@/interfaces/supplier";
 
-import { defineComponent, ref } from "@vue/composition-api";
+import { computed, defineComponent, ref } from "@vue/composition-api";
 
 export default defineComponent({
   name: "Supplier",
@@ -85,17 +85,19 @@ export default defineComponent({
     DatatableTitle: () => import("@/views/widget/datatable-title.vue")
   },
 
-  setup() {
+  setup(_, { root }) {
     // datatable header
-    const headers = ref([
-      { text: "Id", align: "start", sortable: false, value: "supplierId" },
-      { text: "Name 1", value: "supplierName" },
-      { text: "Name 2", value: "displayName" },
-      // { text: "Ranking", value: "ranking" },
-      { text: "Created", value: "createdTimestamp" },
-      { text: "Status", value: "status" },
-      { text: null, value: "actions", sortable: false, align: "right" }
-    ]);
+    const headers = computed(() => {
+      return [
+        { text: root.$t("supplier.id"), align: "start", sortable: false, value: "supplierId" },
+        { text: root.$t("supplier.name1"), value: "supplierName" },
+        { text: root.$t("supplier.name2"), value: "displayName" },
+        // { text: "Ranking", value: "ranking" },
+        { text: root.$t("supplier.created"), value: "createdTimestamp" },
+        { text: root.$t("supplier.status"), value: "status" },
+        { text: null, value: "actions", sortable: false, align: "right" }
+      ];
+    });
 
     // datatable options
     const options = ref({ sortBy: ["supplierId"], sortDesc: [], itemsPerPage: 10 } as DataOptions);

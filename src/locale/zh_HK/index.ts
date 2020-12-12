@@ -63,12 +63,22 @@ export default {
   industry: {
     add: "Add Industry",
     edit: "Edit Industry",
-    title: "行業"
+    title: "行業",
+    name: "Name hk",
+    description: "Description hk",
+    created: "Created hk",
+    status: "Status hk",
+    ranking: "Ranking hk"
   },
   product: {
     add: "Add Products HK",
     edit: "Edit Products HK",
-    title: "產品/服務"
+    title: "產品/服務",
+    id: "Id HK",
+    name: "Name HK",
+    points: "Points HK",
+    industryId: "Industry Id HK",
+    created: "Created HK"
   },
   referlo: {
     title: "Refer佬清單"
@@ -86,12 +96,21 @@ export default {
   supplier: {
     add: "Add Supplier HK",
     edit: "Edit Supplier HK",
-    title: "Supplier HK"
+    title: "Supplier HK",
+    id: "Id hk",
+    name1: "Name 1 hk",
+    name2:"Name 2 hk",
+    created: "Created hk",
+    status: "Status hk"
   },
   supplier_products: {
     add: "Add Supplier Products HK",
     edit: "Edit Supplier Products HK",
-    title: "Supplier Products HK"
+    title: "Supplier Products HK",
+    id:"Id HK",
+    supplierId:"Supplier Id HK",
+    productId: "Product Id HK",
+    created: "Created HK"
   },
   user: {
     title: "後台用戶"

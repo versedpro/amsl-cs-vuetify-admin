@@ -63,17 +63,33 @@ export default {
   industry: {
     add: "Add Industry",
     edit: "Edit Industry",
-    title: "Industry"
+    title: "Industry",
+    name: "Name",
+    description: "Description",
+    created: "Created",
+    status: "Status",
+    ranking: "Ranking"
+
   },
   supplier: {
     add: "Add Supplier",
     edit: "Edit Supplier",
-    title: "Supplier"
+    title: "Supplier",
+    id: "Id",
+    name1: "Name 1",
+    name2:"Name 2",
+    created: "Created",
+    status: "Status"
   },
   product: {
     add: "Add Products",
     edit: "Edit Products",
-    title: "Product / Service"
+    title: "Product / Service",
+    id: "Id",
+    name: "Name",
+    points: "Points",
+    industryId: "Industry Id",
+    created: "Created"
   },
   referlo: {
     title: "The Referlo"
@@ -87,7 +103,11 @@ export default {
   supplier_products: {
     add: "Add Supplier Products",
     edit: "Edit Supplier Products",
-    title: "Supplier Products"
+    title: "Supplier Products",
+    id:"Id",
+    supplierId:"Supplier Id",
+    productId: "Product Id",
+    created: "Created"
   },
   user: {
     title: "Back-end User"

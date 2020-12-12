@@ -69,7 +69,7 @@ import api from "@/api/crud";
 import { defaultFooterProps, mapOptions, sortParams, setSortOptions } from "@/utils/datatable";
 import { DataOptions } from "vuetify";
 import { SupplierProduct } from "@/interfaces/supplier-product";
-import { defineComponent, ref } from "@vue/composition-api";
+import { computed, defineComponent, ref } from "@vue/composition-api";
 
 export default defineComponent({
   name: "SupplierProduct",
@@ -84,14 +84,21 @@ export default defineComponent({
     DatatableTitle: () => import("@/views/widget/datatable-title.vue")
   },
 
-  setup() {
-    const headers = ref([
-      { text: "Id", align: "start", sortable: true, value: "supplierProductId" },
-      { text: "SupplierId", sortable: true, value: "supplierId" },
-      { text: "ProductId", sortable: true, value: "productId" },
-      { text: "Created", value: "createdTimestamp" }
-      // { text: null, value: "actions", sortable: false, align: "right" }
-    ]);
+  setup(_, { root }) {
+    const headers = computed(() => {
+      return [
+        {
+          text: root.$t("supplier_products.id"),
+          align: "start",
+          sortable: true,
+          value: "supplierProductId"
+        },
+        { text: root.$t("supplier_products.supplierId"), sortable: true, value: "supplierId" },
+        { text: root.$t("supplier_products.productId"), sortable: true, value: "productId" },
+        { text: root.$t("supplier_products.created"), value: "createdTimestamp" }
+        // { text: null, value: "actions", sortable: false, align: "right" }
+      ];
+    });
 
     // datatable options
     const options = ref({

@@ -90,11 +90,11 @@ export default defineComponent({
     const headers = computed(() => {
       return [
         { text: root.$t("industry.title"), align: "start", sortable: false, value: "industryId" },
-        { text: "Name", value: "industryLocalized" },
-        { text: "Description", value: "description" },
-        { text: "Created", value: "createdTimestamp" },
-        { text: "Status", value: "status" },
-        { text: "Ranking", value: "rowRanking" },
+        { text: root.$t("industry.name"), value: "industryLocalized" },
+        { text: root.$t("industry.description"), value: "description" },
+        { text: root.$t("industry.created"), value: "createdTimestamp" },
+        { text: root.$t("industry.status"), value: "status" },
+        { text: root.$t("industry.ranking"), value: "rowRanking" },
         { text: null, value: "actions", sortable: false, align: "right" }
       ];
     });

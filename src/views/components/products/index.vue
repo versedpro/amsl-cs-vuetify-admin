@@ -66,7 +66,7 @@ import { defaultFooterProps, mapOptions, sortParams, setSortOptions } from "@/ut
 import { DataOptions } from "vuetify";
 import { Product } from "@/interfaces/product";
 
-import { defineComponent, ref } from "@vue/composition-api";
+import { computed, defineComponent, ref } from "@vue/composition-api";
 
 export default defineComponent({
   name: "Product",
@@ -82,15 +82,17 @@ export default defineComponent({
 
   setup(_, { root }) {
     // datatable header
-    const headers = ref([
-      { text: "Id", align: "start", sortable: false, value: "productId" },
-      { text: "Name", value: "productLocalized" },
-      { text: "Points", value: "points" },
-      { text: "Industry Id", value: "industryId" },
-      // { text: "Flag Status", value: "statusFlag" },
-      { text: "Created", value: "createdTimestamp" },
-      { text: null, value: "actions", sortable: false, align: "right" }
-    ]);
+    const headers = computed(() => {
+      return [
+        { text: root.$t("product.id"), align: "start", sortable: false, value: "productId" },
+        { text: root.$t("product.name"), value: "productLocalized" },
+        { text: root.$t("product.points"), value: "points" },
+        { text: root.$t("product.industryId"), value: "industryId" },
+        // { text: "Flag Status", value: "statusFlag" },
+        { text: root.$t("product.created"), value: "createdTimestamp" },
+        { text: null, value: "actions", sortable: false, align: "right" }
+      ];
+    });
 
     // datatable options
     const options = ref({ sortBy: ["productId"], sortDesc: [], itemsPerPage: 10 } as DataOptions);
