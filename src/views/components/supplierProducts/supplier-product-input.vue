@@ -1,5 +1,5 @@
 <template>
-  <v-card flat tile>
+  <v-card flat tile class="grey lighten-3">
     <validation-observer v-slot="{ invalid }">
       <v-form ref="form" lazy-validation>
         <input-form-title :title="title" @on-back-button="handleBackButton" />
@@ -112,12 +112,13 @@
             </v-row>
           </v-container>
         </v-card-text>
-        <v-divider></v-divider>
-        <input-form-action
-          :invalid="invalid"
-          @on-cancel="handleCancel"
-          @on-save="handleSave"
-        ></input-form-action>
+        <v-alert border="top" color="gold" colored-border class="rounded-0 grey lighten-3 mb-0">
+          <input-form-action
+            :invalid="invalid"
+            @on-cancel="handleCancel"
+            @on-save="handleSave"
+          ></input-form-action>
+        </v-alert>
       </v-form>
     </validation-observer>
   </v-card>

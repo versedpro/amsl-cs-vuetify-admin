@@ -1,5 +1,5 @@
 <template>
-  <v-card-actions>
+  <v-card-actions class="pa-0">
     <v-spacer></v-spacer>
     <v-btn rounded color="primary" text @click="handleCancel">{{ $t("input.cancel") }} </v-btn>
     <v-btn rounded text :disabled="invalid" @click="handleSave">{{ $t("input.save") }} </v-btn>

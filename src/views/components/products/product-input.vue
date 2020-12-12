@@ -1,10 +1,11 @@
 <template>
-  <v-card @click:outside="handleCancel">
+  <v-card flat tile class="grey lighten-3" @click:outside="handleCancel">
     <validation-observer v-slot="{ invalid }">
       <v-form ref="form" lazy-validation>
         <input-form-title :title="title" @on-back-button="handleBackButton" />
-
-        <v-card-subtitle class="ml-4">{{ id }}</v-card-subtitle>
+        <v-alert border="bottom" color="gold" colored-border class="rounded-0 grey mb-0">{{
+          id
+        }}</v-alert>
         <v-divider></v-divider>
         <v-card-text>
           <v-container>
@@ -79,13 +80,14 @@
             </v-row>
           </v-container>
         </v-card-text>
-        <v-divider></v-divider>
 
-        <input-form-action
-          :invalid="invalid"
-          @on-cancel="handleCancel"
-          @on-save="handleSave"
-        ></input-form-action>
+        <v-alert border="top" color="gold" colored-border class="rounded-0 grey lighten-3 mb-0">
+          <input-form-action
+            :invalid="invalid"
+            @on-cancel="handleCancel"
+            @on-save="handleSave"
+          ></input-form-action>
+        </v-alert>
       </v-form>
     </validation-observer>
   </v-card>

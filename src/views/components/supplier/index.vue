@@ -5,7 +5,7 @@
         <datatable-title :title="$t('supplier.title')"></datatable-title>
 
         <v-data-table
-          class="elevation-1"
+          class="elevation-1 grey lighten-3"
           :footer-props="defaultFooterProps"
           :headers="headers"
           :items="items"
