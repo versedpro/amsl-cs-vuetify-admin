@@ -3,7 +3,7 @@
 import Layout from "@/views/layout/the-layout.vue";
 
 const ordersRouter = {
-  path: "/admin",
+  path: "/orders",
   component: Layout,
   redirect: "noredirect",
   name: "Admin",
@@ -16,25 +16,45 @@ const ordersRouter = {
       path: "/received",
       component: () => import("@/views/components/received/index.vue"),
       name: "Received",
-      meta: { title: "route.ordersComponents.received", icon: "mdi-home", affix: true, roles: ["cs_admin", "sales_admin", "sales"] }
+      meta: {
+        title: "route.ordersComponents.received",
+        icon: "mdi-home",
+        affix: true,
+        roles: ["cs_admin", "sales_admin", "sales"]
+      }
     },
     {
       path: "/ongoing",
       component: () => import("@/views/components/ongoing/index.vue"),
       name: "Ongoing",
-      meta: { title: "route.ordersComponents.ongoing", icon: "mdi-home", affix: true, roles: ["cs_admin", "sales"] }
+      meta: {
+        title: "route.ordersComponents.ongoing",
+        icon: "mdi-home",
+        affix: true,
+        roles: ["cs_admin", "sales"]
+      }
     },
     {
       path: "completed",
       component: () => import("@/views/components/completed/index.vue"),
       name: "Completed",
-      meta: { title: "route.ordersComponents.completed", icon: "mdi-home", affix: true, roles: ["cs_admin", "sales"] }
+      meta: {
+        title: "route.ordersComponents.completed",
+        icon: "mdi-home",
+        affix: true,
+        roles: ["cs_admin", "sales"]
+      }
     },
     {
       path: "Reject",
       component: () => import("@/views/components/rejected/index.vue"),
       name: "Reject",
-      meta: { title: "route.ordersComponents.reject", icon: "mdi-home", affix: true, roles: ["sales_admin", "sales"] }
+      meta: {
+        title: "route.ordersComponents.reject",
+        icon: "mdi-home",
+        affix: true,
+        roles: ["sales_admin", "sales"]
+      }
     }
   ]
 };

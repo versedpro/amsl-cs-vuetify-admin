@@ -40,15 +40,17 @@ function setSortOptions(options: DataOptions, sortBy: any, sortDesc: any) {
   //return options;
 }
 
+// eslint-disable-next-line
 function groupItems(items: any[], groupBy: string[], groupDesc: boolean[]) {
   const key = groupBy[0];
   const groups = [];
+
   for (let i = 0; i < items.length; i++) {
     const item = items[i];
     const val = item[key];
     let groupIndex = groups.findIndex((x) => x.name === val);
     if (groupIndex === -1) {
-      groups.push({name: val, items: []});
+      groups.push({ name: val, items: [] });
       groupIndex = groups.length - 1;
     }
     groups[groupIndex].items.push(item);

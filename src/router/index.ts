@@ -11,6 +11,8 @@ import moreRouter from "./modules/more";
 import ordersRouter from "./modules/orders";
 import userRouter from "./modules/user";
 
+import salesRouter from "./modules/sales";
+
 Vue.use(Router);
 
 /** note: sub-menu only appear when children.length>=1
@@ -79,8 +81,9 @@ export const csAdminRoutes = [
   /** When your routing table is too long, you can split it into small modules */
   { path: "*", redirect: "/error/404", meta: { hidden: true } }
 ];
+
 export const salesRoutes = [
-  ordersRouter,
+  salesRouter,
   moreRouter,
   /** When your routing table is too long, you can split it into small modules */
   { path: "*", redirect: "/error/404", meta: { hidden: true } }

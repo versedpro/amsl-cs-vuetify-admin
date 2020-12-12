@@ -33,7 +33,7 @@
 
           <!-- expand slot -->
           <template v-slot:expanded-item="{ headers, item }">
-            <td :colspan="headers.length" class="pa-0 orange lighten-5">
+            <td :colspan="headers.length" class="pa-2 gold">
               <expanded-data-table :item="item"></expanded-data-table>
             </td>
           </template>
@@ -64,10 +64,10 @@ export default defineComponent({
     // datatable header
     const headers = ref([
       { text: "Order#", value: "salesOrderId", align: "start" },
-      { text: "ContactName", value: "contactName" },
-      { text: "ContactPhone", value: "contactPhone" },
-      { text: "SupplierProductId", value: "supplierProductId" },
-      { text: "CreatedTimestamp", value: "createdTimestamp" }
+      { text: "Name", value: "contactName" },
+      { text: "Phone", value: "contactPhone" },
+      { text: "Product", value: "supplierProductId" },
+      { text: "Created At", value: "createdTimestamp" }
     ]);
 
     // datatable options

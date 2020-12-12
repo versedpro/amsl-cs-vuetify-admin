@@ -72,7 +72,7 @@
           </v-container>
         </v-card-text>
 
-        <v-divider></v-divider>
+        <v-divider color="green"></v-divider>
 
         <!-- The save and cancel button -->
         <input-form-action
