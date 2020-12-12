@@ -2,7 +2,7 @@
  * Vuetify theme options.
  */
 import { userAdmin, userEditor, userCs, userCsAdmin, userSales, userSalesAdmin } from "@/api/mock";
-
+import Axios from "axios";
 /**
  * Login by email and password
  *
@@ -13,11 +13,15 @@ export const loginByEmail = async (email, password) => {
   console.log(`[loginByEmail] email ${email}`);
   let user = {};
   try {
-    if (userEditor.email === email && userEditor.password === password) {
-      user = userEditor;
-    } else if (userAdmin.email === email && userAdmin.password === password) {
-      user = userAdmin;
-    }
+     await Axios({
+      url: "/api/staffauth/signin",
+      method: "POST",
+      data: {login: email, password}
+    }).then((response)=>{
+      user = response["data"];
+    }).catch((error)=>{
+      console.log(error);
+    });
     if (!user || !user["token"]) {
       throw new Error("User is not found");
     }
@@ -37,26 +41,15 @@ export const loginByPhone = async (phone, password) => {
   console.log(`[loginByPhone] email ${phone}`);
   let user = {};
   try {
-    if (userEditor.phone === phone && userEditor.password === password) {
-      user = userEditor;
-    } else if (userAdmin.phone === phone && userAdmin.password === password) {
-      user = userAdmin;
-    }
-
-    // fake login for 4 roles, cd_admin, cs, sales_admin, sales
-    if (userCs.phone === phone && userCs.password === password) {
-      user = userCs;
-    }
-    else if (userCsAdmin.phone === phone && userCsAdmin.password === password) {
-      user = userCsAdmin;
-    }
-    else if (userSalesAdmin.phone === phone && userSalesAdmin.password === password) {
-      user = userSalesAdmin;
-    }
-    else if (userSales.phone === phone && userSales.password === password) {
-      user = userSales;
-    }
-
+    await Axios({
+      url: "/api/staffauth/signin",
+      method: "POST",
+      data: {login: phone, password}
+    }).then((response)=>{
+      user = response["data"];
+    }).catch((error)=>{
+      console.log(error);
+    });
     if (!user || !user["token"]) {
       throw new Error("User is not found");
     }
