@@ -22,22 +22,35 @@
           <v-list-item-title>Version</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
+      <v-divider></v-divider>
+      <v-list-item @click="handleChangePassword">
+        <v-list-item-content>
+          <v-list-item-title>Password Change</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
     </v-list>
+
+    <password-change-dialog
+      :show="showDialog"
+      @on-delete-cancel="handleDeleteCancel"
+    ></password-change-dialog>
   </v-card>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, ref } from "@vue/composition-api";
+import PasswordChangeDialog from "./password-change-dialog.vue";
 
 export default defineComponent({
   name: "Settings",
-
   components: {
-    InputFormTitle: () => import("@/views/widget/input-form-title.vue")
+    InputFormTitle: () => import("@/views/widget/input-form-title.vue"),
+    PasswordChangeDialog
   },
 
   setup(_, { root }) {
     const languageSwitch = ref(true);
+    const showDialog = ref(false);
     const languageLabel = computed(() => (languageSwitch.value ? "Eng" : "繁體中文"));
 
     async function setLocale(locale) {
@@ -51,16 +64,22 @@ export default defineComponent({
       setLocale(locale);
     }
 
-    function handleBackButton() {
-      console.log("go back");
+    function handleChangePassword() {
+      // alert("ddd");
+      showDialog.value = true;
+    }
+    function handleDeleteCancel() {
+      showDialog.value = false;
     }
 
     return {
       languageChange,
       languageSwitch,
       languageLabel,
-      handleBackButton,
-      setLocale
+      showDialog,
+      setLocale,
+      handleDeleteCancel,
+      handleChangePassword
     };
   }
 });
