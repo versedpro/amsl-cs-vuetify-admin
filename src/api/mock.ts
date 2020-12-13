@@ -12,8 +12,8 @@ export const landingInfo = {
 
 export const userAdmin = {
   email: "admin@vvadmin.io",
-  phone: "12345678",
-  password: "abcd1234",
+  phone: "cs_admin",
+  password: "qwerty",
   user: "NelsonEAX",
   status: "admin",
   code: "",
