@@ -4,7 +4,11 @@
       <v-img :src="remoteSrc" lazy-src="https://picsum.photos/id/11/10/6" max-width="480"></v-img>
     </v-card-text>
     <v-card-text v-html="remark"> </v-card-text>
-    <v-card-action> </v-card-action>
+    <v-card-action>
+      <v-flex class="text-right">
+        <v-btn @click="editRemark">Edit</v-btn>
+      </v-flex>
+    </v-card-action>
   </v-card>
 </template>
 
@@ -26,12 +30,13 @@ export default defineComponent({
     }
   },
 
-  setup(props, { refs }) {
+  setup(props, { refs, emit }) {
     const src = ref("");
     const remark = ref("gbhggh");
     const remoteSrc = ref("");
     const uploaded = ref(false);
     const invalidAspect = ref(false);
+    // const window = ref(0);
 
     watchEffect(() => {
       remoteSrc.value = `${process.env.VUE_APP_API_URL}/SupplierProduct/${props.id}/Image`;
@@ -76,6 +81,11 @@ export default defineComponent({
       api.create(`/SupplierProduct/${props.id}/Image`, data);
     }
 
+    function editRemark() {
+      emit("on-edit-remark");
+      // api.update(`/SalesOrder/${props.item.salesOrderId}`, order.value);
+    }
+
     return {
       src,
       remark,
@@ -84,7 +94,8 @@ export default defineComponent({
       remoteSrc,
       preview,
       openFileDialog,
-      invalidAspect
+      invalidAspect,
+      editRemark
     };
   }
 });
