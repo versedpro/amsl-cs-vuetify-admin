@@ -41,6 +41,7 @@
               <file-upload
                 :item="item"
                 :id="item.supplierProductId"
+                @on-edit-remark="handleEditRemark"
                 style="min-height: 100px"
               ></file-upload>
             </td>
@@ -56,6 +57,10 @@
           @on-input-save="handleInputSave"
           @on-input-back="handleInputBack"
         ></supplier-product-input>
+      </v-window-item>
+
+      <v-window-item>
+        <privacy-input :item="item" @on-input-back="handleInputRemarkBack"></privacy-input>
       </v-window-item>
     </v-window>
 
@@ -79,6 +84,7 @@ export default defineComponent({
   name: "SupplierProduct",
 
   components: {
+    PrivacyInput: () => import("./privacy-input.vue"),
     SupplierProductInput: () => import("./supplier-product-input.vue"),
     FileUpload: () => import("./supplier-product-expandable.vue"),
     // DatatableActionSlot: () => import("@/views/widget/datatable-action-slot.vue"),
@@ -198,6 +204,14 @@ export default defineComponent({
       window.value = 1;
     }
 
+    function handleEditRemark() {
+      window.value = 2;
+    }
+
+    function handleInputRemarkBack() {
+      window.value = 0;
+    }
+
     return {
       defaultFooterProps,
       filter,
@@ -220,7 +234,9 @@ export default defineComponent({
       handleInputSave,
       handleInsert,
       handleSearch,
-      handleUpdateOptions
+      handleUpdateOptions,
+      handleEditRemark,
+      handleInputRemarkBack
     };
   }
 });
