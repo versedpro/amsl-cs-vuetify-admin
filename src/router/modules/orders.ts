@@ -34,7 +34,7 @@ const ordersRouter = {
     },
     {
       path: "signed",
-      component: () => import("@/views/components/completed/index.vue"),
+      component: () => import("@/views/components/signed/index.vue"),
       name: "Signed",
       meta: {
         title: "route.ordersComponents.signed",

@@ -37,7 +37,20 @@
               <expanded-data-table :item="item" :staff="staff"></expanded-data-table>
             </td>
           </template>
+          <!-- Action Slot -->
+          <template v-slot:[`item.actions`]="{ item }">
+            <a @click="openChat(item)">Chat</a>
+          </template>
         </v-data-table>
+      </v-window-item>
+      <v-window-item>
+        <a @click="backToHistory">Back</a>
+        <orders-chat
+          v-if="destroyChat"
+          :orderId="chatOrderId"
+          :referloId="chatReferloId"
+          :isActive="true"
+        ></orders-chat>
       </v-window-item>
     </v-window>
   </v-card>
@@ -57,7 +70,8 @@ export default defineComponent({
   components: {
     DatatableOrdersTopSlot: () => import("@/views/widget/datatable-orders-top-slot.vue"),
     DatatableIsoDate: () => import("@/views/widget/datatable-iso-date.vue"),
-    ExpandedDataTable: () => import("./ongoing-expandable.vue")
+    ExpandedDataTable: () => import("./ongoing-expandable.vue"),
+    OrdersChat: () => import("../chat/orders-chat.vue")
   },
 
   setup() {
@@ -68,7 +82,8 @@ export default defineComponent({
       { text: "ContactPhone", value: "contactPhone" },
       { text: "ContactEmail", value: "contactEmail" },
       { text: "SupplierProductId", value: "supplierProductId" },
-      { text: "CreatedTimestamp", value: "createdTimestamp" }
+      { text: "CreatedTimestamp", value: "createdTimestamp" },
+      { text: null, value: "actions", sortable: false, align: "right" }
     ]);
 
     // datatable options
@@ -90,6 +105,10 @@ export default defineComponent({
     const mode = ref("add");
     const showDialog = ref(false);
     const window = ref(0);
+
+    const chatOrderId = ref(0);
+    const chatReferloId = ref(0);
+    const destroyChat = ref(true);
 
     // Other functions
     async function fetchData(pageNo, pageSize: number, sort?: string, filter?: string) {
@@ -161,6 +180,18 @@ export default defineComponent({
       filter.value = val;
     }
 
+    function openChat(item) {
+      destroyChat.value = true;
+      chatOrderId.value = item.salesOrderId;
+      chatReferloId.value = item.referloId;
+      window.value = 1;
+    }
+
+    function backToHistory() {
+      window.value = 0;
+      destroyChat.value = false;
+    }
+
     return {
       defaultFooterProps,
       filter,
@@ -181,7 +212,12 @@ export default defineComponent({
       handleInputSave,
       handleRefresh,
       handleSearch,
-      handleUpdateOptions
+      handleUpdateOptions,
+      openChat,
+      backToHistory,
+      chatOrderId,
+      chatReferloId,
+      destroyChat
     };
   }
 });

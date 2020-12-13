@@ -1,8 +1,8 @@
 <template>
   <v-card flat tile height="calc(100vh - 50px)" class="pa-4" elevation="0">
-     <v-card-title class="primary justify-center gold--text"
-          >{{ $t("received.title") }}
-        </v-card-title>
+    <v-card-title class="primary justify-center gold--text"
+      >{{ $t("received.title") }}
+    </v-card-title>
     <v-window v-model="window" class="elevation-1" vertical>
       <v-window-item>
         <v-data-table
@@ -46,12 +46,16 @@
           <template v-slot:[`item.actions`]="{ item }">
             <a @click="openChat(item)">Chat</a>
           </template>
-          
         </v-data-table>
       </v-window-item>
       <v-window-item>
         <a @click="backToHistory">Back</a>
-        <orders-chat :orderId="chatOrderId"></orders-chat>
+        <orders-chat
+          v-if="destroyChat"
+          :orderId="chatOrderId"
+          :referloId="chatReferloId"
+          :isActive="true"
+        ></orders-chat>
       </v-window-item>
     </v-window>
   </v-card>
@@ -87,7 +91,7 @@ export default defineComponent({
       { text: "ContactEmail", value: "contactEmail" },
       { text: "SupplierProductId", value: "supplierProductId" },
       { text: "CreatedTimestamp", value: "createdTimestamp" },
-       { text: null, value: "actions", sortable: false, align: "right" }
+      { text: null, value: "actions", sortable: false, align: "right" }
     ]);
 
     // datatable options
@@ -109,7 +113,9 @@ export default defineComponent({
     const mode = ref("add");
     const showDialog = ref(false);
     const window = ref(0);
-const chatOrderId = ref(0);
+    const chatOrderId = ref(0);
+    const chatReferloId = ref(0);
+    const destroyChat = ref(true);
     // Other functions
     async function fetchData(pageNo, pageSize: number, sort?: string, filter?: string) {
       loading.value = true;
@@ -184,20 +190,20 @@ const chatOrderId = ref(0);
       filter.value = val;
     }
 
-    function openChat(item){
+    function openChat(item) {
+      destroyChat.value = true;
       chatOrderId.value = item.salesOrderId;
-      window.value =1;
+      chatReferloId.value = item.referloId;
+      window.value = 1;
     }
 
-    function backToHistory(){
+    function backToHistory() {
       window.value = 0;
+      destroyChat.value = false;
     }
 
     return {
       defaultFooterProps,
-      chatOrderId,
-      backToHistory,
-      openChat,
       filter,
       headers,
       loading,
@@ -217,7 +223,12 @@ const chatOrderId = ref(0);
       handleInputSave,
       handleRefresh,
       handleSearch,
-      handleUpdateOptions
+      handleUpdateOptions,
+      openChat,
+      backToHistory,
+      chatOrderId,
+      chatReferloId,
+      destroyChat
     };
   }
 });

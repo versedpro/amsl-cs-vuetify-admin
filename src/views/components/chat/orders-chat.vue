@@ -28,6 +28,7 @@
       color="gold"
       large
       :class="{ isMobile: $vuetify.breakpoint.xsOnly }"
+      v-if="isReadOnly"
     >
       <template v-slot:icon>
         <span>JL</span>
@@ -54,43 +55,54 @@ import { defineComponent, ref, computed, onMounted } from "@vue/composition-api"
 import * as signalR from "@aspnet/signalr";
 import api from "@/api/crud";
 import moment from "moment";
+import store from "@/store/index";
+import Axios from "axios";
 
 export default defineComponent({
   name: "OrdersChat",
 
   props: {
-    orderId: Number
+    orderId: Number,
+    referloId: Number,
+    isActive: Boolean
   },
 
   setup(props) {
     const events = ref([]);
     const input = ref("");
     const nonce = ref(0);
-    const referloId = ref(1);
-
+    const referlo = ref("");
+    const isReadOnly = computed(function() {
+      return props.isActive;
+    });
     const timeline = computed(function () {
       return events.value; //.slice().reverse();
     });
 
     const connection = ref(
-      new signalR.HubConnectionBuilder().withUrl(`${process.env.VUE_APP_API_URL}/chathub?orderId=${props.orderId.toString()}`).build()
+      new signalR.HubConnectionBuilder()
+        .withUrl(`${process.env.VUE_APP_API_URL}/chathub?orderId=${props.orderId.toString()}`)
+        .build()
     );
-
     onMounted(() => {
-      connection.value.start().then().catch((error)=>{
-        console.log(error);
-      });
+      connection.value
+        .start()
+        .then()
+        .catch((error) => {
+          console.log(error);
+        });
+      getReferloName();
       getMessages();
       connection.value.on(
         "ReceiveMessage",
         (operatorName: string, message: string, time: string) => {
           events.value.push({
             id: nonce.value++,
-            name: operatorName,
+            name: referlo.value,
             text: message,
-            color: "gold",
-            itemClass: "mr-12",
-            commentClass: "mt-2 gold",
+            color: "primary",
+            itemClass: "mb-4 mr-12",
+            commentClass: "mt-2 primary",
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             time: moment(time).format("MM/DD/YYYY hh:mm:ss")
           });
@@ -98,11 +110,21 @@ export default defineComponent({
       );
     });
 
+    async function getReferloName() {
+      await Axios({
+        url: `/referlo/${parseInt(props.referloId.toString())}`,
+        method: "GET"
+      }).then((response) => {
+        let refInfo = response["data"];
+        referlo.value = refInfo["referloAlias"];
+      });
+    }
+
     function addEvent(message) {
       if (message.operatorName === "") {
         events.value.push({
           id: nonce.value++,
-          name: "Referlo",
+          name: referlo.value,
           text: message.text,
           color: "primary",
           itemClass: "mb-4 mr-12",
@@ -139,9 +161,20 @@ export default defineComponent({
 
     function comment() {
       const text = input.value;
+      if (connection.value.state === signalR.HubConnectionState.Connected) {
+        connection.value.invoke("SendAnswer", this.$store.getters.user, props.orderId, text);
+        input.value = null;
+      } else {
+        connection.value
+          .start()
+          .then(() =>
+            connection.value.invoke("SendAnswer", this.$store.getters.user, props.orderId, text)
+          );
+        input.value = null;
+      }
       events.value.push({
         id: nonce.value++,
-        name: "Operator",
+        name: this.$store.getters.user,
         text: text,
         color: "gold",
         itemClass: "mr-12",
@@ -149,23 +182,14 @@ export default defineComponent({
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         time: moment(new Date().toString()).format("MM/DD/YYYY hh:mm:ss")
       });
-
-      console.log(connection.value.state);
-      if (connection.value.state === signalR.HubConnectionState.Connected) {
-        connection.value.invoke("SendAnswer", "operator 1", props.orderId, text);
-        input.value = null;
-      } else {
-        connection.value
-          .start()
-          .then(() => connection.value.invoke("SendAnswer", "operator 1", props.orderId, text));
-        input.value = null;
-      }
     }
 
     return {
       input,
       comment,
-      timeline
+      referlo,
+      timeline,
+      isReadOnly
     };
   }
 });
