@@ -3,18 +3,22 @@
     <v-card-text>
       <v-img :src="remoteSrc" lazy-src="https://picsum.photos/id/11/10/6" max-width="480"></v-img>
     </v-card-text>
+
     <v-card-text v-html="remark"> </v-card-text>
-    <v-card-action>
-      <v-flex class="text-right">
-        <v-btn @click="editRemark">Edit</v-btn>
-      </v-flex>
-    </v-card-action>
+
+    <!-- <v-card-action>
+      <v-btn @click="editRemark">Edit</v-btn>
+    </v-card-action> -->
+
+    <v-card-actions>
+      <v-btn @click="editRemark">Edit</v-btn>
+    </v-card-actions>
   </v-card>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watchEffect } from "@vue/composition-api";
-import api from "@/api/crud";
+import { computed, defineComponent, ref } from "@vue/composition-api";
+// import api from "@/api/crud";
 
 export default defineComponent({
   name: "FileUpload",
@@ -30,70 +34,31 @@ export default defineComponent({
     }
   },
 
-  setup(props, { refs, emit }) {
+  setup(props, { emit }) {
     const src = ref("");
-    const remark = ref("gbhggh");
-    const remoteSrc = ref("");
+
     const uploaded = ref(false);
     const invalidAspect = ref(false);
-    // const window = ref(0);
 
-    watchEffect(() => {
-      remoteSrc.value = `${process.env.VUE_APP_API_URL}/SupplierProduct/${props.id}/Image`;
-
-      // remark.value = "cvvvbv";
-      const xx = JSON.parse(props.item["meta"]);
-
-      remark.value = xx.html;
+    const remoteSrc = computed(() => {
+      return `${process.env.VUE_APP_API_URL}/SupplierProduct/${props.id}/Image`;
     });
 
-    function preview(e) {
-      src.value = URL.createObjectURL(e.target.files[0]);
-      uploaded.value = true;
-
-      const reader = new FileReader();
-
-      reader.readAsDataURL(e.target.files[0]);
-      reader.onload = (evt) => {
-        let img = new Image();
-        img.onload = () => {
-          const aspectRatio = (img.width / img.height).toFixed(1);
-          invalidAspect.value = aspectRatio !== "1.9";
-        };
-        img.src = evt.target.result as string;
-      };
-    }
-
-    function openFileDialog() {
-      const uploader = refs.uploader as HTMLInputElement;
-      uploader.click();
-    }
-
-    function upload() {
-      const uploader = refs.uploader as HTMLInputElement;
-      const image = uploader.files[0];
-
-      if (!image || !invalidAspect) {
-        return false;
-      }
-      const data = new FormData();
-      data.append("image", image);
-      api.create(`/SupplierProduct/${props.id}/Image`, data);
-    }
+    const remark = computed(() => {
+      return JSON.parse(props.item["meta"]);
+    });
 
     function editRemark() {
-      emit("on-edit-remark");
-      // api.update(`/SalesOrder/${props.item.salesOrderId}`, order.value);
+      emit("on-edit-remark", props.item);
     }
 
     return {
       src,
       remark,
-      upload,
+
       uploaded,
       remoteSrc,
-      preview,
-      openFileDialog,
+
       invalidAspect,
       editRemark
     };

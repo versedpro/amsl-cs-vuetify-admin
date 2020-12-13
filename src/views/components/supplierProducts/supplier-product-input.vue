@@ -73,24 +73,7 @@
                   label="Status"
                 ></v-select>
               </v-col>
-              <!-- <v-col cols="12" sm="6" md="4">
-                <validation-provider name="Status" v-slot="{ errors }">
-                  <v-text-field
-                    v-model="supplierProduct.status"
-                    :error-messages="errors"
-                    label="Status"
-                  ></v-text-field>
-                </validation-provider>
-              </v-col> -->
-              <!-- <v-col cols="12" sm="6" md="4">
-                  <validation-provider name="Meta" v-slot="{ errors }">
-                    <v-text-field
-                      v-model="supplierProduct.meta"
-                      :error-messages="errors"
-                      label="Meta"
-                    ></v-text-field>
-                  </validation-provider>
-                </v-col> -->
+
               <v-col cols="12" sm="6" md="4">
                 <validation-provider name="CreatedBy" v-slot="{ errors }">
                   <v-text-field

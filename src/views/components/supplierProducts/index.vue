@@ -1,6 +1,6 @@
 <template>
   <v-card flat tile height="calc(100vh - 50px)" elevation="0">
-    <v-window v-model="window" class="elevation-1" vertical>
+    <v-window v-model="window" class="elevation-1">
       <v-window-item>
         <datatable-title :title="$t('supplier_products.title')"></datatable-title>
 
@@ -24,12 +24,6 @@
             <datatable-top-slot @on-search="handleSearch" @on-insert="handleInsert" />
           </template>
 
-          <!-- actions slot -->
-          <!-- <template v-slot:[`item.actions`]="{ item }">
-            <datatable-action-slot @on-update="handleEdit(item)" @on-delete="handleDelete(item)">
-            </datatable-action-slot>
-          </template> -->
-
           <!-- createdTimestamp slot -->
           <template v-slot:[`item.createdTimestamp`]="{ value }">
             <datatable-iso-date :timestamp="value"> </datatable-iso-date>
@@ -38,12 +32,12 @@
           <!-- expand slot -->
           <template v-slot:expanded-item="{ headers, item }">
             <td :colspan="headers.length" class="pa-0">
-              <file-upload
+              <supplier-product-expandable
                 :item="item"
                 :id="item.supplierProductId"
                 @on-edit-remark="handleEditRemark"
                 style="min-height: 100px"
-              ></file-upload>
+              ></supplier-product-expandable>
             </td>
           </template>
         </v-data-table>
@@ -53,6 +47,7 @@
         <supplier-product-input
           :mode="mode"
           :item="item"
+          :id="item.supplierProductId"
           @on-input-cancel="handleInputCancel"
           @on-input-save="handleInputSave"
           @on-input-back="handleInputBack"
@@ -60,7 +55,11 @@
       </v-window-item>
 
       <v-window-item>
-        <privacy-input :item="item" @on-input-back="handleInputRemarkBack"></privacy-input>
+        <supplier-product-edit
+          :item="item"
+          :id="item.supplierProductId"
+          @on-input-back="handleInputRemarkBack"
+        ></supplier-product-edit>
       </v-window-item>
     </v-window>
 
@@ -84,9 +83,9 @@ export default defineComponent({
   name: "SupplierProduct",
 
   components: {
-    PrivacyInput: () => import("./privacy-input.vue"),
+    SupplierProductEdit: () => import("./supplier-product-edit.vue"),
     SupplierProductInput: () => import("./supplier-product-input.vue"),
-    FileUpload: () => import("./supplier-product-expandable.vue"),
+    SupplierProductExpandable: () => import("./supplier-product-expandable.vue"),
     // DatatableActionSlot: () => import("@/views/widget/datatable-action-slot.vue"),
     DatatableTopSlot: () => import("@/views/widget/datatable-top-slot.vue"),
     DatatableDeleteDialog: () => import("@/views/widget/datatable-delete-dialog.vue"),
@@ -179,6 +178,10 @@ export default defineComponent({
       window.value = 0;
     }
 
+    function handleEditBack() {
+      window.value = 0;
+    }
+
     function handleInputCancel() {
       window.value = 0;
     }
@@ -204,7 +207,8 @@ export default defineComponent({
       window.value = 1;
     }
 
-    function handleEditRemark() {
+    function handleEditRemark(editItem) {
+      item.value = editItem;
       window.value = 2;
     }
 
@@ -229,6 +233,7 @@ export default defineComponent({
       handleDeleteCancel,
       handleDeleteConfirm,
       handleEdit,
+      handleEditBack,
       handleInputBack,
       handleInputCancel,
       handleInputSave,

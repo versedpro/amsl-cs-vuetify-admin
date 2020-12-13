@@ -36,12 +36,19 @@
           <v-select :items="statuses" v-model="order.statusFlag" label="Status"></v-select>
         </v-col>
       </v-row>
-      <v-row>
+      <!-- <v-row>
         <v-col cols="12" sm="6" md="4">
           <v-btn class="align-self-center" @click="save">Save</v-btn>
+          <v-btn class="align-self-center" @click="save">Save</v-btn>
         </v-col>
-      </v-row>
+      </v-row> -->
     </v-container>
+
+    <v-card-action>
+      <v-btn class="align-self-center" @click="save">Save</v-btn>
+      <v-spacer></v-spacer>
+      <v-btn class="align-self-center" @click="chat">Chat</v-btn>
+    </v-card-action>
   </v-card>
 </template>
 

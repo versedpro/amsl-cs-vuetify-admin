@@ -1,8 +1,9 @@
 <template>
   <v-card flat tile class="grey lighten-3">
+    <input-form-title :title="title" @on-back-button="handleBackButton" />
+
     <validation-observer v-slot="{ invalid }">
       <v-form ref="form" lazy-validation>
-        <input-form-title :title="title" @on-back-button="handleBackButton" />
         <v-card-text>
           <v-container>
             <v-row>
