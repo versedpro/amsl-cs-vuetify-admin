@@ -38,7 +38,11 @@
           <!-- expand slot -->
           <template v-slot:expanded-item="{ headers, item }">
             <td :colspan="headers.length" class="pa-0">
-              <file-upload :id="item.supplierProductId" style="min-height: 100px"></file-upload>
+              <file-upload
+                :item="item"
+                :id="item.supplierProductId"
+                style="min-height: 100px"
+              ></file-upload>
             </td>
           </template>
         </v-data-table>

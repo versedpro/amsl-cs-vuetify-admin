@@ -1,4 +1,14 @@
 module.exports = {
+  devServer: {
+    progress: false
+  },
+
+  // configureWebpack: {
+  //   devServer: {
+  //     progress: false
+  //   }
+  // },
+
   transpileDependencies: ["vuetify"],
 
   pluginOptions: {

@@ -16,6 +16,10 @@ export default defineComponent({
   name: "FileUpload",
 
   props: {
+    item: {
+      type: Object,
+      required: true
+    },
     id: {
       type: Number,
       required: true
@@ -24,13 +28,18 @@ export default defineComponent({
 
   setup(props, { refs }) {
     const src = ref("");
-    const remark = ref("");
+    const remark = ref("gbhggh");
     const remoteSrc = ref("");
     const uploaded = ref(false);
     const invalidAspect = ref(false);
 
     watchEffect(() => {
       remoteSrc.value = `${process.env.VUE_APP_API_URL}/SupplierProduct/${props.id}/Image`;
+
+      // remark.value = "cvvvbv";
+      const xx = JSON.parse(props.item["meta"]);
+
+      remark.value = xx.html;
     });
 
     function preview(e) {

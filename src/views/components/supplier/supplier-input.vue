@@ -9,7 +9,7 @@
         <v-card-text>
           <v-container>
             <v-row>
-              <v-col cols="12" sm="6" md="4">
+              <v-col cols="12" sm="6">
                 <validation-provider name="Supplier Name" rules="required" v-slot="{ errors }">
                   <v-text-field
                     v-model="supplier.supplierName"
@@ -18,7 +18,7 @@
                   ></v-text-field>
                 </validation-provider>
               </v-col>
-              <v-col cols="12" sm="6" md="4">
+              <v-col cols="12" sm="6">
                 <validation-provider name="Display Name" v-slot="{ errors }">
                   <v-text-field
                     v-model="supplier.displayName"
@@ -27,7 +27,9 @@
                   ></v-text-field>
                 </validation-provider>
               </v-col>
-              <!-- <v-col cols="12" sm="6" md="4">
+            </v-row>
+
+            <!-- <v-col cols="12" sm="6" md="4">
                 <validation-provider name="Ranking" v-slot="{ errors }">
                   <v-text-field
                     v-model="supplier.ranking"
@@ -37,7 +39,7 @@
                 </validation-provider>
               </v-col> -->
 
-              <!-- <v-col cols="12" sm="6" md="4">
+            <!-- <v-col cols="12" sm="6" md="4">
                 <validation-provider name="CreatedBy" v-slot="{ errors }">
                   <v-text-field
                     v-model="supplier.createdBy"
@@ -46,10 +48,12 @@
                   ></v-text-field>
                 </validation-provider>
               </v-col> -->
-              <v-col cols="12" sm="6" md="4">
+            <v-col cols="3" class="pa-0">
+              <v-col cols="12" class="pa-0">
                 <v-select :items="status" v-model="supplier.status" label="Status"></v-select>
               </v-col>
-              <!-- <v-col cols="12" sm="6" md="4">
+            </v-col>
+            <!-- <v-col cols="12" sm="6" md="4">
                 <validation-provider name="Status" v-slot="{ errors }">
                   <v-text-field
                     v-model="supplier.status"
@@ -58,7 +62,7 @@
                   ></v-text-field>
                 </validation-provider>
               </v-col> -->
-              <!-- <v-col cols="12" sm="6" md="4">
+            <!-- <v-col cols="12" sm="6" md="4">
                 <validation-provider name="Created Timestamp" rules="required" v-slot="{ errors }">
                   <v-text-field
                     v-model="supplier.createdTimestamp"
@@ -67,7 +71,6 @@
                   ></v-text-field>
                 </validation-provider>
               </v-col> -->
-            </v-row>
           </v-container>
         </v-card-text>
 

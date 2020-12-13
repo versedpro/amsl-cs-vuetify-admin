@@ -39,8 +39,6 @@
 
           <template v-slot:[`item.supplierName`]="{ value }">
             <span>{{ value }}</span>
-            <br />
-            <span>{{ value }}</span>
           </template>
         </v-data-table>
       </v-window-item>
