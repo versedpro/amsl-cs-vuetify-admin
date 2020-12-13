@@ -61,8 +61,9 @@ export default {
     title: "客戶拒絕訂單"
   },
   industry: {
-    add: "Add Industry",
-    edit: "Edit Industry",
+    add: "新增行業",
+    delete: "刪除行業",
+    edit: "修改行業",
     title: "行業",
     name: "Name hk",
     description: "Description hk",
@@ -99,7 +100,7 @@ export default {
     title: "Supplier HK",
     id: "Id hk",
     name1: "Name 1 hk",
-    name2:"Name 2 hk",
+    name2: "Name 2 hk",
     created: "Created hk",
     status: "Status hk"
   },
@@ -107,8 +108,8 @@ export default {
     add: "Add Supplier Products HK",
     edit: "Edit Supplier Products HK",
     title: "Supplier Products HK",
-    id:"Id HK",
-    supplierId:"Supplier Id HK",
+    id: "Id HK",
+    supplierId: "Supplier Id HK",
     productId: "Product Id HK",
     created: "Created HK"
   },

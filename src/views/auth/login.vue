@@ -60,7 +60,7 @@ export default defineComponent({
     Localization: () => import("../widget/app-localization.vue")
   },
 
-  setup() {
+  setup(_, { root }) {
     const model = reactive({
       phone: userAdmin.phone,
       password: userAdmin.password
@@ -71,23 +71,22 @@ export default defineComponent({
 
     async function login() {
       // $store
-      await this.$store.dispatch("LoginByPhone", {
+      await root.$store.dispatch("LoginByPhone", {
         phone: model.phone,
         password: model.password
       });
-      await this.$router.push(this.$route.query.redirect || "/");
-    }
 
-    function register() {
-      this.$router.push(this.$route.query.redirect || "/register");
+      const next =
+        root.$route.query.redirect != undefined ? root.$route.query.redirect.toString() : "/";
+
+      root.$router.push(next);
     }
 
     return {
       model,
       loading,
       showPassword,
-      login,
-      register
+      login
     };
   }
 });

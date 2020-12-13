@@ -71,7 +71,7 @@ const user = {
         await commit("SET_USER_INFO", response.user);
         await dispatch("GenerateRoutes", response.user);
       } catch (err) {
-        console.warn("[vuex.user] LoginByEmail", err);
+        console.warn("[vuex.user] LoginByPhone", err);
       }
     },
 

@@ -59,17 +59,15 @@ export default {
   received: {
     title: "Received"
   },
-
   industry: {
     add: "Add Industry",
+    delete: "Delete Industry",
     edit: "Edit Industry",
-    title: "Industry",
-    name: "Name",
-    description: "Description",
     created: "Created",
+    name: "Name",
+    ranking: "Ranking",
     status: "Status",
-    ranking: "Ranking"
-
+    title: "Industry"
   },
   supplier: {
     add: "Add Supplier",
@@ -77,7 +75,7 @@ export default {
     title: "Supplier",
     id: "Id",
     name1: "Name 1",
-    name2:"Name 2",
+    name2: "Name 2",
     created: "Created",
     status: "Status"
   },
@@ -104,8 +102,8 @@ export default {
     add: "Add Supplier Products",
     edit: "Edit Supplier Products",
     title: "Supplier Products",
-    id:"Id",
-    supplierId:"Supplier Id",
+    id: "Id",
+    supplierId: "Supplier Id",
     productId: "Product Id",
     created: "Created"
   },

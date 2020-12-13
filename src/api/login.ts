@@ -13,15 +13,17 @@ export const loginByEmail = async (email, password) => {
   console.log(`[loginByEmail] email ${email}`);
   let user = {};
   try {
-     await Axios({
+    await Axios({
       url: "/api/staffauth/signin",
       method: "POST",
-      data: {login: email, password}
-    }).then((response)=>{
-      user = response["data"];
-    }).catch((error)=>{
-      console.log(error);
-    });
+      data: { login: email, password }
+    })
+      .then((response) => {
+        user = response["data"];
+      })
+      .catch((error) => {
+        console.log(error);
+      });
     if (!user || !user["token"]) {
       throw new Error("User is not found");
     }
@@ -44,12 +46,14 @@ export const loginByPhone = async (phone, password) => {
     await Axios({
       url: "/api/staffauth/signin",
       method: "POST",
-      data: {login: phone, password}
-    }).then((response)=>{
-      user = response["data"];
-    }).catch((error)=>{
-      console.log(error);
-    });
+      data: { login: phone, password }
+    })
+      .then((response) => {
+        user = response["data"];
+      })
+      .catch((error) => {
+        console.log(error);
+      });
     if (!user || !user["token"]) {
       throw new Error("User is not found");
     }
@@ -64,7 +68,7 @@ export const loginByPhone = async (phone, password) => {
  *
  * @param {String} token user token
  */
-export const getUserInfo = async token => {
+export const getUserInfo = async (token) => {
   console.log(`[getUserInfo] token ${token}`);
   let user = {};
   try {

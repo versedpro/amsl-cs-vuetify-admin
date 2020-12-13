@@ -1,6 +1,6 @@
 <template>
   <v-card flat tile height="calc(100vh - 50px)" elevation="0">
-    <v-window v-model="window" class="elevation-1" vertical>
+    <v-window v-model="window" class="elevation-1">
       <v-window-item>
         <datatable-title :title="$t('industry.title')"></datatable-title>
 
@@ -89,12 +89,11 @@ export default defineComponent({
     // datatable header
     const headers = computed(() => {
       return [
-        { text: root.$t("industry.title"), align: "start", sortable: false, value: "industryId" },
+        { text: "ID.", align: "start", sortable: false, value: "industryId" },
         { text: root.$t("industry.name"), value: "industryLocalized" },
-        { text: root.$t("industry.description"), value: "description" },
-        { text: root.$t("industry.created"), value: "createdTimestamp" },
-        { text: root.$t("industry.status"), value: "status" },
         { text: root.$t("industry.ranking"), value: "rowRanking" },
+        { text: root.$t("industry.status"), value: "status" },
+        { text: root.$t("industry.created"), value: "createdTimestamp" },
         { text: null, value: "actions", sortable: false, align: "right" }
       ];
     });
@@ -123,7 +122,6 @@ export default defineComponent({
         api.get("/Industry/Datatable", dtOptions).then(({ data }) => {
           items.value = data.data || [];
           serverItemsLength.value = data.total;
-          //loading.value = false;
         });
       } catch (e) {
         // console.log("fetchData failed..", e);
@@ -170,8 +168,15 @@ export default defineComponent({
     }
 
     function handleInsert() {
+      const timestamp = new Date();
+
       mode.value = "insert";
       item.value = {} as Industry;
+      item.value.industryId = 0;
+      item.value.createdAt = timestamp;
+      item.value.rowRanking = 1;
+      item.value.status = 1;
+
       window.value = 1;
     }
 

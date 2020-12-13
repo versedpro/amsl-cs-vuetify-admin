@@ -1,9 +1,9 @@
 <template>
   <v-card flat tile class="grey lighten-3">
+    <input-form-title :title="title" @on-back-button="handleBackButton" />
+
     <validation-observer v-slot="{ invalid }">
       <v-form ref="form" lazy-validation>
-        <input-form-title :title="title" @on-back-button="handleBackButton" />
-
         <v-alert border="bottom" color="gold" colored-border class="rounded-0 grey">{{
           id
         }}</v-alert>
@@ -55,23 +55,9 @@
                 <v-select :items="status" v-model="industry.statusFlag" label="Status"></v-select>
               </v-col>
             </v-col>
-
-            <!-- 
-              <v-col cols="12" sm="6">
-                <validation-provider name="Description" v-slot="{ errors }">
-                  <v-textarea
-                    v-model="industry.description"
-                    filled
-                    auto-grow
-                    :error-messages="errors"
-                    label="Description"
-                    rows="4"
-                    row-height="30"
-                  ></v-textarea>
-                </validation-provider>
-              </v-col> -->
           </v-container>
         </v-card-text>
+
         <v-alert border="top" color="gold" colored-border class="rounded-0 grey lighten-3 mb-0">
           <input-form-action
             :invalid="invalid"
