@@ -10,7 +10,7 @@
         <v-card-text>
           <v-container>
             <v-row>
-              <v-col cols="12" sm="6" md="4">
+              <v-col cols="12" sm="6">
                 <validation-provider name="Name 1" rules="required" v-slot="{ errors }">
                   <v-text-field
                     v-model="name1"
@@ -19,7 +19,7 @@
                   ></v-text-field>
                 </validation-provider>
               </v-col>
-              <v-col cols="12" sm="6" md="4">
+              <v-col cols="12" sm="6">
                 <validation-provider name="Name 2" rules="required" v-slot="{ errors }">
                   <v-text-field
                     v-model="name2"
@@ -28,7 +28,9 @@
                   ></v-text-field>
                 </validation-provider>
               </v-col>
-              <!-- <v-col cols="12" sm="6" md="4">
+            </v-row>
+
+            <!-- <v-col cols="12" sm="6" md="4">
                 <validation-provider name="Product Localized" v-slot="{ errors }">
                   <v-text-field
                     v-model="product.productLocalized"
@@ -37,7 +39,7 @@
                   ></v-text-field>
                 </validation-provider>
               </v-col> -->
-              <!-- <v-col cols="12" sm="6" md="4">
+            <!-- <v-col cols="12" sm="6" md="4">
                 <validation-provider name="Product Localized" v-slot="{ errors }"> 
                   <v-text-field
                     v-model="product.productName2"
@@ -47,7 +49,7 @@
                 </validation-provider>
               </v-col> -->
 
-              <!-- <v-col cols="12" sm="6" md="4">
+            <!-- <v-col cols="12" sm="6" md="4">
                 <validation-provider name="Status Flag" v-slot="{ errors }">
                   <v-text-field
                     v-model="product.statusFlag"
@@ -56,7 +58,8 @@
                   ></v-text-field>
                 </validation-provider>
               </v-col> -->
-              <v-col cols="12" sm="6" md="4">
+            <v-col cols="3" class="pa-0">
+              <v-col cols="12" class="pa-0">
                 <validation-provider name="Points" v-slot="{ errors }">
                   <v-text-field
                     v-model="product.points"
@@ -74,10 +77,10 @@
                   ></v-text-field>
                 </validation-provider>
               </v-col> -->
-              <v-col cols="12" sm="6" md="4">
+              <v-col cols="12" class="pa-0">
                 <v-select :items="status" v-model="product.statusFlag" label="Status"></v-select>
               </v-col>
-            </v-row>
+            </v-col>
           </v-container>
         </v-card-text>
 
