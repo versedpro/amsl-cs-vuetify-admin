@@ -1,11 +1,10 @@
 <template>
   <v-card flat tile height="calc(100vh - 50px)" class="pa-4" elevation="0">
-    <v-window v-model="window" class="elevation-1" vertical>
-      <v-window-item>
-        <v-card-title class="primary justify-center gold--text"
+     <v-card-title class="primary justify-center gold--text"
           >{{ $t("received.title") }}
         </v-card-title>
-
+    <v-window v-model="window" class="elevation-1" vertical>
+      <v-window-item>
         <v-data-table
           class="elevation-1"
           :footer-props="defaultFooterProps"
@@ -42,7 +41,17 @@
               <received-expandable :item="item" :staff="staff"></received-expandable>
             </td>
           </template>
+
+          <!-- Action Slot -->
+          <template v-slot:[`item.actions`]="{ item }">
+            <a @click="openChat(item)">Chat</a>
+          </template>
+          
         </v-data-table>
+      </v-window-item>
+      <v-window-item>
+        <a @click="backToHistory">Back</a>
+        <orders-chat :orderId="chatOrderId"></orders-chat>
       </v-window-item>
     </v-window>
   </v-card>
@@ -55,6 +64,8 @@ import { defaultFooterProps, mapOptions, sortParams, setSortOptions } from "@/ut
 import { DataOptions } from "vuetify";
 
 import { defineComponent, ref } from "@vue/composition-api";
+import OrdersChat from "../chat/orders-chat.vue";
+import func from "vue-temp/vue-editor-bridge.vue";
 
 export default defineComponent({
   name: "Ongoing",
@@ -62,10 +73,12 @@ export default defineComponent({
   components: {
     DatatableOrdersTopSlot: () => import("@/views/widget/datatable-orders-top-slot.vue"),
     DatatableIsoDate: () => import("@/views/widget/datatable-iso-date.vue"),
-    ReceivedExpandable: () => import("./received-expandable.vue")
+    ReceivedExpandable: () => import("./received-expandable.vue"),
+    OrdersChat: () => import("../chat/orders-chat.vue")
   },
 
   setup(_, { root }) {
+    OrdersChat;
     // datatable header
     const headers = ref([
       { text: "Order#", value: "salesOrderId", align: "start" },
@@ -73,7 +86,8 @@ export default defineComponent({
       { text: "ContactPhone", value: "contactPhone" },
       { text: "ContactEmail", value: "contactEmail" },
       { text: "SupplierProductId", value: "supplierProductId" },
-      { text: "CreatedTimestamp", value: "createdTimestamp" }
+      { text: "CreatedTimestamp", value: "createdTimestamp" },
+       { text: null, value: "actions", sortable: false, align: "right" }
     ]);
 
     // datatable options
@@ -95,7 +109,7 @@ export default defineComponent({
     const mode = ref("add");
     const showDialog = ref(false);
     const window = ref(0);
-
+const chatOrderId = ref(0);
     // Other functions
     async function fetchData(pageNo, pageSize: number, sort?: string, filter?: string) {
       loading.value = true;
@@ -170,8 +184,20 @@ export default defineComponent({
       filter.value = val;
     }
 
+    function openChat(item){
+      chatOrderId.value = item.salesOrderId;
+      window.value =1;
+    }
+
+    function backToHistory(){
+      window.value = 0;
+    }
+
     return {
       defaultFooterProps,
+      chatOrderId,
+      backToHistory,
+      openChat,
       filter,
       headers,
       loading,

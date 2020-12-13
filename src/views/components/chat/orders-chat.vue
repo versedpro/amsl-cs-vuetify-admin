@@ -73,12 +73,12 @@ export default defineComponent({
     });
 
     const connection = ref(
-      new signalR.HubConnectionBuilder().withUrl(`${process.env.VUE_APP_API_URL}/chathub`).build()
+      new signalR.HubConnectionBuilder().withUrl(`${process.env.VUE_APP_API_URL}/chathub?orderId=${props.orderId.toString()}`).build()
     );
 
     onMounted(() => {
-      connection.value.start().then(() => {
-        sendOrderId();
+      connection.value.start().then().catch((error)=>{
+        console.log(error);
       });
       getMessages();
       connection.value.on(
@@ -102,7 +102,7 @@ export default defineComponent({
       if (message.operatorName === "") {
         events.value.push({
           id: nonce.value++,
-          name: "You",
+          name: "Referlo",
           text: message.text,
           color: "primary",
           itemClass: "mb-4 mr-12",
@@ -137,32 +137,27 @@ export default defineComponent({
       });
     }
 
-    function sendOrderId() {
-      connection.value.invoke("AddOrderChat", props.orderId);
-    }
-
     function comment() {
       const text = input.value;
       events.value.push({
         id: nonce.value++,
-        name: "You",
+        name: "Operator",
         text: text,
-        color: "primary",
-        itemClass: "mb-4 mr-12",
-        commentClass: "mt-2 primary",
+        color: "gold",
+        itemClass: "mr-12",
+        commentClass: "mt-2 gold",
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         time: moment(new Date().toString()).format("MM/DD/YYYY hh:mm:ss")
       });
 
       console.log(connection.value.state);
       if (connection.value.state === signalR.HubConnectionState.Connected) {
-        connection.value.invoke("SendMessage", referloId.value, props.orderId, text);
+        connection.value.invoke("SendAnswer", "operator 1", props.orderId, text);
         input.value = null;
       } else {
-        sendOrderId();
         connection.value
           .start()
-          .then(() => connection.value.invoke("SendMessage", referloId.value, props.orderId, text));
+          .then(() => connection.value.invoke("SendAnswer", "operator 1", props.orderId, text));
         input.value = null;
       }
     }
