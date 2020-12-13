@@ -3,7 +3,7 @@
     <input-form-title :title="title" @on-back-button="handleBackButton" />
 
     <v-card-text>
-      <editor ref="editor" />
+      <mc-wysiwyg v-model="html"></mc-wysiwyg>
     </v-card-text>
 
     <v-card-text v-html="remark"> </v-card-text>
@@ -19,25 +19,19 @@
 <script lang="ts">
 import "codemirror/lib/codemirror.css";
 import "@toast-ui/editor/dist/toastui-editor.css";
-import { Editor } from "@toast-ui/vue-editor";
+import { McWysiwyg } from "@mycure/vue-wysiwyg";
 
-import {
-  computed,
-  defineComponent,
-  onMounted,
-  ref
-  // watch,
-  // watchEffect
-} from "@vue/composition-api";
+import { computed, defineComponent, ref } from "@vue/composition-api";
 import api from "@/api/crud";
-import { get } from "lodash";
+// import { get } from "lodash";
 
 export default defineComponent({
   name: "PrivacyInput",
 
   components: {
     InputFormTitle: () => import("@/views/widget/input-form-title.vue"),
-    editor: Editor
+    McWysiwyg
+    // editor: Editor
   },
 
   props: {
@@ -51,10 +45,11 @@ export default defineComponent({
     }
   },
 
-  setup(props, { emit, refs }) {
+  setup(props, { emit }) {
     const title = ref("Privacy Input");
     const industry = ref(props.item);
     const saved = ref(false);
+    const html = ref("");
 
     const supplierProduct = ref(props.item);
 
@@ -65,7 +60,7 @@ export default defineComponent({
     const remark = computed(() => {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      refs.editor.invoke("setHtml", get(JSON.parse(props.item["meta"]), "html"));
+      // refs.editor.invoke("setHtml", get(JSON.parse(props.item["meta"]), "html"));
 
       return JSON.parse(props.item["meta"]);
     });
@@ -110,6 +105,7 @@ export default defineComponent({
       // cancel,
       saved,
       remark,
+      html,
       handleBackButton
     };
   }

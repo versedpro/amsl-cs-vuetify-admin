@@ -15,6 +15,7 @@
   "dependencies": {
     "@aspnet/signalr": "^1.1.4",
     "@mdi/font": "^5.7.55",
+    "@mycure/vue-wysiwyg": "^1.3.0",
     "@tinymce/tinymce-vue": "^4.0.0",
     "@toast-ui/vue-editor": "^2.5.1",
     "@vue/composition-api": "^1.0.0-beta.17",
