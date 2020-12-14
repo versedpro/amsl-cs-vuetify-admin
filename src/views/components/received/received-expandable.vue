@@ -2,17 +2,33 @@
   <v-card flat tile>
     <v-container>
       <v-row>
-        <v-col cols="12" sm="6" md="4">
-          <v-text-field label="Points Level 0" v-model="order.pointsLevel0"></v-text-field>
+        <v-col cols="12" sm="6" md="3">
+          <v-card-text>
+            <h4>Points Level 0</h4>
+            <p>{{ order.pointsLevel0 }}</p>
+          </v-card-text>
+          <!-- <v-text-field label="Points Level 0" v-model="order.pointsLevel0"></v-text-field> -->
         </v-col>
-        <v-col cols="12" sm="6" md="4">
-          <v-text-field label="Points Level 1" v-model="order.pointsLevel1"></v-text-field>
+        <v-col cols="12" sm="6" md="3">
+          <v-card-text>
+            <h4>Points Level 1</h4>
+            <p>{{ order.pointsLevel1 }}</p>
+          </v-card-text>
+          <!-- <v-text-field label="Points Level 1" v-model="order.pointsLevel1"></v-text-field> -->
         </v-col>
-        <v-col cols="12" sm="6" md="4">
-          <v-text-field label="Points Level 2" v-model="order.pointsLevel2"></v-text-field>
+        <v-col cols="12" sm="6" md="3">
+          <v-card-text>
+            <h4>Points Level 2</h4>
+            <p>{{ order.pointsLevel2 }}</p>
+          </v-card-text>
+          <!-- <v-text-field label="Points Level 2" v-model="order.pointsLevel2"></v-text-field> -->
         </v-col>
-        <v-col cols="12" sm="6" md="4">
-          <v-text-field label="Final Points" v-model="order.pointsFinal"></v-text-field>
+        <v-col cols="12" sm="6" md="3">
+          <v-card-text>
+            <h4>Final Points</h4>
+            <p>{{ order.pointsFinal }}</p>
+          </v-card-text>
+          <!-- <v-text-field label="Final Points" v-model="order.pointsFinal"></v-text-field> -->
         </v-col>
         <v-col cols="12" sm="6" md="4">
           <v-select
@@ -33,7 +49,11 @@
           ></v-select>
         </v-col>
         <v-col cols="12" sm="6" md="4">
-          <v-select :items="statuses" v-model="order.statusFlag" label="Status"></v-select>
+          <v-card-text>
+            <h4>Status</h4>
+            <p>{{ order.statusFlag }}</p>
+          </v-card-text>
+          <!-- <v-select :items="statuses" v-model="order.statusFlag" label="Status"></v-select> -->
         </v-col>
       </v-row>
       <!-- <v-row>
@@ -45,9 +65,12 @@
     </v-container>
 
     <v-card-action>
-      <v-btn class="align-self-center" @click="save">Save</v-btn>
-      <v-spacer></v-spacer>
-      <v-btn class="align-self-center" @click="chat">Chat</v-btn>
+      <v-col cols="12" sm="6" md="4">
+        <v-btn class="align-self-center" @click="save">Save</v-btn>
+      </v-col>
+
+      <!-- <v-spacer></v-spacer>
+      <v-btn class="align-self-center" @click="chat">Chat</v-btn> -->
     </v-card-action>
   </v-card>
 </template>

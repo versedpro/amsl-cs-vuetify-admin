@@ -3,50 +3,49 @@
     <v-card-text class="pt-0 mt-0">
       <v-container>
         <v-row>
-          <v-card width="50%" class="mx-auto">
-            <v-col cols="12">
-              <v-tooltip right color="gold primary--text">
-                <template v-slot:activator="{ on, attrs }">
-                  <v-icon color="primary" v-bind="attrs" v-on="on" size="48px"
-                    >mdi-account-box-multiple-outline</v-icon
-                  >
-                </template>
-                <span>ID's</span>
-              </v-tooltip>
-            </v-col>
-            <v-col cols="12" sm="6" md="3">
-              <span>Sales Order Id</span>
-              <h4 class="font-weight-black primary--text">{{ item.salesOrderId }}</h4>
-            </v-col>
-            <v-col cols="12" sm="6" md="3">
-              <span>Referlo Id</span>
-              <h4 class="font-weight-black primary--text">{{ item.referloId }}</h4>
-            </v-col>
-          </v-card>
-          <v-card width="100%" class="mx-auto">
-            <v-col cols="12">
-              <v-tooltip right color="gold primary--text">
-                <template v-slot:activator="{ on, attrs }">
-                  <v-icon color="primary" v-bind="attrs" v-on="on" size="48px"
-                    >mdi-card-account-phone-outline</v-icon
-                  >
-                </template>
-                <span>Contact Detail</span>
-              </v-tooltip>
-            </v-col>
-            <v-col cols="12" sm="6" md="3">
-              <span>Contact Name</span>
-              <h4 class="font-weight-black primary--text">{{ item.contactName }}</h4>
-            </v-col>
-            <v-col cols="12" sm="6" md="3">
-              <span>Contact Phone</span>
-              <h4 class="font-weight-black primary--text">{{ item.contactPhone }}</h4>
-            </v-col>
-            <v-col cols="12" sm="6" md="3">
-              <span>Contact Email</span>
-              <h4 class="font-weight-black primary--text">{{ item.contactEmail }}</h4>
-            </v-col>
-          </v-card>
+          <v-col cols="12">
+            <v-tooltip right color="gold primary--text">
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon color="primary" v-bind="attrs" v-on="on" size="48px"
+                  >mdi-account-box-multiple-outline</v-icon
+                >
+              </template>
+              <span>ID's</span>
+            </v-tooltip>
+          </v-col>
+          <v-col cols="12" sm="6" md="3">
+            <span>Sales Order Id</span>
+            <h4 class="font-weight-black primary--text">{{ item.salesOrderId }}</h4>
+          </v-col>
+          <v-col cols="12" sm="6" md="3">
+            <span>Referlo Id</span>
+            <h4 class="font-weight-black primary--text">{{ item.referloId }}</h4>
+          </v-col>
+          <v-flex xs12 class="my-3">
+            <v-divider></v-divider>
+          </v-flex>
+          <v-col cols="12">
+            <v-tooltip right color="gold primary--text">
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon color="primary" v-bind="attrs" v-on="on" size="48px"
+                  >mdi-card-account-phone-outline</v-icon
+                >
+              </template>
+              <span>Contact Detail</span>
+            </v-tooltip>
+          </v-col>
+          <v-col cols="12" sm="6" md="3">
+            <span>Contact Name</span>
+            <h4 class="font-weight-black primary--text">{{ item.contactName }}</h4>
+          </v-col>
+          <v-col cols="12" sm="6" md="3">
+            <span>Contact Phone</span>
+            <h4 class="font-weight-black primary--text">{{ item.contactPhone }}</h4>
+          </v-col>
+          <v-col cols="12" sm="6" md="3">
+            <span>Contact Email</span>
+            <h4 class="font-weight-black primary--text">{{ item.contactEmail }}</h4>
+          </v-col>
           <v-flex xs12 class="my-3">
             <v-divider></v-divider>
           </v-flex>
