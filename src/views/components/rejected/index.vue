@@ -23,7 +23,11 @@
         >
           <!-- Top Slot -->
           <template v-slot:top>
-            <datatable-orders-top-slot @on-search="handleSearch" @on-insert="handleInsert" />
+            <datatable-orders-top-slot
+              @on-refresh="handleRefresh"
+              @on-search="handleSearch"
+              @on-insert="handleInsert"
+            />
           </template>
 
           <!-- createdTimestamp slot -->
@@ -39,7 +43,11 @@
           </template>
           <!-- Action Slot -->
           <template v-slot:[`item.actions`]="{ item }">
-            <a @click="openChat(item)">Chat</a>
+            <a @click="openChat(item)"
+              ><v-btn class="ma-2" text icon color="gold">
+                <v-icon>mdi-chat</v-icon>
+              </v-btn></a
+            >
           </template>
         </v-data-table>
       </v-window-item>
@@ -125,7 +133,9 @@ export default defineComponent({
       } catch (e) {
         // console.log("fetchData failed..", e);
       } finally {
-        loading.value = false;
+        setTimeout(() => {
+          loading.value = false;
+        }, 300);
       }
     }
 
@@ -169,6 +179,11 @@ export default defineComponent({
       refreshData();
     }
 
+    function handleRefresh() {
+      loading.value = true;
+      refreshData();
+    }
+
     function handleSearch(val) {
       filter.value = val;
     }
@@ -191,6 +206,7 @@ export default defineComponent({
       headers,
       loading,
       items,
+      handleRefresh,
       // salesorderitem,
       expanded,
       staff,

@@ -44,7 +44,11 @@
 
           <!-- Action Slot -->
           <template v-slot:[`item.actions`]="{ item }">
-            <a @click="openChat(item)">Chat</a>
+            <a @click="openChat(item)"
+              ><v-btn class="ma-2" text icon color="gold">
+                <v-icon>mdi-chat</v-icon>
+              </v-btn></a
+            >
           </template>
         </v-data-table>
       </v-window-item>
