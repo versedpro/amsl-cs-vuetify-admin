@@ -43,6 +43,7 @@ import "codemirror/lib/codemirror.css";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { VueEditor } from "vue2-editor";
 import api from "@/api/crud";
+import { get } from "lodash";
 
 import { computed, defineComponent, ref } from "@vue/composition-api";
 
@@ -74,10 +75,9 @@ export default defineComponent({
 
     const src = ref(props.id);
     const saved = ref(false);
-    const html = ref("");
 
-    const remark = computed(() => {
-      return JSON.parse(props.item["meta"]);
+    const html = computed(() => {
+      return get(JSON.parse(props.item["meta"]), "html");
     });
 
     // const avatarPath = ref("https://cdn.vuetifyjs.com/images/parallax/material.jpg");
@@ -120,12 +120,11 @@ export default defineComponent({
     }
 
     function handleCancel() {
-      html.value = "";
       handleBackButton();
     }
 
     async function handleSave() {
-      const contentEncoded = JSON.stringify({ html: html.value });
+      const contentEncoded = JSON.stringify({ html: html });
       console.log(contentEncoded);
 
       const supplierProduct = {
@@ -153,7 +152,6 @@ export default defineComponent({
       title,
       // save,
       saved,
-      remark,
       html,
       openFileDialog,
       handleBackButton,
