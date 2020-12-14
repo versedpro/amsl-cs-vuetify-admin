@@ -3,35 +3,42 @@
     <input-form-title :title="title" @on-back-button="handleBackButton" />
 
     <v-card-text>
-      <mc-wysiwyg v-model="html"></mc-wysiwyg>
+      <v-img
+        lazy-src="https://picsum.photos/id/11/10/6"
+        max-width="480"
+        :aspect-ratio="1.9 / 1"
+        :src="avatarPath"
+        @click="openFileDialog"
+      >
+        <input ref="uploader" @change="preview" class="d-none" type="file" accept="image/*" />
+      </v-img>
+    </v-card-text>
+    <!-- <supplier-product-image :path="avatarPath" @on-change="avatarChanged"></supplier-product-image> -->
+
+    <v-card-text>
+      <vue-editor v-model="html"></vue-editor>
     </v-card-text>
 
-    <v-card-text v-html="remark"> </v-card-text>
-
-    <v-card-actions>
-      <v-btn @click="save"> Save </v-btn>
-      <v-btn @click="cancel"> Cancel </v-btn>
-    </v-card-actions>
-    <v-snackbar v-model="saved" :timeout="1000">Saved</v-snackbar>
+    <input-form-action :invalid="false"></input-form-action>
+    <!-- <v-snackbar v-model="saved" :timeout="1000">Saved</v-snackbar> -->
   </v-card>
 </template>
 
 <script lang="ts">
 import "codemirror/lib/codemirror.css";
 import "@toast-ui/editor/dist/toastui-editor.css";
-import { McWysiwyg } from "@mycure/vue-wysiwyg";
+import { VueEditor } from "vue2-editor";
 
 import { computed, defineComponent, ref } from "@vue/composition-api";
-import api from "@/api/crud";
-// import { get } from "lodash";
 
 export default defineComponent({
   name: "PrivacyInput",
 
   components: {
+    // SupplierProductImage: () => import("./supplier-product-image.vue"),
+    InputFormAction: () => import("@/views/widget/input-form-action.vue"),
     InputFormTitle: () => import("@/views/widget/input-form-title.vue"),
-    McWysiwyg
-    // editor: Editor
+    VueEditor
   },
 
   props: {
@@ -45,67 +52,71 @@ export default defineComponent({
     }
   },
 
-  setup(props, { emit }) {
-    const title = ref("Privacy Input");
-    const industry = ref(props.item);
+  setup(props, { emit, root }) {
+    const title = computed(() => root.$t("supplier_products.edit"));
+
+    const selectedImage = ref(null as string);
+
+    const src = ref(props.id);
     const saved = ref(false);
-    const html = ref("");
-
-    const supplierProduct = ref(props.item);
-
-    // watchEffect(() => {
-    //   supplierProduct.value = props.item;
-    // });
+    const html = ref("cccc");
 
     const remark = computed(() => {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      // refs.editor.invoke("setHtml", get(JSON.parse(props.item["meta"]), "html"));
-
       return JSON.parse(props.item["meta"]);
     });
 
-    // onMounted(() => {
-    //   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    //   // @ts-ignore
-    //   refs.editor.invoke("setHtml", get(JSON.parse(props.item["meta"]), "html"));
-    // });
+    // const avatarPath = ref("https://cdn.vuetifyjs.com/images/parallax/material.jpg");
+    const form = ref({
+      firstName: "John",
+      lastName: "Doe",
+      contactEmail: "john@doe.com",
+      avatar: ""
+    });
 
-    // watch("props.id", (first, second) => {
-    //   console.log("Watch props.selected function called with args:", first, second);
-    //   // Both props are undefined so its just a bare callback func to be run
-    // });
-
-    async function save() {
-      const html = this.$refs.editor.invoke("getHtml");
-
-      const meta = JSON.parse(industry.value["meta"] || {});
-      meta.html = html;
-
-      supplierProduct.value["meta"] = JSON.stringify(meta);
-
-      await api.update(
-        `/SupplierProduct/${supplierProduct.value.supplierProductId}`,
-        supplierProduct.value
-      );
-      saved.value = true;
+    function avatarChanged(file) {
+      form.value.avatar = file;
     }
 
-    // function cancel() {
-    //   emit("on-input-back");
-    // }
+    const avatarPath = computed(() => {
+      const img = `${process.env.VUE_APP_API_URL}/SupplierProduct/${props.id}/Image`;
+
+      return selectedImage.value != null ? selectedImage.value : img;
+    });
+
+    // watch(selected, (id) => {
+    //   const meta = JSON.parse(props.item["meta"]);
+
+    //   html.value = meta != null ? meta.html : "";
+    // });
 
     function handleBackButton() {
+      selectedImage.value = null;
       emit("on-input-back");
     }
 
+    function openFileDialog() {
+      //root.$refs.uploader.click();
+      this.$refs.uploader.click();
+    }
+
+    function preview(e) {
+      selectedImage.value = URL.createObjectURL(e.target.files[0]);
+      // emit("on-change", e.target.files[0]);
+    }
+
     return {
+      selectedImage,
+      src,
+      preview,
+      avatarPath,
+      avatarChanged,
+      form,
       title,
-      save,
-      // cancel,
+      // save,
       saved,
       remark,
       html,
+      openFileDialog,
       handleBackButton
     };
   }

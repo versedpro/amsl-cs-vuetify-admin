@@ -16,14 +16,14 @@ const user = {
   },
 
   getters: {
-    token: state => state.token,
-    roles: state => state.roles,
-    name: state => state.name,
-    user: state => state.user,
-    avatar: state => state.avatar,
-    status: state => state.status,
-    introduction: state => state.introduction,
-    setting: state => state.setting
+    token: (state) => state.token,
+    roles: (state) => state.roles,
+    name: (state) => state.name,
+    user: (state) => state.user,
+    avatar: (state) => state.avatar,
+    status: (state) => state.status,
+    introduction: (state) => state.introduction,
+    setting: (state) => state.setting
   },
 
   mutations: {

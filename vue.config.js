@@ -1,6 +1,6 @@
 module.exports = {
   devServer: {
-    progress: false
+    progress: true
   },
 
   // configureWebpack: {

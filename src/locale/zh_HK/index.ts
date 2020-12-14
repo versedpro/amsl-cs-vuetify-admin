@@ -61,9 +61,9 @@ export default {
     title: "客戶拒絕訂單"
   },
   industry: {
-    add: "新增行業",
+    add: "新增",
     delete: "刪除行業",
-    edit: "修改行業",
+    edit: "修改",
     title: "行業",
     name: "Name hk",
     description: "Description hk",
@@ -72,8 +72,8 @@ export default {
     ranking: "Ranking hk"
   },
   product: {
-    add: "Add Products HK",
-    edit: "Edit Products HK",
+    add: "新增",
+    edit: "修改",
     title: "產品/服務",
     id: "Id HK",
     name: "Name HK",
@@ -95,8 +95,8 @@ export default {
     language: "Language"
   },
   supplier: {
-    add: "Add Supplier HK",
-    edit: "Edit Supplier HK",
+    add: "新增",
+    edit: "修改",
     title: "Supplier HK",
     id: "Id hk",
     name1: "Name 1 hk",
@@ -105,9 +105,9 @@ export default {
     status: "Status hk"
   },
   supplier_products: {
-    add: "Add Supplier Products HK",
-    edit: "Edit Supplier Products HK",
-    title: "Supplier Products HK",
+    add: "新增",
+    edit: "修改",
+    title: "可銷售產品",
     id: "Id HK",
     supplierId: "Supplier Id HK",
     productId: "Product Id HK",

@@ -69,7 +69,7 @@ import { DataOptions } from "vuetify";
 
 import { defineComponent, ref } from "@vue/composition-api";
 import OrdersChat from "../chat/orders-chat.vue";
-import func from "vue-temp/vue-editor-bridge.vue";
+// import func from "vue-temp/vue-editor-bridge.vue";
 
 export default defineComponent({
   name: "Ongoing",

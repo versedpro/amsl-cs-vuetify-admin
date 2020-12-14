@@ -55,7 +55,7 @@ import { defineComponent, ref, computed, onMounted } from "@vue/composition-api"
 import * as signalR from "@aspnet/signalr";
 import api from "@/api/crud";
 import moment from "moment";
-import store from "@/store/index";
+// import store from "@/store/index";
 import Axios from "axios";
 
 export default defineComponent({
@@ -72,7 +72,7 @@ export default defineComponent({
     const input = ref("");
     const nonce = ref(0);
     const referlo = ref("");
-    const isReadOnly = computed(function() {
+    const isReadOnly = computed(function () {
       return props.isActive;
     });
     const timeline = computed(function () {

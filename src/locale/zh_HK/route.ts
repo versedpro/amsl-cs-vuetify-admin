@@ -9,7 +9,7 @@ export default {
     industry: "行業",
     products: "產品類別",
     supplier: "供應商",
-    supplierProducts: "供應商產品"
+    supplierProducts: "可銷售產品"
   },
   more: "更多",
   moreComponents: {

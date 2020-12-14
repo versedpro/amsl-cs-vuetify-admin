@@ -58,13 +58,11 @@
           </v-container>
         </v-card-text>
 
-        <v-alert border="top" color="gold" colored-border class="rounded-0 grey lighten-3 mb-0">
-          <input-form-action
-            :invalid="invalid"
-            @on-cancel="handleCancel"
-            @on-save="handleSave"
-          ></input-form-action>
-        </v-alert>
+        <input-form-action
+          :invalid="invalid"
+          @on-cancel="handleCancel"
+          @on-save="handleSave"
+        ></input-form-action>
 
         <!-- The save and cancel button -->
       </v-form>
