@@ -11,20 +11,20 @@
           <v-container>
             <v-row>
               <v-col cols="12" sm="6">
-                <validation-provider name="Name 1" rules="required" v-slot="{ errors }">
+                <validation-provider name="Name EN" rules="required" v-slot="{ errors }">
                   <v-text-field
-                    v-model="name1"
+                    v-model="product.productLocalized['en']"
                     :error-messages="errors"
-                    label="Name 1"
+                    label="Name EN"
                   ></v-text-field>
                 </validation-provider>
               </v-col>
               <v-col cols="12" sm="6">
-                <validation-provider name="Name 2" rules="required" v-slot="{ errors }">
+                <validation-provider name="Name HK" rules="required" v-slot="{ errors }">
                   <v-text-field
-                    v-model="name2"
+                    v-model="product.productLocalized['hk']"
                     :error-messages="errors"
-                    label="Name 2"
+                    label="Name HK"
                   ></v-text-field>
                 </validation-provider>
               </v-col>
@@ -132,10 +132,12 @@ export default defineComponent({
     const id = computed(() => "ID: " + props.item["productId"]);
 
     const product = ref(props.item);
-    const name1 = ref("");
-    const name2 = ref("");
+
     watchEffect(() => {
       product.value = props.item;
+      if (product.value.productLocalized == null) {
+        product.value.productLocalized = { en: "", hk: "" };
+      }
     });
 
     function handleBackButton() {
@@ -150,7 +152,6 @@ export default defineComponent({
       if (props.mode === "insert") {
         await api.create("/Product", product.value);
       } else {
-        product.value.productLocalized = { en: name1, hk: name2 };
         await api.update(`/Product/${product.value.productId}`, product.value);
       }
       emit("on-input-save", props.mode);
@@ -163,8 +164,6 @@ export default defineComponent({
     return {
       id,
       title,
-      name1,
-      name2,
       status,
       product,
       handleBackButton,

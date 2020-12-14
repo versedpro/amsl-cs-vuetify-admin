@@ -4,6 +4,7 @@ export interface Product {
   productName2:string;
   productLocalized: object;
   industryId: string;
+  industryName: string;
   points: number;
   createdTimestamp: Date;
   createdBy: number;

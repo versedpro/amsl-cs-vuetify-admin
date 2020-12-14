@@ -92,6 +92,7 @@ export default {
     name: "Name",
     points: "Points",
     industryId: "Industry Id",
+    industryName: "Industry Name",
     created: "Created"
   },
   referlo: {

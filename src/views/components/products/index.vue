@@ -31,7 +31,7 @@
           </template>
 
           <!-- createdTimestamp slot -->
-          <template v-slot:[`item.createdTimestamp`]="{ value }">
+          <template v-slot:[`item.createdAt`]="{ value }">
             <datatable-iso-date :timestamp="value"> </datatable-iso-date>
           </template>
 
@@ -87,9 +87,9 @@ export default defineComponent({
         { text: root.$t("product.id"), align: "start", sortable: false, value: "productId" },
         { text: root.$t("product.name"), value: "productLocalized" },
         { text: root.$t("product.points"), value: "points" },
-        { text: root.$t("product.industryId"), value: "industryId" },
+        { text: root.$t("product.industryName"), value: "industryName" },
         // { text: "Flag Status", value: "statusFlag" },
-        { text: root.$t("product.created"), value: "createdTimestamp" },
+        { text: root.$t("product.created"), value: "createdAt" },
         { text: null, value: "actions", sortable: false, align: "right" }
       ];
     });
@@ -182,6 +182,7 @@ export default defineComponent({
 
     function handleSearch(val) {
       filter.value = val;
+      refreshData();
     }
 
     function handleEdit(val) {

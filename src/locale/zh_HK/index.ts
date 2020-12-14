@@ -84,6 +84,7 @@ export default {
     name: "Name HK",
     points: "Points HK",
     industryId: "Industry Id HK",
+    industryName: "Industry Name HK",
     created: "Created HK"
   },
   referlo: {

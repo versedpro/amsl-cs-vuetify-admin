@@ -76,8 +76,8 @@ export default defineComponent({
         data: model.value
       })
         .then((response) => {
-          alert("Password changed!");
           emit("on-delete-cancel");
+          alert("Password changed!");
         })
         .catch((error) => {
           alert(error);
