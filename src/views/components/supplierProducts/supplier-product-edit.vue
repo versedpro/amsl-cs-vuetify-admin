@@ -4,7 +4,14 @@
 
     <v-card-text>
       <v-card-title class="primary--text px-0">Upload Image</v-card-title>
-      <v-btn depressed width="480" height="auto" @click="openFileDialog" class="transparent pa-0">
+      <v-btn
+        tile
+        depressed
+        width="480"
+        height="auto"
+        @click="openFileDialog"
+        class="transparent pa-0"
+      >
         <v-img
           lazy-src="https://picsum.photos/id/11/10/6"
           max-width="480"

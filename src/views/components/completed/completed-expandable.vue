@@ -3,11 +3,16 @@
     <v-card-text class="pt-0 mt-0">
       <v-container>
         <v-row>
-          <v-col cols="12"
-            ><h2 class="font-weight-black primary--text">
-              <v-icon color="gold">mdi-account-box-multiple-outline</v-icon> ID's
-            </h2></v-col
-          >
+          <v-col cols="12">
+            <v-tooltip right color="gold primary--text">
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon color="primary" v-bind="attrs" v-on="on" size="48px"
+                  >mdi-account-box-multiple-outline</v-icon
+                >
+              </template>
+              <span>ID's</span>
+            </v-tooltip>
+          </v-col>
           <v-col cols="12" sm="6" md="3">
             <span>Sales Order Id</span>
             <h4 class="font-weight-black primary--text">{{ item.salesOrderId }}</h4>
@@ -19,11 +24,16 @@
           <v-flex xs12 class="my-3">
             <v-divider></v-divider>
           </v-flex>
-          <v-col cols="12"
-            ><h2 class="font-weight-black primary--text">
-              <v-icon color="gold">mdi-card-account-phone-outline</v-icon> Contact Detail
-            </h2></v-col
-          >
+          <v-col cols="12">
+            <v-tooltip right color="gold primary--text">
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon color="primary" v-bind="attrs" v-on="on" size="48px"
+                  >mdi-card-account-phone-outline</v-icon
+                >
+              </template>
+              <span>Contact Detail</span>
+            </v-tooltip>
+          </v-col>
           <v-col cols="12" sm="6" md="3">
             <span>Contact Name</span>
             <h4 class="font-weight-black primary--text">{{ item.contactName }}</h4>
@@ -39,11 +49,16 @@
           <v-flex xs12 class="my-3">
             <v-divider></v-divider>
           </v-flex>
-          <v-col cols="12"
-            ><h2 class="font-weight-black primary--text">
-              <v-icon color="gold">mdi-truck-fast-outline</v-icon>Supplier Detail
-            </h2></v-col
-          >
+          <v-col cols="12">
+            <v-tooltip right color="gold primary--text">
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon color="primary" v-bind="attrs" v-on="on" size="48px"
+                  >mdi-truck-fast-outline</v-icon
+                >
+              </template>
+              <span>Supplier Detail</span>
+            </v-tooltip>
+          </v-col>
           <v-col cols="12" sm="6" md="3">
             <span>Supplier Product Id</span>
             <h4 class="font-weight-black primary--text">{{ item.supplierProductId }}</h4>
@@ -79,11 +94,14 @@
           <v-flex xs12 class="my-3">
             <v-divider></v-divider>
           </v-flex>
-          <v-col cols="12"
-            ><h2 class="font-weight-black primary--text">
-              <v-icon color="gold">mdi-database</v-icon>Points Detail
-            </h2></v-col
-          >
+          <v-col cols="12">
+            <v-tooltip right color="gold primary--text">
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon color="primary" v-bind="attrs" v-on="on" size="48px">mdi-database</v-icon>
+              </template>
+              <span>Points Detail</span>
+            </v-tooltip>
+          </v-col>
           <v-col cols="12" sm="6" md="3">
             <span>Points Level 1 %</span>
             <h4 class="font-weight-black primary--text">{{ item.pointsLevel0 }}</h4>

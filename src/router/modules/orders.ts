@@ -60,8 +60,7 @@ const ordersRouter = {
       meta: {
         title: "route.ordersComponents.reject",
         icon: "mdi-home",
-        affix: true,
-        roles: ["sales_admin", "sales"]
+        affix: true
       }
     }
   ]

@@ -33,7 +33,7 @@
 
           <!-- expand slot -->
           <template v-slot:expanded-item="{ headers, item }">
-            <td :colspan="headers.length" class="pa-2 gold">
+            <td :colspan="headers.length" class="pa-0">
               <expanded-data-table :item="item"></expanded-data-table>
             </td>
           </template>
