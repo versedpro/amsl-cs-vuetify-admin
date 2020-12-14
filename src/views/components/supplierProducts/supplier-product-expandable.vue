@@ -14,6 +14,7 @@
 
 <script lang="ts">
 import { computed, defineComponent } from "@vue/composition-api";
+import { get } from "lodash";
 
 export default defineComponent({
   name: "FileUpload",
@@ -35,7 +36,8 @@ export default defineComponent({
     });
 
     const remark = computed(() => {
-      return JSON.parse(props.item["meta"]);
+      // return JSON.parse(props.item["meta"]);
+      return get(JSON.parse(props.item["meta"]), "html");
     });
 
     function editRemark() {
