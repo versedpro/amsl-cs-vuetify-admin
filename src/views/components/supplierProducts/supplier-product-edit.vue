@@ -28,7 +28,12 @@
       <vue-editor v-model="html"></vue-editor>
     </v-card-text>
 
-    <input-form-action :invalid="false"></input-form-action>
+    <input-form-action
+      :invalid="false"
+      :content="html"
+      @on-cancel="handleCancel"
+      @on-save="handleSave"
+    ></input-form-action>
     <!-- <v-snackbar v-model="saved" :timeout="1000">Saved</v-snackbar> -->
   </v-card>
 </template>
@@ -68,7 +73,7 @@ export default defineComponent({
 
     const src = ref(props.id);
     const saved = ref(false);
-    const html = ref("cccc");
+    const html = ref("");
 
     const remark = computed(() => {
       return JSON.parse(props.item["meta"]);
@@ -113,6 +118,16 @@ export default defineComponent({
       // emit("on-change", e.target.files[0]);
     }
 
+    function handleCancel() {
+      html.value = "";
+    }
+
+    function handleSave() {
+      const content = btoa(html.value);
+      console.log(html.value);
+      console.log(content);
+    }
+
     return {
       selectedImage,
       src,
@@ -126,7 +141,9 @@ export default defineComponent({
       remark,
       html,
       openFileDialog,
-      handleBackButton
+      handleBackButton,
+      handleCancel,
+      handleSave
     };
   }
 });
