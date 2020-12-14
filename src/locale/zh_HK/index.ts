@@ -39,6 +39,11 @@ export default {
     password: "密碼",
     confirm: "確認"
   },
+  update_password:{
+    oldPassword: "Old Password hk",
+    newPassword: "New Password hk",
+    confirmPassword: "Confirm Password hk"
+  },
   orders: {
     referredBy: "轉介人",
     clientName: "客戶",

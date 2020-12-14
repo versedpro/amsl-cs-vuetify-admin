@@ -3,15 +3,17 @@
     <input-form-title :title="title" @on-back-button="handleBackButton" />
 
     <v-card-text>
-      <v-img
-        lazy-src="https://picsum.photos/id/11/10/6"
-        max-width="480"
-        :aspect-ratio="1.9 / 1"
-        :src="avatarPath"
-        @click="openFileDialog"
-      >
-        <input ref="uploader" @change="preview" class="d-none" type="file" accept="image/*" />
-      </v-img>
+      <v-card-title class="primary--text px-0">Upload Image</v-card-title>
+      <v-btn depressed width="480" height="auto" @click="openFileDialog" class="transparent pa-0">
+        <v-img
+          lazy-src="https://picsum.photos/id/11/10/6"
+          max-width="480"
+          :aspect-ratio="1.9 / 1"
+          :src="avatarPath"
+        >
+          <input ref="uploader" @change="preview" class="d-none" type="file" accept="image/*" />
+        </v-img>
+      </v-btn>
     </v-card-text>
     <!-- <supplier-product-image :path="avatarPath" @on-change="avatarChanged"></supplier-product-image> -->
 

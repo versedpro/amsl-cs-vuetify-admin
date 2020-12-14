@@ -44,6 +44,11 @@ export default {
     password: "Password",
     confirm: "Confirm"
   },
+  update_password:{
+    oldPassword: "Old Password",
+    newPassword: "New Password",
+    confirmPassword: "Confirm Password"
+  },
   ongoing: {
     title: "Ongoing Orders"
   },
