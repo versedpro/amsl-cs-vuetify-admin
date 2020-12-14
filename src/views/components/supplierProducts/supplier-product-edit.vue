@@ -43,7 +43,6 @@ import "codemirror/lib/codemirror.css";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { VueEditor } from "vue2-editor";
 import api from "@/api/crud";
-import { get } from "lodash";
 
 import { computed, defineComponent, ref } from "@vue/composition-api";
 
@@ -122,20 +121,23 @@ export default defineComponent({
 
     function handleCancel() {
       html.value = "";
+      handleBackButton();
     }
 
     async function handleSave() {
-      const contentEncoded = JSON.stringify({html: html.value});
+      const contentEncoded = JSON.stringify({ html: html.value });
       console.log(contentEncoded);
 
       const supplierProduct = {
         ...props.item,
         meta: contentEncoded
-      }
+      };
 
       try {
         const response = await api.update(`/SupplierProduct/${src.value}`, supplierProduct);
-        console.log(response);
+        if (response.status === 204) {
+          emit("on-input-save");
+        }
       } catch (error) {
         // Error
       }
