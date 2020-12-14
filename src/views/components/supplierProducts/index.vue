@@ -63,6 +63,7 @@
           :item="item"
           :id="item.supplierProductId"
           @on-input-back="handleInputRemarkBack"
+          @on-input-save="handleInputReamrkSave"
         ></supplier-product-edit>
       </v-window-item>
     </v-window>
@@ -227,6 +228,11 @@ export default defineComponent({
       window.value = 0;
     }
 
+    function handleInputReamrkSave() {
+      handleInputRemarkBack();
+      refreshData();
+    }
+
     return {
       defaultFooterProps,
       filter,
@@ -253,7 +259,8 @@ export default defineComponent({
       handleSearch,
       handleUpdateOptions,
       handleEditRemark,
-      handleInputRemarkBack
+      handleInputRemarkBack,
+      handleInputReamrkSave
     };
   }
 });
