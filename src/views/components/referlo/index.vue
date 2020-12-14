@@ -20,7 +20,7 @@
         >
           <!-- Top Slot -->
           <template v-slot:top>
-            <datatable-top-slot @on-search="handleSearch" />
+            <datatable-top-slot @on-refresh="handleRefresh" @on-search="handleSearch" />
           </template>
 
           <!-- createdTimestamp slot -->
@@ -97,7 +97,9 @@ export default defineComponent({
       } catch (e) {
         // console.log("fetchData failed..", e);
       } finally {
-        loading.value = false;
+        setTimeout(() => {
+          loading.value = false;
+        }, 300);
       }
     }
 
@@ -117,9 +119,15 @@ export default defineComponent({
       filter.value = val;
     }
 
+    function handleRefresh() {
+      loading.value = true;
+      refreshData();
+    }
+
     return {
       defaultFooterProps,
       filter,
+      handleRefresh,
       headers,
       loading,
       item,

@@ -20,7 +20,7 @@
         >
           <!-- Top Slot -->
           <template v-slot:top>
-            <datatable-top-slot-printer @on-search="handleSearch" />
+            <datatable-top-slot-printer @on-refresh="handleRefresh" @on-search="handleSearch" />
           </template>
 
           <!-- createdTimestamp slot -->
@@ -101,12 +101,13 @@ export default defineComponent({
         api.get("/Registration/Datatable", dtOptions).then(({ data }) => {
           items.value = data.data || [];
           serverItemsLength.value = data.total;
-          loading.value = false;
         });
       } catch (e) {
         // console.log("fetchData failed..", e);
       } finally {
-        loading.value = false;
+        setTimeout(() => {
+          loading.value = false;
+        }, 300);
       }
     }
 
@@ -122,6 +123,10 @@ export default defineComponent({
       fetchData(options.value.page, options.value.itemsPerPage, params, filter.value);
     }
 
+    function handleRefresh() {
+      loading.value = true;
+      refreshData();
+    }
     function handleSearch(val) {
       filter.value = val;
     }
@@ -130,6 +135,7 @@ export default defineComponent({
       defaultFooterProps,
       filter,
       headers,
+      handleRefresh,
       loading,
       item,
       items,

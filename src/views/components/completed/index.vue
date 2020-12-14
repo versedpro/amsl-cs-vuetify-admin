@@ -43,11 +43,9 @@
           </template>
           <!-- Action Slot -->
           <template v-slot:[`item.actions`]="{ item }">
-            <a @click="openChat(item)"
-              ><v-btn class="ma-2" text icon color="gold">
-                <v-icon>mdi-chat</v-icon>
-              </v-btn></a
-            >
+            <v-btn class="ma-2" text icon color="gold" @click="openChat(item)">
+              <v-icon>mdi-chat</v-icon>
+            </v-btn>
           </template>
         </v-data-table>
       </v-window-item>
@@ -128,7 +126,6 @@ export default defineComponent({
         api.get("/SalesOrder/Datatable", dtOptions).then(({ data }) => {
           items.value = data.data || [];
           serverItemsLength.value = data.total;
-          loading.value = false;
         });
       } catch (e) {
         // console.log("fetchData failed..", e);
