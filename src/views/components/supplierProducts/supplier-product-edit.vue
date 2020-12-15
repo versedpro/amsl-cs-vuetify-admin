@@ -45,7 +45,7 @@ import { VueEditor } from "vue2-editor";
 import api from "@/api/crud";
 import { get } from "lodash";
 
-import { computed, defineComponent, ref } from "@vue/composition-api";
+import { computed, defineComponent, ref, watch } from "@vue/composition-api";
 
 export default defineComponent({
   name: "PrivacyInput",
@@ -76,9 +76,12 @@ export default defineComponent({
     const src = ref(props.id);
     const saved = ref(false);
 
-    const html = computed(() => {
-      return get(JSON.parse(props.item["meta"]), "html");
-    });
+    const html = ref(get(JSON.parse(props.item["meta"]), "html"));
+
+    watch(
+      () => props.item,
+      (newValue) => html.value = get(JSON.parse(newValue.meta), "html")
+    );
 
     // const avatarPath = ref("https://cdn.vuetifyjs.com/images/parallax/material.jpg");
     const form = ref({
@@ -124,7 +127,7 @@ export default defineComponent({
     }
 
     async function handleSave() {
-      const contentEncoded = JSON.stringify({ html: html });
+      const contentEncoded = JSON.stringify({ html: html.value });
       console.log(contentEncoded);
 
       const supplierProduct = {
